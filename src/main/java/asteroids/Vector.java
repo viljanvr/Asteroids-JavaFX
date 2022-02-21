@@ -58,6 +58,7 @@ public class Vector {
         v.setLength(10);
         System.out.println(v.getLength());
         System.out.println(v.toString());
+        System.out.println("asjdhklasdj");
     }
 
     
