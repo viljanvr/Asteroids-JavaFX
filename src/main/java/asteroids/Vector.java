@@ -32,6 +32,23 @@ public class Vector {
 
     }
 
+    public void setAngle(double angle){
+        this.setXY(Math.cos(angle)*this.getLength(), Math.sin(angle)*this.getLength());
+    }
+
+    public void rotate(double angle){
+        double totalAngle = this.getAngle()+angle;
+        while(totalAngle >= Math.PI*2){
+            totalAngle =- Math.PI*2;
+        }
+        while(totalAngle <= 0){
+            totalAngle =+ Math.PI*2;
+        }
+        this.setAngle(totalAngle);
+        
+    }
+
+
     public void setLength(double length){
         if (this.getLength() == 0){
             this.setXY(length, 0);
@@ -58,7 +75,7 @@ public class Vector {
         v.setLength(10);
         System.out.println(v.getLength());
         System.out.println(v.toString());
-        System.out.println("asjdhklasdj");
+        
     }
 
     
