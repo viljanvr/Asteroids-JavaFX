@@ -8,16 +8,20 @@ public class Sprite {
     String imagePath;
 
     public Sprite(int x1, int y1, String imagePath) {
-        if (x1 > x2 || y1 > y2 || x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0) {
+        if (x1 < 0 || y1 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
         this.imagePath = imagePath;
-        velocity = new Vector(2, 2);
+        velocity = new Vector(2, 0);
         position = new Vector(x1, y1);
         this.x1 = x1;
         x2 = x1 + 1;
         this.y1 = y1;
         y2 = y2 + 1;
+    }
+
+    public Vector getVelocity() {
+        return velocity;
     }
 
     public int getPosX() {
