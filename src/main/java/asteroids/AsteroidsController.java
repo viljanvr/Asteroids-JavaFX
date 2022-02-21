@@ -1,32 +1,26 @@
 package asteroids;
 
 import javafx.fxml.FXML;
+import javafx.scene.*;
+import javafx.scene.paint.*;
+import javafx.scene.canvas.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class AsteroidsController {
-    @FXML
-    private TextField firstNumber, secondNumber, operator;
+    
+    
 
-    @FXML
-    private Label result;
+    @FXML public Canvas board = new Canvas(800,600);
 
-    private Calculator calculator;
-
-    private void initCalculator(String operator) {
-        calculator = new Calculator(operator);
+    public GraphicsContext gc = board.getGraphicsContext2D();
+    
+    public void initialize(){
+        gc.save();
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0,0, 800, 600);
     }
-
-    @FXML
-    private void handleButtonClick() {
-        initCalculator(operator.getText());
-        try {
-            int result = calculator.calculate(Integer.parseInt(firstNumber.getText()),
-                    Integer.parseInt(secondNumber.getText()));
-            this.result.setText(firstNumber.getText() + " " + operator.getText() + " " + secondNumber.getText() + " = "
-                    + String.valueOf(result));
-        } catch (NumberFormatException e) {
-            result.setText("Et eller begge tallene er ugyldige");
-        }
-    }
+    
+    
 }
