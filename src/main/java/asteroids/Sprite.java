@@ -3,32 +3,36 @@ package asteroids;
 public class Sprite {
 
     private int x1, y1, x2, y2;
+    private Vector position;
+    private Vector velocity;
     String imagePath;
 
-    public Sprite(int x1, int x2, int y1, int y2, String imagePath) {
+    public Sprite(int x1, int y1, String imagePath) {
         if (x1 > x2 || y1 > y2 || x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
         this.imagePath = imagePath;
+        velocity = new Vector(2, 2);
+        position = new Vector(x1, y1);
         this.x1 = x1;
-        this.x2 = x2;
+        x2 = x1 + 1;
         this.y1 = y1;
-        this.y2 = y2;
+        y2 = y2 + 1;
     }
 
-    public int getMinX() {
+    public int getPosX() {
         return x1;
     }
 
-    public int getMinY() {
+    public int getPosY() {
         return y1;
     }
 
-    public int getMaxX() {
+    public int getX2() {
         return x2;
     }
 
-    public int getMaxY() {
+    public int getY2() {
         return y2;
     }
 
@@ -45,4 +49,17 @@ public class Sprite {
         } else
             return false;
     }
+
+    public void updatePosition() {
+        position.setXY(position.getX() + velocity.getX(), position.getY() + velocity.getY());
+        x1 += velocity.getX();
+        x2 += velocity.getX();
+        y1 += velocity.getY();
+        y2 += velocity.getY();
+    }
+
+    public static void main(String[] args) {
+
+    }
+
 }
