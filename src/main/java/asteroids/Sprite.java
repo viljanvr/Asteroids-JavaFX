@@ -3,12 +3,13 @@ package asteroids;
 public class Sprite {
 
     private int x1, y1, x2, y2;
+    String imagePath;
 
-    public Sprite(int x1, int x2, int y1, int y2) {
+    public Sprite(int x1, int x2, int y1, int y2, String imagePath) {
         if (x1 > x2 || y1 > y2 || x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
-
+        this.imagePath = imagePath;
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
