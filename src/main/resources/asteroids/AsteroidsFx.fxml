@@ -5,6 +5,6 @@
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroids.AsteroidsController">
    <children>
-      <Canvas fx:id="board" height="600.0" layoutX="14.0" layoutY="14.0" width="800.0" />
+      <Canvas fx:id="canvas" height="600.0" layoutX="14.0" layoutY="14.0" width="800.0" />
    </children>
 </AnchorPane>
