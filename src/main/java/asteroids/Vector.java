@@ -60,18 +60,22 @@ public class Vector {
         this.setXY(this.x * scalar, this.y * scalar);
     }
 
+    public void addVector(Vector vector){
+        setXY(x + vector.getX(), y + vector.getY());
+    }
+
     public String toString() {
         return "( " + this.x + ", " + this.y + " )";
     }
 
     public static void main(String[] args) {
-        Vector v = new Vector(3.0, 4.0);
+        Vector v = new Vector(3.0, 0);
         System.out.println(v.getAngle());
-        System.out.println(v.getLength());
         System.out.println(v.toString());
-        v.setLength(10);
-        System.out.println(v.getLength());
+        v.setAngle(Math.PI/4);
+        System.out.println(v.getAngle());
         System.out.println(v.toString());
+        
         
     }
 
