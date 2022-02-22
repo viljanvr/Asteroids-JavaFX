@@ -1,23 +1,35 @@
 package asteroids;
 
+import java.lang.Math;
+
 public class Sprite {
 
     private int x1, y1, x2, y2;
-    private Vector position;
+    private double rotation;
     private Vector velocity;
-    String imagePath;
+    private String imageURL;
+    private int imageWidth = 0;
+    private int imageHeight = 0;
 
     public Sprite(int x1, int y1, String imagePath) {
         if (x1 < 0 || y1 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
-        this.imagePath = imagePath;
-        velocity = new Vector(2, 0);
-        position = new Vector(x1, y1);
+        this.imageURL = imagePath;
+
         this.x1 = x1;
-        x2 = x1 + 1;
+        x2 = x1 + imageWidth;
         this.y1 = y1;
-        y2 = y2 + 1;
+        y2 = y2 + imageHeight;
+
+        rotation = 0;
+        velocity = new Vector(0, 0);
+        
+    }
+
+    public Sprite(int x1, int y1, Vector velocity, String imagePath){
+        this(x1, y1, imagePath);
+        this.velocity = velocity;
     }
 
     public Vector getVelocity() {
@@ -40,6 +52,31 @@ public class Sprite {
         return y2;
     }
 
+    public void setRotation(double angle){
+        this.rotation = angle;
+    }
+
+    public double getRotation(){
+        return this.rotation;
+    }
+
+    public void setImageSize(int width, int height){
+        this.imageWidth = width;
+        this.imageHeight = height;
+    }
+
+    public String getImageURL(){
+        return this.imageURL;
+    }
+
+    public int getImageWidth(){
+        return this.imageWidth;
+    }
+
+    public int getImageHeight(){
+        return this.imageHeight;
+    }
+
     public boolean contains(int x, int y) {
         return x >= x1 && x <= x2 && y >= y1 && y <= y2;
     }
@@ -55,7 +92,6 @@ public class Sprite {
     }
 
     public void updatePosition() {
-        position.setXY(position.getX() + velocity.getX(), position.getY() + velocity.getY());
         x1 += velocity.getX();
         x2 += velocity.getX();
         y1 += velocity.getY();

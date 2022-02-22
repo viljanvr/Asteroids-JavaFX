@@ -3,9 +3,17 @@ package asteroids;
 import java.lang.Math;
 
 public class Spaceship extends Sprite {
+    private Vector acceleration;
 
     public Spaceship(int x1, int y1) {
-        super(x1, y1, "asteroids.spaceship.txt");
+        super(x1, y1, "asteroids/spaceship.png");
+        acceleration = new Vector(0, 0);
+
+    }
+
+    public Spaceship(int x1, int y1, Vector velocity) {
+        super(x1, y1, velocity, "asteroids/spaceship.png");
+        acceleration = new Vector(0, 0);
 
     }
 
@@ -24,7 +32,26 @@ public class Spaceship extends Sprite {
     }
 
     public void thrust() {
-        updatePosition();
+        acceleration.setLength(Math.pow(Math.E, - this.getVelocity().getLength())); //Bruker e^-x hvor x er farten for å angi en akselerasjon. 
+        acceleration.setAngle(this.getRotation());
+        this.getVelocity().addVector(acceleration);
+
+        
     }
+
+    public static void main(String[] args) {
+        System.out.println("hello");
+        Spaceship spaceship = new Spaceship(0, 0);
+        System.out.println(spaceship.getVelocity().toString());
+        spaceship.thrust();
+        System.out.println(spaceship.getVelocity().toString());
+        spaceship.thrust();
+        System.out.println(spaceship.getVelocity().toString());
+
+    }
+    
+
+
+
 
 }
