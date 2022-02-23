@@ -2,14 +2,14 @@ package asteroids;
 
 import java.lang.Math;
 
-public class Spaceship extends Sprite {
+import javafx.stage.Window;
 
+public class Spaceship extends Sprite {
 
     public Spaceship(double x1, double y1) {
         super(x1, y1, 64, 64, "asteroids/spaceship.png");
 
     }
-
 
     public Spaceship(double x1, double y1, Vector velocity) {
 
@@ -25,59 +25,37 @@ public class Spaceship extends Sprite {
     }
 
     public void rotate(double angle) {
-        // rotation = Math.acos(Math.cos(this.getRotation() + angle));
-        this.rotation += angle;
+        rotation += angle;
     }
 
     public Sprite shoot() {
-        Sprite lazer = new Sprite(getPosX(), getPosY(), 64, 64, "asteroids/spaceship.png");
-        lazer.getVelocity().setLength(2);
+        Sprite lazer = new Sprite(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2, 8, 8,
+                "asteroids/laser.png");
+        lazer.getVelocity().setLength(4);
         lazer.getVelocity().setAngle(getRotation());
         return lazer;
     }
 
     public void thrust() {
-        // getVelocity().setLength(Math.pow(Math.E, -getVelocity().getLength()));
-        // getVelocity().setAngle(getRotation());
-
-        this.velocity.addXY(Math.cos(this.getRotation())*0.6, Math.sin(this.getRotation())*0.6);
-
+        this.velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
     }
 
-    public void updateVelocity(){
-        this.velocity.addXY(-0.02*velocity.getX(), -0.02*velocity.getY());
+    public void aeroBrake() {
+        this.velocity.addXY(-0.02 * velocity.getX(), -0.02 * velocity.getY());
     }
 
+    @Override
     public void updatePosition() {
-        updateVelocity();
-    
-        x1 += velocity.getX();
-        if (x1 > 800) {
-            x1 -= 864;
-            x2 -= 864;
-        }
-        x2 += velocity.getX();
-        if (x2 < 0){
-            x1 += 864;
-            x2 += 864;
-        }
-        y1 += velocity.getY();
-        if (y1 > 600){
-            y1 -= 664;
-            y2 -= 664;
-        }
-        y2 += velocity.getY();
-        if (y2 < 0){
-            y1 += 664;
-            y2 += 664;
-        }
+        super.updatePosition();
+        aeroBrake();
+
     }
 
     public static void main(String[] args) {
         System.out.println("hello");
         Spaceship spaceship = new Spaceship(0, 0);
         System.out.println(spaceship.getRotation());
-        spaceship.rotate(Math.PI/4);
+        spaceship.rotate(Math.PI / 4);
         System.out.println(spaceship.getRotation());
     }
 
