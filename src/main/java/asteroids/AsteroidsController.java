@@ -8,6 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.paint.*;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+
 
 public class AsteroidsController {
     public Timer timer;
@@ -17,8 +22,18 @@ public class AsteroidsController {
     Image spaceshipImage;
     Collection<Sprite> sprites = new ArrayList<>();
 
+    private boolean UPpressed = false;
+    private boolean DOWNpressed = false;
+
     @FXML
+    private AnchorPane background;
+
+    @FXML 
+    public Pane gameArea;
+
+    @FXML 
     public Canvas canvas = new Canvas(800, 600);
+
     public GraphicsContext gc;
 
     // @FXML
@@ -41,9 +56,30 @@ public class AsteroidsController {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, 800, 600);
 
+
         // starter AnimationTimer
         timer.start();
 
+    }
+
+    @FXML
+    public void keyPressed(KeyEvent event){
+        System.out.println(event.getCode());
+        switch (event.getCode()) {
+            case SPACE:
+                System.out.println("up");   
+                break;
+            case KP_LEFT:
+                System.out.println("to the left");   
+                break;
+            default:
+                break; 
+        }
+    }
+
+    @FXML
+    public void keyReleased(KeyEvent event){
+        System.out.println("Released"+event.getCode());
     }
 
     public void renderSprite(Sprite sprite) {
