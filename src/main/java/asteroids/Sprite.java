@@ -12,6 +12,7 @@ public class Sprite {
     private int imageHeight;
 
     public Sprite(double x1, double y1, int imageHeight, int imageWidth, String imagePath) {
+
         if (x1 < 0 || y1 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
@@ -27,9 +28,11 @@ public class Sprite {
         this.rotation = 0;
         this.velocity = new Vector(0, 0);
 
+
     }
 
     public Sprite(double x1, double y1, int imageHeight, int imageWidth, Vector velocity, String imagePath) {
+
         this(x1, y1, imageHeight, imageWidth, imagePath);
         this.velocity = velocity;
     }

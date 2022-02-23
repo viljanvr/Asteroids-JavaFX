@@ -4,12 +4,15 @@ import java.lang.Math;
 
 public class Spaceship extends Sprite {
 
+
     public Spaceship(double x1, double y1) {
         super(x1, y1, 64, 64, "asteroids/spaceship.png");
 
     }
 
+
     public Spaceship(double x1, double y1, Vector velocity) {
+
         super(x1, y1, 64, 64, velocity, "asteroids/spaceship.png");
     }
 
@@ -43,7 +46,6 @@ public class Spaceship extends Sprite {
 
     public void updateVelocity(){
         this.velocity.addXY(-0.02*velocity.getX(), -0.02*velocity.getY());
-
     }
 
     public void updatePosition() {
