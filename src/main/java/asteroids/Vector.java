@@ -49,7 +49,11 @@ public class Vector {
     }
 
     public void addVector(Vector vector) {
-        setXY(x + vector.getX(), y + vector.getY());
+        setXY(this.x + vector.getX(), this.y + vector.getY());
+    }
+
+    public void addXY(double deltaX, double deltaY) {
+        setXY(this.x + deltaX, this.y + deltaY);
     }
 
     public String toString() {

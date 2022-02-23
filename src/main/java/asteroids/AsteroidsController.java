@@ -7,8 +7,8 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
 import javafx.scene.canvas.*;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -24,6 +24,10 @@ public class AsteroidsController {
 
     private boolean UPpressed = false;
     private boolean DOWNpressed = false;
+    private boolean LEFTpressed = false;
+    private boolean RIGHTpressed = false;
+    private boolean SPACEpressed = false;
+    private boolean SPACEreleased = true;
 
     @FXML
     private AnchorPane background;
@@ -33,24 +37,27 @@ public class AsteroidsController {
 
     @FXML 
     public Canvas canvas = new Canvas(800, 600);
-
     public GraphicsContext gc;
 
-    // @FXML
-    // private ListView<String> scoreBoard;
+    @FXML
+    private ListView<String> scoreBoard;
 
     public void initialize() {
         timer = new Timer();
 
-        spaceship = new Spaceship(0, 0, new Vector(1, 1));
-        s2 = new Spaceship(200, 200);
-        spaceship.rotate(Math.PI / 4);
-        s2.rotate(Math.PI / 6);
-        lazer = s2.shoot();
+        spaceship = new Spaceship(200, 200);
+        System.out.println("["+spaceship.getPosX()+", "+spaceship.getPosY()+"\n"+spaceship.getX2()+", "+spaceship.getY2()+"]");
+        // s2 = new Spaceship(200, 200);
+        // spaceship.rotate(Math.PI / 4);
+        // s2.rotate(Math.PI / 6);
+        // lazer = s2.shoot();
 
         sprites.add(spaceship);
-        sprites.add(s2);
-        sprites.add(lazer);
+        // spaceship.rotate(0);
+        // s2.rotate(Math.PI/3);
+        // sprites.add(s2);
+        // sprites.add(s2);
+        // sprites.add(lazer);
 
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
@@ -64,13 +71,23 @@ public class AsteroidsController {
 
     @FXML
     public void keyPressed(KeyEvent event){
-        System.out.println(event.getCode());
+        // System.out.println("["+spaceship.getPosX()+", "+spaceship.getPosY()+"\n"+spaceship.getX2()+", "+spaceship.getY2()+"]");
+        // System.out.println(event.getCode());
         switch (event.getCode()) {
-            case SPACE:
-                System.out.println("up");   
+            case UP:
+                UPpressed = true;
                 break;
-            case KP_LEFT:
-                System.out.println("to the left");   
+            case DOWN:
+                DOWNpressed = true;   
+                break;
+            case LEFT:
+                LEFTpressed = true;
+                break;
+            case RIGHT:
+                RIGHTpressed = true;   
+                break;
+            case SPACE:
+                SPACEpressed = true;
                 break;
             default:
                 break; 
@@ -79,7 +96,47 @@ public class AsteroidsController {
 
     @FXML
     public void keyReleased(KeyEvent event){
-        System.out.println("Released"+event.getCode());
+        // System.out.println("Released "+event.getCode());
+        switch (event.getCode()) {
+            case UP:
+                UPpressed = false;
+                break;
+            case DOWN:
+                DOWNpressed = false;   
+                break;
+            case LEFT:
+                LEFTpressed = false;
+                break;
+            case RIGHT:
+                RIGHTpressed = false;   
+                break;
+            case SPACE:
+                SPACEpressed = false;
+                SPACEreleased = true;
+                break;
+            default:
+                break; 
+        }
+    }
+
+    public void spaceshipAction(Spaceship spaceship){
+        if (this.UPpressed){
+            spaceship.thrust();
+        }
+        if (this.DOWNpressed){
+            // spaceship.thrust();
+        }
+        if (this.LEFTpressed){
+            spaceship.rotateLeft();
+        }
+        if (this.RIGHTpressed){
+            spaceship.rotateRight();
+        }
+        if (this.SPACEpressed && this.SPACEreleased){
+            spaceship.shoot();
+            System.out.println("Shoot");
+            this.SPACEreleased = false;
+        }
     }
 
     public void renderSprite(Sprite sprite) {
@@ -104,12 +161,14 @@ public class AsteroidsController {
 
         @Override
         public void handle(long nanotime) {
-            gc.setFill(Color.BLACK);
             gc.fillRect(0, 0, 800, 600);
             sprites.stream().forEach((sprite) -> {
                 sprite.updatePosition();
                 renderSprite(sprite);
             });
+            spaceshipAction(spaceship);
+            System.out.println(spaceship.velocity.toString()+ "("+spaceship.getPosX()+", "+spaceship.getX2()+")");
+            
         }
 
     };
