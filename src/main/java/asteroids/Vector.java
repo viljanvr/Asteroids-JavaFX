@@ -7,7 +7,7 @@ public class Vector {
     private double y = 0;
 
     public Vector(double x, double y) {
-        this.setXY(x, y);
+        setXY(x, y);
     }
 
     public void setXY(double x, double y) {
@@ -32,24 +32,12 @@ public class Vector {
 
     }
 
-    public void setAngle(double angle){
-        this.setXY(Math.cos(angle)*this.getLength(), Math.sin(angle)*this.getLength());
+    public void setAngle(double angle) {
+        this.setXY(Math.cos(angle) * this.getLength(), Math.sin(angle) * this.getLength());
     }
 
-    public void rotate(double angle){
-        double totalAngle = this.getAngle()+angle;
-        while(totalAngle >= Math.PI*2){
-            totalAngle =- Math.PI*2;
-        }
-        while(totalAngle <= 0){
-            totalAngle =+ Math.PI*2;
-        }
-        this.setAngle(totalAngle);
-        
-    }
-
-    public void setLength(double length){
-        if (this.getLength() == 0){
+    public void setLength(double length) {
+        if (this.getLength() == 0) {
             this.setXY(length, 0);
         } else {
             this.setXY(x / this.getLength() * length, y / this.getLength() * length);
@@ -60,8 +48,12 @@ public class Vector {
         this.setXY(this.x * scalar, this.y * scalar);
     }
 
-    public void addVector(Vector vector){
-        setXY(x + vector.getX(), y + vector.getY());
+    public void addVector(Vector vector) {
+        setXY(this.x + vector.getX(), this.y + vector.getY());
+    }
+
+    public void addXY(double deltaX, double deltaY) {
+        setXY(this.x + deltaX, this.y + deltaY);
     }
 
     public String toString() {
@@ -70,13 +62,7 @@ public class Vector {
 
     public static void main(String[] args) {
         Vector v = new Vector(3.0, 0);
-        System.out.println(v.getAngle());
-        System.out.println(v.toString());
-        v.setAngle(Math.PI/4);
-        System.out.println(v.getAngle());
-        System.out.println(v.toString());
-        
-        
+
     }
 
 }

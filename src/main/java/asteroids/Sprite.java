@@ -4,14 +4,14 @@ import java.lang.Math;
 
 public class Sprite {
 
-    private int x1, y1, x2, y2;
-    private double rotation;
-    private Vector velocity;
+    protected int x1, y1, x2, y2;
+    protected double rotation;
+    protected Vector velocity;
     private String imageURL;
-    private int imageWidth = 0;
-    private int imageHeight = 0;
+    private int imageWidth;
+    private int imageHeight;
 
-    public Sprite(int x1, int y1, String imagePath) {
+    public Sprite(int x1, int y1, int imageHeight, int imageWidth, String imagePath) {
         if (x1 < 0 || y1 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
@@ -24,11 +24,11 @@ public class Sprite {
 
         rotation = 0;
         velocity = new Vector(0, 0);
-        
+
     }
 
-    public Sprite(int x1, int y1, Vector velocity, String imagePath){
-        this(x1, y1, imagePath);
+    public Sprite(int x1, int y1, int imageHeight, int imageWidth, Vector velocity, String imagePath) {
+        this(x1, y1, imageHeight, imageWidth, imagePath);
         this.velocity = velocity;
     }
 
@@ -52,28 +52,23 @@ public class Sprite {
         return y2;
     }
 
-    public void setRotation(double angle){
-        this.rotation = angle;
+    public void rotate(double angle) {
+        rotation = Math.acos(Math.cos(getRotation() + angle));
     }
 
-    public double getRotation(){
+    public double getRotation() {
         return this.rotation;
     }
 
-    public void setImageSize(int width, int height){
-        this.imageWidth = width;
-        this.imageHeight = height;
-    }
-
-    public String getImageURL(){
+    public String getImageURL() {
         return this.imageURL;
     }
 
-    public int getImageWidth(){
+    public int getImageWidth() {
         return this.imageWidth;
     }
 
-    public int getImageHeight(){
+    public int getImageHeight() {
         return this.imageHeight;
     }
 
@@ -93,9 +88,17 @@ public class Sprite {
 
     public void updatePosition() {
         x1 += velocity.getX();
+        if (x1 > 800)
+            x1 -= 864;
         x2 += velocity.getX();
+        if (x2 > 800)
+            x2 -= 800;
         y1 += velocity.getY();
+        if (y1 > 600)
+            y1 -= 664;
         y2 += velocity.getY();
+        if (y2 > 600)
+            y2 -= 600;
     }
 
     public static void main(String[] args) {
