@@ -32,11 +32,11 @@ public class Spaceship extends Sprite {
     }
 
     public void thrust() {
-        acceleration.setLength(Math.pow(Math.E, - this.getVelocity().getLength())); //Bruker e^-x hvor x er farten for å angi en akselerasjon. 
+        acceleration.setLength(Math.pow(Math.E, -this.getVelocity().getLength())); // Bruker e^-x hvor x er farten for å
+                                                                                   // angi en akselerasjon.
         acceleration.setAngle(this.getRotation());
-        this.getVelocity().addVector(acceleration);
+        // this.getVelocity().addVector(new Vector(length, angle));
 
-        
     }
 
     public static void main(String[] args) {
@@ -49,9 +49,5 @@ public class Spaceship extends Sprite {
         System.out.println(spaceship.getVelocity().toString());
 
     }
-    
-
-
-
 
 }
