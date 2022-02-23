@@ -4,30 +4,32 @@ import java.lang.Math;
 
 public class Sprite {
 
-    protected int x1, y1, x2, y2;
+    protected double x1, y1, x2, y2;
     protected double rotation;
     protected Vector velocity;
     private String imageURL;
     private int imageWidth;
     private int imageHeight;
 
-    public Sprite(int x1, int y1, int imageHeight, int imageWidth, String imagePath) {
+    public Sprite(double x1, double y1, int imageHeight, int imageWidth, String imagePath) {
         if (x1 < 0 || y1 < 0) {
             throw new IllegalArgumentException("Innvalid inputs for rectangle");
         }
         this.imageURL = imagePath;
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
 
         this.x1 = x1;
-        x2 = x1 + imageWidth;
+        this.x2 = x1 + imageWidth;
         this.y1 = y1;
-        y2 = y2 + imageHeight;
+        this.y2 = y1 + imageHeight;
 
-        rotation = 0;
-        velocity = new Vector(0, 0);
+        this.rotation = 0;
+        this.velocity = new Vector(0, 0);
 
     }
 
-    public Sprite(int x1, int y1, int imageHeight, int imageWidth, Vector velocity, String imagePath) {
+    public Sprite(double x1, double y1, int imageHeight, int imageWidth, Vector velocity, String imagePath) {
         this(x1, y1, imageHeight, imageWidth, imagePath);
         this.velocity = velocity;
     }
@@ -36,24 +38,20 @@ public class Sprite {
         return velocity;
     }
 
-    public int getPosX() {
+    public double getPosX() {
         return x1;
     }
 
-    public int getPosY() {
+    public double getPosY() {
         return y1;
     }
 
-    public int getX2() {
+    public double getX2() {
         return x2;
     }
 
-    public int getY2() {
+    public double getY2() {
         return y2;
-    }
-
-    public void rotate(double angle) {
-        rotation = Math.acos(Math.cos(getRotation() + angle));
     }
 
     public double getRotation() {
@@ -72,7 +70,11 @@ public class Sprite {
         return this.imageHeight;
     }
 
-    public boolean contains(int x, int y) {
+    public void setRotation(double rotation){
+        this.rotation = rotation;
+    }
+
+    public boolean contains(double x, double y) {
         return x >= x1 && x <= x2 && y >= y1 && y <= y2;
     }
 
@@ -88,17 +90,25 @@ public class Sprite {
 
     public void updatePosition() {
         x1 += velocity.getX();
-        if (x1 > 800)
+        if (x1 > 800) {
             x1 -= 864;
+            x2 -= 864;
+        }
         x2 += velocity.getX();
-        if (x2 > 800)
-            x2 -= 800;
+        if (x2 < 0){
+            x1 += 864;
+            x2 += 864;
+        }
         y1 += velocity.getY();
-        if (y1 > 600)
+        if (y1 > 600){
             y1 -= 664;
+            y2 -= 664;
+        }
         y2 += velocity.getY();
-        if (y2 > 600)
-            y2 -= 600;
+        if (y2 < 0){
+            y1 += 664;
+            y2 += 664;
+        }
     }
 
     public static void main(String[] args) {
