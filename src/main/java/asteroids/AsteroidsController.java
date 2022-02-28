@@ -17,7 +17,7 @@ public class AsteroidsController {
     public Timer timer;
     public Spaceship spaceship;
     public Spaceship s2;
-    public Sprite lazer;
+    public Lazer lazer;
     Image spaceshipImage;
     Collection<Sprite> sprites = new ArrayList<>();
 
@@ -154,11 +154,25 @@ public class AsteroidsController {
         @Override
         public void handle(long nanotime) {
             gc.fillRect(0, 0, 800, 600);
+            Collection<Sprite> spritesCopy = new ArrayList<>(sprites);
+
             sprites.stream().forEach((sprite) -> {
                 sprite.updatePosition();
                 renderSprite(sprite);
+
+                if(sprite instanceof Lazer){
+                    if (((Lazer) sprite).checkOutOfBound()){
+                         spritesCopy.remove(sprite);
+                    }
+                }
             });
+
+            sprites = spritesCopy;
+            System.out.println(sprites.toString());
+           
             spaceshipAction(spaceship);
+
+        
             System.out.println(
                     spaceship.velocity.toString() + "(" + spaceship.getPosX() + ", " + spaceship.getX2() + ")");
 

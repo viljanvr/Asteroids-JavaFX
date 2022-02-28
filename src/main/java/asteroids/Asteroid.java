@@ -10,4 +10,9 @@ public class Asteroid extends Sprite {
         getVelocity().setAngle(Math.random() * 6);
     }
 
+    @Override
+    public void updatePosition() {
+        super.updatePosition();
+        wrap();
+    }
 }
