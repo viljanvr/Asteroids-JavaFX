@@ -1,8 +1,7 @@
 package asteroids;
 
 import java.lang.Math;
-
-import javafx.stage.Window;
+import java.util.Collection;
 
 public class Spaceship extends Sprite {
 
@@ -36,11 +35,11 @@ public class Spaceship extends Sprite {
     }
 
     public void thrust() {
-        this.velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
+        velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
     }
 
     public void aeroBrake() {
-        this.velocity.addXY(-0.02 * velocity.getX(), -0.02 * velocity.getY());
+        velocity.addXY(-0.02 * velocity.getX(), -0.02 * velocity.getY());
     }
 
     @Override
@@ -51,12 +50,9 @@ public class Spaceship extends Sprite {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println("hello");
-        Spaceship spaceship = new Spaceship(0, 0);
-        System.out.println(spaceship.getRotation());
-        spaceship.rotate(Math.PI / 4);
-        System.out.println(spaceship.getRotation());
+    public Boolean checkCollision(Collection<Sprite> list) {
+        return list.stream().filter(sprite -> sprite instanceof Asteroid)
+                .anyMatch(asteroid -> this.contains(asteroid));
     }
 
 }
