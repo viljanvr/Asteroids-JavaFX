@@ -1,15 +1,13 @@
 package asteroids;
 
-import java.lang.Math;
+import java.util.Collection;
 
-public class Sprite {
+public abstract class Sprite {
 
-    protected double x1, y1, x2, y2;
-    protected double rotation;
+    protected double x1, y1, x2, y2, rotation;
     protected Vector velocity;
+    private int imageWidth, imageHeight;
     private String imageURL;
-    private int imageWidth;
-    private int imageHeight;
 
     public Sprite(double x1, double y1, int imageHeight, int imageWidth, String imagePath) {
 
@@ -25,9 +23,8 @@ public class Sprite {
         this.y1 = y1;
         this.y2 = y1 + imageHeight;
 
-        this.rotation = 0;
-        this.velocity = new Vector(0, 0);
-
+        rotation = 0;
+        velocity = new Vector(0, 0);
 
     }
 
@@ -58,27 +55,23 @@ public class Sprite {
     }
 
     public double getRotation() {
-        return this.rotation;
+        return rotation;
     }
 
     public String getImageURL() {
-        return this.imageURL;
+        return imageURL;
     }
 
     public int getImageWidth() {
-        return this.imageWidth;
+        return imageWidth;
     }
 
     public int getImageHeight() {
-        return this.imageHeight;
+        return imageHeight;
     }
 
-    public void setRotation(double rotation){
+    public void setRotation(double rotation) {
         this.rotation = rotation;
-    }
-
-    public boolean contains(double x, double y) {
-        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
     }
 
     public boolean contains(Sprite sprite) {
@@ -91,6 +84,8 @@ public class Sprite {
             return false;
     }
 
+    public abstract Boolean checkCollision(Collection<Sprite> list);
+
     public void updatePosition() {
         x1 += velocity.getX();
         x2 += velocity.getX();
@@ -98,27 +93,23 @@ public class Sprite {
         y2 += velocity.getY();
     }
 
-    public void wrap(){
-        if (x1 > 800) {
-            x1 -= 864;
-            x2 -= 864;
+    public void wrap() {
+        if (x1 > AsteroidsController.CanvasWidth) {
+            x1 -= AsteroidsController.CanvasWidth + 64;
+            x2 -= AsteroidsController.CanvasWidth + 64;
         }
-        if (x2 < 0){
-            x1 += 864;
-            x2 += 864;
+        if (x2 < 0) {
+            x1 += AsteroidsController.CanvasWidth + 64;
+            x2 += AsteroidsController.CanvasWidth + 64;
         }
-        if (y1 > 600){
-            y1 -= 664;
-            y2 -= 664;
+        if (y1 > AsteroidsController.CanvasHeight) {
+            y1 -= AsteroidsController.CanvasHeight + 64;
+            y2 -= AsteroidsController.CanvasHeight + 64;
         }
-        if (y2 < 0){
-            y1 += 664;
-            y2 += 664;
+        if (y2 < 0) {
+            y1 += AsteroidsController.CanvasHeight + 64;
+            y2 += AsteroidsController.CanvasHeight + 64;
         }
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }

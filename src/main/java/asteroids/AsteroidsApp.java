@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class AsteroidsApp extends Application {
@@ -19,6 +18,5 @@ public class AsteroidsApp extends Application {
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("AsteroidsFx.fxml"))));
         primaryStage.show();
     }
-
 
 }

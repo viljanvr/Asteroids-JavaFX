@@ -3,8 +3,7 @@ package asteroids;
 import java.lang.Math;
 
 public class Vector {
-    private double x = 0;
-    private double y = 0;
+    private double x, y;
 
     public Vector(double x, double y) {
         setXY(x, y);
@@ -16,53 +15,48 @@ public class Vector {
     }
 
     public double getX() {
-        return this.x;
+        return x;
     }
 
     public double getY() {
-        return this.y;
+        return y;
     }
 
     public double getLength() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+        return Math.sqrt(x * x + y * y);
     }
 
     public double getAngle() {
-        return Math.atan(this.y / this.x);
+        return Math.atan(y / x);
 
     }
 
     public void setAngle(double angle) {
-        this.setXY(Math.cos(angle) * this.getLength(), Math.sin(angle) * this.getLength());
+        this.setXY(Math.cos(angle) * getLength(), Math.sin(angle) * getLength());
     }
 
     public void setLength(double length) {
-        if (this.getLength() == 0) {
-            this.setXY(length, 0);
+        if (getLength() == 0) {
+            setXY(length, 0);
         } else {
-            this.setXY(x / this.getLength() * length, y / this.getLength() * length);
+            setXY(x / getLength() * length, y / getLength() * length);
         }
     }
 
     public void multiplyLength(double scalar) {
-        this.setXY(this.x * scalar, this.y * scalar);
+        setXY(x * scalar, y * scalar);
     }
 
     public void addVector(Vector vector) {
-        setXY(this.x + vector.getX(), this.y + vector.getY());
+        setXY(x + vector.getX(), y + vector.getY());
     }
 
     public void addXY(double deltaX, double deltaY) {
-        setXY(this.x + deltaX, this.y + deltaY);
+        setXY(x + deltaX, y + deltaY);
     }
 
     public String toString() {
-        return "( " + this.x + ", " + this.y + " )";
-    }
-
-    public static void main(String[] args) {
-        Vector v = new Vector(3.0, 0);
-
+        return "( " + x + ", " + y + " )";
     }
 
 }

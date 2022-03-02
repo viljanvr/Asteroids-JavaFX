@@ -1,12 +1,14 @@
 package asteroids;
 
 import java.lang.Math;
+import java.util.Collection;
 
 public class Asteroid extends Sprite {
 
     public Asteroid() {
-        super((double) Math.random() * (700), (double) Math.random() * (500), 64, 64, "asteroids/asteroid.png");
-        getVelocity().setLength(4);
+        super((double) Math.random() * (AsteroidsController.CanvasWidth),
+                (double) Math.random() * (AsteroidsController.CanvasHeight), 64, 64, "asteroids/asteroid.png");
+        getVelocity().setLength(1);
         getVelocity().setAngle(Math.random() * 6);
     }
 
@@ -15,4 +17,10 @@ public class Asteroid extends Sprite {
         super.updatePosition();
         wrap();
     }
+
+    public Boolean checkCollision(Collection<Sprite> list) {
+        return list.stream().filter(sprite -> (sprite instanceof Lazer || sprite instanceof Spaceship))
+                .anyMatch(sprite -> this.contains(sprite));
+    }
+
 }
