@@ -93,21 +93,24 @@ public class Sprite {
 
     public void updatePosition() {
         x1 += velocity.getX();
+        x2 += velocity.getX();
+        y1 += velocity.getY();
+        y2 += velocity.getY();
+    }
+
+    public void wrap(){
         if (x1 > 800) {
             x1 -= 864;
             x2 -= 864;
         }
-        x2 += velocity.getX();
         if (x2 < 0){
             x1 += 864;
             x2 += 864;
         }
-        y1 += velocity.getY();
         if (y1 > 600){
             y1 -= 664;
             y2 -= 664;
         }
-        y2 += velocity.getY();
         if (y2 < 0){
             y1 += 664;
             y2 += 664;

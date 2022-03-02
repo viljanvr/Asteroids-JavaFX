@@ -29,9 +29,8 @@ public class Spaceship extends Sprite {
     }
 
     public Sprite shoot() {
-        Sprite lazer = new Sprite(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2, 8, 8,
-                "asteroids/laser.png");
-        lazer.getVelocity().setLength(4);
+        Sprite lazer = new Lazer(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2);
+        lazer.getVelocity().setLength(getVelocity().getLength() + 4);
         lazer.getVelocity().setAngle(getRotation());
         return lazer;
     }
@@ -47,6 +46,7 @@ public class Spaceship extends Sprite {
     @Override
     public void updatePosition() {
         super.updatePosition();
+        wrap();
         aeroBrake();
 
     }
