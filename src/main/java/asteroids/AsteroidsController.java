@@ -1,8 +1,5 @@
 package asteroids;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
@@ -42,7 +39,6 @@ public class AsteroidsController {
     public void initialize() {
         timer = new Timer();
         game = new Game();
-
 
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
@@ -161,6 +157,7 @@ public class AsteroidsController {
             spaceshipAction(game.getSpaceship());
 
             // System.out.println(
+
             //         game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX() + ", " + game.getSpaceship().getX2() + ")");
 
         }
