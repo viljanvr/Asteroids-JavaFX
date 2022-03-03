@@ -18,14 +18,14 @@ public class Game {
     public void gameLoop() {
         // removes lasers that are out of bound
         sprites = sprites.stream()
-        .filter(sprite -> !(sprite instanceof Laser)
-                || ((sprite instanceof Laser) && !((Laser) sprite).checkOutOfBound()))
-        .collect(Collectors.toList());
+                .filter(sprite -> !(sprite instanceof Laser)
+                        || ((sprite instanceof Laser) && !((Laser) sprite).checkOutOfBound()))
+                .collect(Collectors.toList());
 
         //removes objects  when they collide (and gives points if you shoot an asteroid)
         sprites = sprites.stream()
-        .filter(sprite -> !collisionHandler(sprite))
-        .collect(Collectors.toList());
+                .filter(sprite -> !collisionHandler(sprite))
+                .collect(Collectors.toList());
 
         // updates the position of all the sprites
         sprites.stream().forEach((sprite) -> {
@@ -80,10 +80,6 @@ public class Game {
         }
         return false;
     }
-
-
-    
-}
 
     public boolean isGameOver() {
         return lives == 0;
