@@ -13,9 +13,9 @@ public abstract class Sprite {
 
     public Sprite(double x1, double y1, int imageHeight, int imageWidth, String imagePath) {
 
-        if (x1 < 0 || y1 < 0) {
-            throw new IllegalArgumentException("Innvalid inputs for rectangle");
-        }
+        // if (x1 < 0 || y1 < 0) {
+        //     throw new IllegalArgumentException("Innvalid inputs for rectangle");
+        // }
         this.imageURL = imagePath;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;

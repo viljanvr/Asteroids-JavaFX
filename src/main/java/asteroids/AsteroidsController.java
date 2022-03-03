@@ -3,6 +3,7 @@ package asteroids;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
+import javafx.scene.text.Text;
 import javafx.scene.canvas.*;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -30,6 +31,9 @@ public class AsteroidsController {
 
     @FXML
     private ListView<String> scoreBoard;
+
+    @FXML
+    private Text currentScore;
 
     // initializes the game
     public void initialize() {
@@ -129,6 +133,11 @@ public class AsteroidsController {
         gc.restore();
     }
 
+    //BURDE ENDRES SLIK AT DET IKKE KJØRES LIKE OFTE
+    private void updateCurrentScore() {
+		currentScore.setText("Score: " + game.getScore());
+    }
+
     // AnimationTimer kjører en gang hver frame.
     private class Timer extends AnimationTimer {
 
@@ -137,8 +146,9 @@ public class AsteroidsController {
             gc.fillRect(0, 0, CanvasWidth, CanvasHeight);
 
             game.gameLoop();
-
-            // updates the position of all the sprites
+            updateCurrentScore();
+            
+            // renders all the objects on screen
             game.getSprites().stream().forEach((sprite) -> {
                 renderSprite(sprite);
             });
@@ -147,9 +157,8 @@ public class AsteroidsController {
             spaceshipAction(game.getSpaceship());
 
             // System.out.println(
-            // game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX()
-            // + ", "
-            // + game.getSpaceship().getX2() + ")");
+
+            //         game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX() + ", " + game.getSpaceship().getX2() + ")");
 
         }
     };
