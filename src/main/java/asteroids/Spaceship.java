@@ -6,6 +6,7 @@ import java.util.Collection;
 public class Spaceship extends Sprite {
 
     public Spaceship(double x1, double y1) {
+
         super(x1, y1, 64, 64, "asteroids/spaceship.png");
 
     }
