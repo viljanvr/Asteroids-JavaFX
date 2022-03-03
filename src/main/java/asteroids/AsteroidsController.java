@@ -1,8 +1,5 @@
 package asteroids;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
@@ -14,12 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class AsteroidsController {
-    public static final int CanvasWidth = 800,
-            CanvasHeight = 600;
-
+    public static final int CanvasWidth = 800, CanvasHeight = 600;
     public Timer timer;
-    public Spaceship spaceship;
-    Collection<Sprite> sprites = new ArrayList<>();
+    public Game game;
 
     private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
@@ -40,9 +34,7 @@ public class AsteroidsController {
     // initializes the game
     public void initialize() {
         timer = new Timer();
-
-        spaceship = new Spaceship(200, 200);
-        sprites.add(spaceship);
+        game = new Game();
 
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
@@ -110,12 +102,12 @@ public class AsteroidsController {
             spaceship.rotateRight();
 
         if (this.DOWNpressed && this.DOWNreleased) {
-            sprites.add(new Asteroid());
+            game.getSprites().add(new Asteroid());
             this.DOWNreleased = false;
         }
 
         if (this.SPACEpressed && this.SPACEreleased) {
-            sprites.add(spaceship.shoot());
+            game.getSprites().add(spaceship.shoot());
             this.SPACEreleased = false;
         }
     }
@@ -144,28 +136,20 @@ public class AsteroidsController {
         public void handle(long nanotime) {
             gc.fillRect(0, 0, CanvasWidth, CanvasHeight);
 
-            // removes lazers that are out of bound
-            sprites = sprites.stream()
-                    .filter(sprite -> !(sprite instanceof Lazer)
-                            || ((sprite instanceof Lazer) && !((Lazer) sprite).checkOutOfBound()))
-                    .collect(Collectors.toList());
-
-            // removes collided sprites
-            sprites = sprites.stream()
-                    .filter(sprite -> !sprite.checkCollision(sprites))
-                    .collect(Collectors.toList());
+            game.gameLoop();
 
             // updates the position of all the sprites
-            sprites.stream().forEach((sprite) -> {
-                sprite.updatePosition();
+            game.getSprites().stream().forEach((sprite) -> {
                 renderSprite(sprite);
             });
 
-            // initializes arrow key functionalities
-            spaceshipAction(spaceship);
+            // controls spaceship actions
+            spaceshipAction(game.getSpaceship());
 
-            System.out.println(
-                    spaceship.velocity.toString() + "(" + spaceship.getPosX() + ", " + spaceship.getX2() + ")");
+            // System.out.println(
+            // game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX()
+            // + ", "
+            // + game.getSpaceship().getX2() + ")");
 
         }
     };

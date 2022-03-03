@@ -2,8 +2,8 @@ package asteroids;
 
 import java.util.Collection;
 
-public class Lazer extends Sprite {
-    public Lazer(double x1, double y1) {
+public class Laser extends Sprite {
+    public Laser(double x1, double y1) {
         super(x1, y1, 8, 8, "asteroids/laser.png");
     }
 
