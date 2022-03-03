@@ -1,6 +1,8 @@
 package asteroids;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collector;
 
 public abstract class Sprite {
 
@@ -110,6 +112,9 @@ public abstract class Sprite {
             y1 += AsteroidsController.CanvasHeight + 64;
             y2 += AsteroidsController.CanvasHeight + 64;
         }
+    }
+
+    public void collect(Collector<Object, ?, List<Object>> list) {
     }
 
 }
