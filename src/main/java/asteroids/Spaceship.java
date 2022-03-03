@@ -28,10 +28,10 @@ public class Spaceship extends Sprite {
     }
 
     public Sprite shoot() {
-        Sprite lazer = new Lazer(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2);
-        lazer.getVelocity().setLength(getVelocity().getLength() + 4);
-        lazer.getVelocity().setAngle(getRotation());
-        return lazer;
+        Sprite laser = new Laser(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2);
+        laser.getVelocity().setLength(getVelocity().getLength() + 4);
+        laser.getVelocity().setAngle(getRotation());
+        return laser;
     }
 
     public void thrust() {
