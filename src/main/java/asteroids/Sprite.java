@@ -12,28 +12,15 @@ public abstract class Sprite {
     private String imageURL;
 
     public Sprite(double x1, double y1, int imageHeight, int imageWidth, String imagePath) {
-
-        // if (x1 < 0 || y1 < 0) {
-        // throw new IllegalArgumentException("Innvalid inputs for rectangle");
-        // }
         this.imageURL = imagePath;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
 
-        this.x1 = x1;
-        this.x2 = x1 + imageWidth;
-        this.y1 = y1;
-        this.y2 = y1 + imageHeight;
+        setPosX(x1);
+        setPosY(y1);
 
         rotation = 0;
         velocity = new Vector(0, 0);
-
-    }
-
-    public Sprite(double x1, double y1, int imageHeight, int imageWidth, Vector velocity, String imagePath) {
-
-        this(x1, y1, imageHeight, imageWidth, imagePath);
-        this.velocity = velocity;
     }
 
     public Vector getVelocity() {
@@ -56,6 +43,16 @@ public abstract class Sprite {
         return y2;
     }
 
+    public void setPosX(double x){
+        this.x1 = x;
+        this.x2 = x + imageWidth;
+    }
+
+    public void setPosY(double y){
+        this.y1 = y;
+        this.y2 = y + imageWidth;
+    }
+
     public double getRotation() {
         return rotation;
     }
@@ -72,12 +69,10 @@ public abstract class Sprite {
         return imageHeight;
     }
 
-    public void setXY(int x1, int y1) {
-        this.x1 = x1;
-        this.x2 = x1 + imageWidth;
-        this.y1 = y1;
-        this.y2 = y1 + imageHeight;
-    }
+    // public void setXY(double x, double y) {
+    //     setPosX(x);
+    //     setPosY(y);
+    // }
 
     public void setImageSize(int imageWidth, int imageHeight) {
         this.imageWidth = imageWidth;
