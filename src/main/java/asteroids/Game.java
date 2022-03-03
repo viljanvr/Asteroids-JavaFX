@@ -22,17 +22,16 @@ public class Game {
         .filter(sprite -> !(sprite instanceof Laser)
                 || ((sprite instanceof Laser) && !((Laser) sprite).checkOutOfBound()))
         .collect(Collectors.toList());
-        
-        // removes collided sprites
+
+        //removes objects  when they collide (and gives points if you shoot an asteroid)
         sprites = sprites.stream()
-                .filter(sprite -> !sprite.checkCollision(sprites))
-                .collect(Collectors.toList());
+        .filter(sprite -> !collisionHandler(sprite))
+        .collect(Collectors.toList());
 
         // updates the position of all the sprites
         sprites.stream().forEach((sprite) -> {
             sprite.updatePosition();
         });
-
     }
 
     public int getScore() {
@@ -68,6 +67,19 @@ public class Game {
     public int getLives() {
         return lives;
     }
+
+    private Boolean collisionHandler(Sprite sprite){
+        if (sprite.checkCollision(sprites)){
+            if (sprite instanceof Asteroid){
+                incrementScore();
+                System.out.println("Score: "+score);
+            }
+            return true;
+        }
+        return false;
+    }
+
+
     
 }
 
