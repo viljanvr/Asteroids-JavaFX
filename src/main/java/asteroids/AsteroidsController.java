@@ -35,6 +35,9 @@ public class AsteroidsController {
     @FXML
     private Text currentScore;
 
+    @FXML
+    private Text livesLeft;
+
     // initializes the game
     public void initialize() {
         timer = new Timer();
@@ -138,6 +141,10 @@ public class AsteroidsController {
 		currentScore.setText("Score: " + game.getScore());
     }
 
+    private void updateLivesLeft() {
+		livesLeft.setText(game.getLives() + " lives left");
+    }
+
     // AnimationTimer kjører en gang hver frame.
     private class Timer extends AnimationTimer {
 
@@ -145,8 +152,9 @@ public class AsteroidsController {
         public void handle(long nanotime) {
             gc.fillRect(0, 0, CanvasWidth, CanvasHeight);
 
-            game.gameLoop();
+            game.gameLoop(nanotime);
             updateCurrentScore();
+            updateLivesLeft();
             
             // renders all the objects on screen
             game.getSprites().stream().forEach((sprite) -> {
@@ -156,9 +164,7 @@ public class AsteroidsController {
             // controls spaceship actions
             spaceshipAction(game.getSpaceship());
 
-            // System.out.println(
-
-            //         game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX() + ", " + game.getSpaceship().getX2() + ")");
+            // System.out.println(game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX() + ", " + game.getSpaceship().getX2() + ")");
 
         }
     };

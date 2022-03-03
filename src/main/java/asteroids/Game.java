@@ -9,13 +9,14 @@ public class Game {
     private Collection<Sprite> sprites = new ArrayList<>();
     private int score = 0;
     private int lives = 3;
+    private long lastAsteroidSpawnTime = 0;
 
     public Game() {
         spaceship = new Spaceship(200, 200);
         sprites.add(spaceship);
     }
 
-    public void gameLoop() {
+    public void gameLoop(long nanotime) {
         // removes lasers that are out of bound
         sprites = sprites.stream()
                 .filter(sprite -> !(sprite instanceof Laser)
@@ -32,10 +33,17 @@ public class Game {
             sprite.updatePosition();
         });
 
-        if (!sprites.stream().anyMatch(sprite -> sprite instanceof Spaceship) && lives > 1) {
+        // decreases number of lives when hitting asteroid, and spawns new spaceship if you have more lives left
+        if (!sprites.stream().anyMatch(sprite -> sprite instanceof Spaceship) && lives > 0) {
             spaceship = new Spaceship(200, 200);
             sprites.add(spaceship);
             lives -= 1;
+        }
+
+        // spawns and asteroid every three seconds (3 000 000 000 in nanoseconds)
+        if (nanotime > lastAsteroidSpawnTime + 3000000000l){
+            sprites.add(new Asteroid());
+            lastAsteroidSpawnTime = nanotime;
         }
 
     }
