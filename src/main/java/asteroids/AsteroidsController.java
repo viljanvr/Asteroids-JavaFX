@@ -144,10 +144,10 @@ public class AsteroidsController {
         public void handle(long nanotime) {
             gc.fillRect(0, 0, CanvasWidth, CanvasHeight);
 
-            // removes lazers that are out of bound
+            // removes lasers that are out of bound
             sprites = sprites.stream()
-                    .filter(sprite -> !(sprite instanceof Lazer)
-                            || ((sprite instanceof Lazer) && !((Lazer) sprite).checkOutOfBound()))
+                    .filter(sprite -> !(sprite instanceof Laser)
+                            || ((sprite instanceof Laser) && !((Laser) sprite).checkOutOfBound()))
                     .collect(Collectors.toList());
 
             // removes collided sprites
@@ -160,6 +160,8 @@ public class AsteroidsController {
                 sprite.updatePosition();
                 renderSprite(sprite);
             });
+
+            System.out.println(sprites.toString());
 
             // initializes arrow key functionalities
             spaceshipAction(spaceship);
