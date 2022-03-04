@@ -26,11 +26,6 @@ public class Vector {
         return Math.sqrt(x * x + y * y);
     }
 
-    // public double getAngle() {
-    //     return Math.atan(y / x);
-
-    // }
-
     public void setAngle(double angle) {
         this.setXY(Math.cos(angle) * getLength(), Math.sin(angle) * getLength());
     }
@@ -43,20 +38,8 @@ public class Vector {
         }
     }
 
-    // public void multiplyLength(double scalar) {
-    //     setXY(x * scalar, y * scalar);
-    // }
-
-    // public void addVector(Vector vector) {
-    //     setXY(x + vector.getX(), y + vector.getY());
-    // }
-
     public void addXY(double deltaX, double deltaY) {
         setXY(x + deltaX, y + deltaY);
-    }
-
-    public String toString() {
-        return "( " + x + ", " + y + " )";
     }
 
 }
