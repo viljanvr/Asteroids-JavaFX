@@ -5,8 +5,8 @@ import java.util.Collection;
 
 public class Spaceship extends Sprite {
 
-    public Spaceship(double x1, double y1) {
-        super(x1, y1, 64, 64, "asteroids/spaceship.png");
+    public Spaceship() {
+        super(200, 200, 39, 23, "asteroids/spaceship.png");
     }
 
     public void rotateLeft() {
@@ -17,7 +17,7 @@ public class Spaceship extends Sprite {
         rotate(Math.PI / 45);
     }
 
-    public void rotate(double angle) {
+    private void rotate(double angle) {
         rotation += angle;
     }
 
@@ -32,7 +32,7 @@ public class Spaceship extends Sprite {
         velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
     }
 
-    public void aeroBrake() {
+    private void aeroBrake() {
         velocity.addXY(-0.02 * velocity.getX(), -0.02 * velocity.getY());
     }
 

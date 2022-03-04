@@ -11,7 +11,7 @@ public abstract class Sprite {
     private int imageWidth, imageHeight;
     private String imageURL;
 
-    public Sprite(double x1, double y1, int imageHeight, int imageWidth, String imagePath) {
+    public Sprite(double x1, double y1, int imageWidth, int imageHeight, String imagePath) {
         this.imageURL = imagePath;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -43,14 +43,23 @@ public abstract class Sprite {
         return y2;
     }
 
-    public void setPosX(double x){
+    public void setPosX(double x) {
         this.x1 = x;
         this.x2 = x + imageWidth;
     }
 
-    public void setPosY(double y){
+    public void setPosY(double y) {
         this.y1 = y;
         this.y2 = y + imageWidth;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public void setImageSize(int imageWidth, int imageHeight) {
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
     }
 
     public double getRotation() {
@@ -67,20 +76,6 @@ public abstract class Sprite {
 
     public int getImageHeight() {
         return imageHeight;
-    }
-
-    // public void setXY(double x, double y) {
-    //     setPosX(x);
-    //     setPosY(y);
-    // }
-
-    public void setImageSize(int imageWidth, int imageHeight) {
-        this.imageWidth = imageWidth;
-        this.imageHeight = imageHeight;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
     }
 
     public void setRotation(double rotation) {

@@ -8,6 +8,7 @@ import javafx.scene.canvas.*;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -38,6 +39,9 @@ public class AsteroidsController {
     @FXML
     private Text livesLeft;
 
+    @FXML
+    private Text gameStatus;
+
     // initializes the game
     public void initialize() {
         timer = new Timer();
@@ -49,6 +53,14 @@ public class AsteroidsController {
 
         // starter AnimationTimer
         timer.start();
+
+        gameStatus.setText("");
+        gameStatus.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && game.isGameOver()) {
+                gameStatus.setText("");
+                game = new Game();
+            }
+        });
 
     }
 
@@ -109,7 +121,7 @@ public class AsteroidsController {
             spaceship.rotateRight();
 
         if (this.DOWNpressed && this.DOWNreleased) {
-            game.getSprites().add(new Asteroid());
+            game.getSprites().add(new Asteroid(true));
             this.DOWNreleased = false;
         }
 
@@ -131,18 +143,22 @@ public class AsteroidsController {
         gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
 
         // Tegner bildet.
-        // gc.drawImage(this.spaceshipImage, 0, 0);
         gc.drawImage(new Image(sprite.getImageURL()), 0, 0);
         gc.restore();
     }
 
-    //BURDE ENDRES SLIK AT DET IKKE KJØRES LIKE OFTE
+    // BURDE ENDRES SLIK AT DET IKKE KJØRES LIKE OFTE
     private void updateCurrentScore() {
-		currentScore.setText("Score: " + game.getScore());
+        currentScore.setText("Score: " + game.getScore());
     }
 
     private void updateLivesLeft() {
-		livesLeft.setText(game.getLives() + " lives left");
+        livesLeft.setText(game.getLives() + " lives left");
+    }
+
+    private void showGameStatus() {
+        if (game.isGameOver())
+            gameStatus.setText("new Game");
     }
 
     // AnimationTimer kjører en gang hver frame.
@@ -155,7 +171,8 @@ public class AsteroidsController {
             game.gameLoop(nanotime);
             updateCurrentScore();
             updateLivesLeft();
-            
+            showGameStatus();
+
             // renders all the objects on screen
             game.getSprites().stream().forEach((sprite) -> {
                 renderSprite(sprite);
@@ -163,8 +180,6 @@ public class AsteroidsController {
 
             // controls spaceship actions
             spaceshipAction(game.getSpaceship());
-
-            // System.out.println(game.getSpaceship().velocity.toString() + "(" + game.getSpaceship().getPosX() + ", " + game.getSpaceship().getX2() + ")");
 
         }
     };

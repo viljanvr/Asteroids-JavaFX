@@ -19,7 +19,12 @@
             <Font size="32.0" />
          </font>
       </Text>
-      <Text fx:id="livesLeft" fill="WHITE" layoutX="293.0" layoutY="658.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="231.25473022460938">
+      <Text fx:id="livesLeft" fill="WHITE" layoutX="293.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="231.25473022460938">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Text>
+      <Text fx:id="gameStatus" fill="WHITE" layoutX="320.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="231.25473022460938">
          <font>
             <Font size="32.0" />
          </font>
