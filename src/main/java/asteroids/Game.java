@@ -18,29 +18,19 @@ public class Game {
 
     public void gameLoop(long nanotime) {
 
-        // saves the asteroid that has collided this frame or else return null
-        Sprite sp = sprites.stream().filter(sprite -> sprite instanceof Asteroid && sprite.checkCollision(sprites)
-                && ((Asteroid) sprite).isNormal())
-                .findAny().orElse(null);
+        // removes collided items (and gives points)
+        collisionHandler();
 
         // removes lasers that are out of bound
-        // removes objects when they collide (and gives points if you shoot an asteroid)
         setSprites(sprites.stream()
-                .filter(sprite -> !collisionHandler(sprite) && (!(sprite instanceof Laser)
-                        || ((sprite instanceof Laser) && !((Laser) sprite).checkOutOfBound())))
-                .collect(Collectors.toList()));
-
-        // add dward_asteroids if this frame has a collided astroid
-        if (sp != null)
-            ((Asteroid) sp).dwarfAsteroidsBirthed().stream().forEach(as -> sprites.add(as));
+                .filter(sprite -> !(sprite instanceof Laser) || !((Laser) sprite).checkOutOfBound()).collect(Collectors.toList()));
 
         // updates the position of all the sprites
         sprites.stream().forEach((sprite) -> {
             sprite.updatePosition();
         });
 
-        // decreases number of lives when hitting asteroid, and spawns new spaceship if
-        // you have more lives left
+        // decreases number of lives when hitting asteroid, and spawns new spaceship if you have more lives left
         if (!doesSpaceshipExist() && lives > 0) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
@@ -80,16 +70,17 @@ public class Game {
         return lives;
     }
 
-    private Boolean collisionHandler(Sprite sprite) {
-        if (sprite.checkCollision(sprites)) {
-            if (sprite instanceof Asteroid && ((Asteroid) sprite).isNormal())
-                incrementScore(20);
-            else if (sprite instanceof Asteroid)
-                incrementScore(10);
-            return true;
-        }
-        return false;
-    }
+    // private Boolean collisionHandler(Sprite sprite) {
+    //     if (sprite.checkCollision(sprites)) {
+    //         if (sprite instanceof Asteroid && ((Asteroid) sprite).isNormal()){
+    //             incrementScore(20);
+    //         }
+    //         else if (sprite instanceof Asteroid)
+    //             incrementScore(10);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     private boolean doesSpaceshipExist() {
         return sprites.stream().anyMatch(sprite -> sprite instanceof Spaceship);
@@ -97,6 +88,23 @@ public class Game {
 
     public boolean isGameOver() {
         return lives == 0 && !doesSpaceshipExist();
+    }
+
+    public void collisionHandler(){
+        Collection<Sprite> newSprites = new ArrayList<>();
+        sprites.stream().forEach((sprite)->{
+            if (!sprite.checkCollision(sprites)){
+                newSprites.add(sprite);
+            }
+            else if (sprite instanceof Asteroid &&((Asteroid) sprite).isNormal()) {
+                incrementScore(20);
+                ((Asteroid) sprite).dwarfAsteroidsBirthed().stream().forEach(dwarf -> newSprites.add(dwarf));
+            }
+            else if (sprite instanceof Asteroid) {
+                incrementScore(10); 
+            }
+        });
+        sprites = newSprites;
     }
 
 }
