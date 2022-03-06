@@ -29,7 +29,6 @@ public class Game {
         //Removes objects when colliding (+ gives points and spawns dwarf asteroids)
         sprites = sprites.stream()
                 .flatMap(sprite -> {
-                    
                     if ((sprite instanceof Laser && !((Laser)sprite).checkOutOfBound() || !(sprite instanceof Laser)) && !sprite.checkCollision(sprites)){
                         return Stream.of(sprite);
                     }
@@ -42,8 +41,6 @@ public class Game {
                     }
                     return null;
                 }).collect(Collectors.toList());
-
-        System.out.println(sprites.toString());
 
         // decreases number of lives when hitting asteroid, and spawns new spaceship if you have more lives left
         if (!doesSpaceshipExist() && lives > 0) {
