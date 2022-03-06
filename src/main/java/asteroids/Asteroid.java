@@ -28,6 +28,7 @@ public class Asteroid extends Sprite {
         dwarfAsteroid.setPosY(y1);
         dwarfAsteroid.setImageURL("asteroids/dwarf_asteroid.png");
         dwarfAsteroid.setImageSize(37, 38);
+        dwarfAsteroid.getVelocity().setLength(1.4);;
         return dwarfAsteroid;
     }
 

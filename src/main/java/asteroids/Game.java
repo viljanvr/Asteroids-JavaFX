@@ -2,7 +2,9 @@ package asteroids;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game {
     private Spaceship spaceship;
@@ -18,17 +20,30 @@ public class Game {
 
     public void gameLoop(long nanotime) {
 
-        // removes collided items (and gives points)
-        collisionHandler();
-
-        // removes lasers that are out of bound
-        setSprites(sprites.stream()
-                .filter(sprite -> !(sprite instanceof Laser) || !((Laser) sprite).checkOutOfBound()).collect(Collectors.toList()));
-
         // updates the position of all the sprites
         sprites.stream().forEach((sprite) -> {
             sprite.updatePosition();
         });
+
+        //Removes lazer out of bounds
+        //Removes objects when colliding (+ gives points and spawns dwarf asteroids)
+        sprites = sprites.stream()
+                .flatMap(sprite -> {
+                    
+                    if ((sprite instanceof Laser && !((Laser)sprite).checkOutOfBound() || !(sprite instanceof Laser)) && !sprite.checkCollision(sprites)){
+                        return Stream.of(sprite);
+                    }
+                    else if (sprite instanceof Asteroid &&((Asteroid) sprite).isNormal()) {
+                        incrementScore(20);
+                        return ((Asteroid) sprite).dwarfAsteroidsBirthed().stream();
+                    }
+                    else if (sprite instanceof Asteroid) {
+                        incrementScore(10); 
+                    }
+                    return null;
+                }).collect(Collectors.toList());
+
+        System.out.println(sprites.toString());
 
         // decreases number of lives when hitting asteroid, and spawns new spaceship if you have more lives left
         if (!doesSpaceshipExist() && lives > 0) {
@@ -37,8 +52,8 @@ public class Game {
             lives -= 1;
         }
 
-        // spawns and asteroid every three seconds (3 000 000 000 in nanoseconds)
-        if (nanotime > lastAsteroidSpawnTime + 3000000000l) {
+        // spawns and asteroid every four seconds (4 000 000 000 in nanoseconds)
+        if (nanotime > lastAsteroidSpawnTime + 4000000000l) {
             sprites.add(new Asteroid(true));
             lastAsteroidSpawnTime = nanotime;
         }
@@ -70,41 +85,12 @@ public class Game {
         return lives;
     }
 
-    // private Boolean collisionHandler(Sprite sprite) {
-    //     if (sprite.checkCollision(sprites)) {
-    //         if (sprite instanceof Asteroid && ((Asteroid) sprite).isNormal()){
-    //             incrementScore(20);
-    //         }
-    //         else if (sprite instanceof Asteroid)
-    //             incrementScore(10);
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     private boolean doesSpaceshipExist() {
         return sprites.stream().anyMatch(sprite -> sprite instanceof Spaceship);
     }
 
     public boolean isGameOver() {
         return lives == 0 && !doesSpaceshipExist();
-    }
-
-    public void collisionHandler(){
-        Collection<Sprite> newSprites = new ArrayList<>();
-        sprites.stream().forEach((sprite)->{
-            if (!sprite.checkCollision(sprites)){
-                newSprites.add(sprite);
-            }
-            else if (sprite instanceof Asteroid &&((Asteroid) sprite).isNormal()) {
-                incrementScore(20);
-                ((Asteroid) sprite).dwarfAsteroidsBirthed().stream().forEach(dwarf -> newSprites.add(dwarf));
-            }
-            else if (sprite instanceof Asteroid) {
-                incrementScore(10); 
-            }
-        });
-        sprites = newSprites;
     }
 
 }
