@@ -2,7 +2,6 @@ package asteroids;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,30 +19,25 @@ public class Game {
 
     public void gameLoop(long nanotime) {
 
-        // updates the position of all the sprites
-        sprites.stream().forEach((sprite) -> {
-            sprite.updatePosition();
-        });
-
-        //Removes lazer out of bounds
-        //Removes objects when colliding (+ gives points and spawns dwarf asteroids)
+        // Removes lazer out of bounds
+        // Removes objects when colliding (+ gives points and spawns dwarf asteroids)
         sprites = sprites.stream()
                 .flatMap(sprite -> {
-                    if ((sprite instanceof Laser && !((Laser)sprite).checkOutOfBound() || !(sprite instanceof Laser)) && !sprite.checkCollision(sprites)){
+                    if (((sprite instanceof Laser && !((Laser) sprite).checkOutOfBound()) || !(sprite instanceof Laser))
+                            && !sprite.checkCollision(sprites)) {
                         return Stream.of(sprite);
-                    }
-                    else if (sprite instanceof Asteroid &&((Asteroid) sprite).isNormal()) {
+                    } else if (sprite instanceof Asteroid && ((Asteroid) sprite).isNormal()) {
                         incrementScore(20);
                         return ((Asteroid) sprite).dwarfAsteroidsBirthed().stream();
-                    }
-                    else if (sprite instanceof Asteroid) {
-                        incrementScore(10); 
+                    } else if (sprite instanceof Asteroid) {
+                        incrementScore(10);
                     }
                     return null;
                 }).collect(Collectors.toList());
 
-        // decreases number of lives when hitting asteroid, and spawns new spaceship if you have more lives left
-        if (!doesSpaceshipExist() && lives > 0) {
+        // decreases number of lives when hitting asteroid, and spawns new spaceship if
+        // you have more lives left
+        if (!sprites.contains(spaceship) && lives > 0) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
             lives -= 1;
@@ -55,6 +49,14 @@ public class Game {
             lastAsteroidSpawnTime = nanotime;
         }
 
+        // updates the position of all the sprites
+        sprites.stream().forEach((sprite) -> {
+            sprite.updatePosition();
+        });
+    }
+
+    public boolean soundEffectHandle() {
+        return sprites.stream().anyMatch(sprite -> sprite instanceof Asteroid && sprite.checkCollision(sprites));
     }
 
     public int getScore() {
@@ -74,20 +76,12 @@ public class Game {
         return sprites;
     }
 
-    public void setSprites(Collection<Sprite> sprites) {
-        this.sprites = sprites;
-    }
-
     public int getLives() {
         return lives;
     }
 
-    private boolean doesSpaceshipExist() {
-        return sprites.stream().anyMatch(sprite -> sprite instanceof Spaceship);
-    }
-
     public boolean isGameOver() {
-        return lives == 0 && !doesSpaceshipExist();
+        return lives == 0 && !sprites.contains(spaceship);
     }
 
 }

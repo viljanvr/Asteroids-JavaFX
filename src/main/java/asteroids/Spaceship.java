@@ -10,15 +10,11 @@ public class Spaceship extends Sprite {
     }
 
     public void rotateLeft() {
-        rotate(-Math.PI / 45);
+        rotation -= Math.PI / 45;
     }
 
     public void rotateRight() {
-        rotate(Math.PI / 45);
-    }
-
-    private void rotate(double angle) {
-        rotation += angle;
+        rotation += Math.PI / 45;
     }
 
     public Sprite shoot() {
