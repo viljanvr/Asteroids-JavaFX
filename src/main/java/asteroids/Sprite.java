@@ -1,8 +1,6 @@
 package asteroids;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collector;
 
 public abstract class Sprite {
 
@@ -35,22 +33,14 @@ public abstract class Sprite {
         return y1;
     }
 
-    public double getX2() {
-        return x2;
+    public void setPosX(double x1) {
+        this.x1 = x1;
+        this.x2 = x1 + imageWidth;
     }
 
-    public double getY2() {
-        return y2;
-    }
-
-    public void setPosX(double x) {
-        this.x1 = x;
-        this.x2 = x + imageWidth;
-    }
-
-    public void setPosY(double y) {
-        this.y1 = y;
-        this.y2 = y + imageWidth;
+    public void setPosY(double y1) {
+        this.y1 = y1;
+        this.y2 = y1 + imageWidth;
     }
 
     public void setImageURL(String imageURL) {
@@ -92,6 +82,13 @@ public abstract class Sprite {
             return false;
     }
 
+    // not currently used but could be for spaceship spawn
+    public boolean contains(int x1, int y1) {
+        if (x1 > this.x1 && x1 < this.x2 && y1 > this.y1 && y1 < this.y2)
+            return true;
+        return false;
+    }
+
     public abstract Boolean checkCollision(Collection<Sprite> list);
 
     public void updatePosition() {
@@ -119,8 +116,4 @@ public abstract class Sprite {
             y2 += AsteroidsController.CanvasHeight + 64;
         }
     }
-
-    public void collect(Collector<Object, ?, List<Object>> list) {
-    }
-
 }

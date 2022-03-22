@@ -4,13 +4,14 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import javafx.scene.canvas.*;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.URISyntaxException;
 
 public class AsteroidsController {
     public static final int CanvasWidth = 800, CanvasHeight = 600;
@@ -21,17 +22,8 @@ public class AsteroidsController {
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
 
     @FXML
-    private AnchorPane background;
-
-    @FXML
-    public Pane gameArea;
-
-    @FXML
     public Canvas canvas = new Canvas(CanvasWidth, CanvasHeight);
     public GraphicsContext gc;
-
-    @FXML
-    private ListView<String> scoreBoard;
 
     @FXML
     private Text currentScore;
@@ -42,8 +34,19 @@ public class AsteroidsController {
     @FXML
     private Text gameStatus;
 
+    Media sound;
+    MediaPlayer mediaPlayer;
+
     // initializes the game
     public void initialize() {
+
+        try {
+            sound = new Media(getClass().getClassLoader().getResource("asteroids/boom.mp3").toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer = new MediaPlayer(sound);
+
         timer = new Timer();
         game = new Game();
 
@@ -161,6 +164,13 @@ public class AsteroidsController {
             gameStatus.setText("new Game");
     }
 
+    private void soundEffectHandle() {
+        if (game.soundEffectHandle()) {
+            mediaPlayer.play();
+            mediaPlayer.seek(Duration.ZERO);
+        }
+    }
+
     // AnimationTimer kjører en gang hver frame.
     private class Timer extends AnimationTimer {
 
@@ -168,6 +178,7 @@ public class AsteroidsController {
         public void handle(long nanotime) {
             gc.fillRect(0, 0, CanvasWidth, CanvasHeight);
 
+            soundEffectHandle();
             game.gameLoop(nanotime);
             updateCurrentScore();
             updateLivesLeft();

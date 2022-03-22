@@ -14,16 +14,8 @@ public class Vector {
         this.y = y;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getLength() {
-        return Math.sqrt(x * x + y * y);
+    public void addXY(double deltaX, double deltaY) {
+        setXY(x + deltaX, y + deltaY);
     }
 
     public void setAngle(double angle) {
@@ -38,8 +30,15 @@ public class Vector {
         }
     }
 
-    public void addXY(double deltaX, double deltaY) {
-        setXY(x + deltaX, y + deltaY);
+    public double getX() {
+        return x;
     }
 
+    public double getY() {
+        return y;
+    }
+
+    public double getLength() {
+        return Math.sqrt(x * x + y * y);
+    }
 }
