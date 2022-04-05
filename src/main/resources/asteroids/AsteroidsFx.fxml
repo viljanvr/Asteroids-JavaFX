@@ -13,21 +13,30 @@
          <children>
             <Canvas fx:id="canvas" height="600.0" layoutX="1.0" layoutY="1.0" width="800.0" />
          </children></Pane>
-      <ListView fx:id="scoreBoard" layoutX="825.0" layoutY="14.0" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="603.0" prefWidth="265.0" style="-fx-background-color: black; -fx-border-color: white;" />
-      <Text fx:id="currentScore" fill="WHITE" layoutX="14.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="231.25473022460938">
+      <Text fx:id="currentScore" fill="WHITE" layoutX="14.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="231.25473022460938">
          <font>
             <Font size="32.0" />
          </font>
       </Text>
-      <Text fx:id="livesLeft" fill="WHITE" layoutX="293.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="231.25473022460938">
+      <Text fx:id="livesLeft" fill="WHITE" layoutX="293.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lives left" wrappingWidth="231.25473022460938">
          <font>
             <Font size="32.0" />
          </font>
       </Text>
-      <Text fx:id="gameStatus" fill="WHITE" layoutX="320.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="231.25473022460938">
+      <Text fx:id="gameStatus" fill="WHITE" layoutX="320.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="231.25473022460938">
          <font>
             <Font size="32.0" />
          </font>
       </Text>
+      <Pane layoutX="825.0" layoutY="15.0" prefHeight="602.0" prefWidth="265.0" style="-fx-border-color: white;">
+         <children>
+            <ListView fx:id="scoreBoard" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="535.0" prefWidth="245.0" style="-fx-border-color: black; -fx-background-color: black;" stylesheets="@listView.css" />
+            <Text fill="WHITE" layoutX="33.0" layoutY="50.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="HIGH SCORES" textAlignment="CENTER">
+               <font>
+                  <Font name="Source Sans Pro Bold" size="33.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

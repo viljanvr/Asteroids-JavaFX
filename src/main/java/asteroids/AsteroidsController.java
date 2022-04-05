@@ -1,25 +1,32 @@
 package asteroids;
 
 import javafx.animation.AnimationTimer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.canvas.*;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AsteroidsController {
+
     public static final int CanvasWidth = 800, CanvasHeight = 600;
     public Timer timer;
     public Game game;
-
     private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
+    Media sound;
+    MediaPlayer mediaPlayer;
 
     @FXML
     public Canvas canvas = new Canvas(CanvasWidth, CanvasHeight);
@@ -34,8 +41,10 @@ public class AsteroidsController {
     @FXML
     private Text gameStatus;
 
-    Media sound;
-    MediaPlayer mediaPlayer;
+    @FXML
+    private ListView<String> scoreBoard;
+
+    
 
     // initializes the game
     public void initialize() {
@@ -46,18 +55,21 @@ public class AsteroidsController {
             e.printStackTrace();
         }
         mediaPlayer = new MediaPlayer(sound);
-
         timer = new Timer();
         game = new Game();
 
+        // start rendering
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, CanvasWidth, CanvasHeight);
 
-        // starter AnimationTimer
+        // starts AnimationTimer
         timer.start();
-
+        
+        updateScoreBoard();
         gameStatus.setText("");
+
+        // keylistener to start new game if game is over
         gameStatus.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && game.isGameOver()) {
                 gameStatus.setText("");
@@ -70,48 +82,24 @@ public class AsteroidsController {
     @FXML
     public void keyPressed(KeyEvent event) {
         switch (event.getCode()) {
-            case UP:
-                UPpressed = true;
-                break;
-            case DOWN:
-                DOWNpressed = true;
-                break;
-            case LEFT:
-                LEFTpressed = true;
-                break;
-            case RIGHT:
-                RIGHTpressed = true;
-                break;
-            case SPACE:
-                SPACEpressed = true;
-                break;
-            default:
-                break;
+            case UP -> UPpressed = true;
+            case DOWN ->DOWNpressed = true;
+            case LEFT -> LEFTpressed = true;
+            case RIGHT -> RIGHTpressed = true;
+            case SPACE -> SPACEpressed = true;
+            default -> {}
         }
     }
 
     @FXML
     public void keyReleased(KeyEvent event) {
         switch (event.getCode()) {
-            case UP:
-                UPpressed = false;
-                break;
-            case DOWN:
-                DOWNpressed = false;
-                DOWNreleased = true;
-                break;
-            case LEFT:
-                LEFTpressed = false;
-                break;
-            case RIGHT:
-                RIGHTpressed = false;
-                break;
-            case SPACE:
-                SPACEpressed = false;
-                SPACEreleased = true;
-                break;
-            default:
-                break;
+            case UP -> UPpressed = false;
+            case DOWN -> {DOWNpressed = false; DOWNreleased = true;}
+            case LEFT -> LEFTpressed = false;
+            case RIGHT -> RIGHTpressed = false;
+            case SPACE -> {SPACEpressed = false; SPACEreleased = true;}
+            default -> {}
         }
     }
 
@@ -137,20 +125,20 @@ public class AsteroidsController {
     public void renderSprite(Sprite sprite) {
         gc.save();
 
-        // Setter bildet på riktig koordinat.
+        // Places the image on the correct coordinate
         gc.translate(sprite.getPosX(), sprite.getPosY());
 
-        // Roterer bilde riktig vei
+        // Rotates the image
         gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
         gc.rotate(Math.toDegrees(sprite.getRotation()));
         gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
 
-        // Tegner bildet.
+        // Draws the image
         gc.drawImage(new Image(sprite.getImageURL()), 0, 0);
         gc.restore();
     }
 
-    // BURDE ENDRES SLIK AT DET IKKE KJØRES LIKE OFTE
+    
     private void updateCurrentScore() {
         currentScore.setText("Score: " + game.getScore());
     }
@@ -159,9 +147,22 @@ public class AsteroidsController {
         livesLeft.setText(game.getLives() + " lives left");
     }
 
-    private void showGameStatus() {
-        if (game.isGameOver())
-            gameStatus.setText("new Game");
+    private void updateScoreBoard(){
+        HashMap <String, Integer> highScores = new HashMap<>();
+        highScores.put("Viljan", 1000);
+        highScores.put("Jakob", 500);
+        ObservableList<String> scores = FXCollections.observableArrayList();
+        for (String player: highScores.keySet()){
+            scores.add(player + ": " + highScores.get(player));
+        }
+        scoreBoard.setItems(scores);
+    }
+
+    private void gameOverHandele() {
+        if (game.isGameOver()){
+            gameStatus.setText("New Game");
+            updateScoreBoard();
+        }
     }
 
     private void soundEffectHandle() {
@@ -171,7 +172,7 @@ public class AsteroidsController {
         }
     }
 
-    // AnimationTimer kjører en gang hver frame.
+    // AnimationTimer runs once every frame
     private class Timer extends AnimationTimer {
 
         @Override
@@ -182,7 +183,7 @@ public class AsteroidsController {
             game.gameLoop(nanotime);
             updateCurrentScore();
             updateLivesLeft();
-            showGameStatus();
+            gameOverHandele();
 
             // renders all the objects on screen
             game.getSprites().stream().forEach((sprite) -> {

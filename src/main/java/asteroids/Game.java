@@ -26,9 +26,9 @@ public class Game {
                     if (((sprite instanceof Laser && !((Laser) sprite).checkOutOfBound()) || !(sprite instanceof Laser))
                             && !sprite.checkCollision(sprites)) {
                         return Stream.of(sprite);
-                    } else if (sprite instanceof Asteroid && ((Asteroid) sprite).isNormal()) {
+                    } else if (sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()) {
                         incrementScore(20);
-                        return ((Asteroid) sprite).dwarfAsteroidsBirthed().stream();
+                        return ((Asteroid) sprite).splitLargeAsteroid().stream();
                     } else if (sprite instanceof Asteroid) {
                         incrementScore(10);
                     }

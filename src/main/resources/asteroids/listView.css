@@ -1,0 +1,7 @@
+.list-view .list-cell {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-size:15.0;
+    -fx-font-family: "Source Sans Pro Regular";
+
+    }
