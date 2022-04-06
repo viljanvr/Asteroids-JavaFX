@@ -5,35 +5,40 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.HashMap;
+import javafx.util.Pair;
 
 public class ScoreBoard implements SaveHandler{
 
-    private HashMap<String, Integer> highScores = new HashMap<>();
+    private List<Pair<String, Integer>> highScores = new ArrayList<>();
+
+    // public ScoreBoard() {
+    //     highScores = 
+    // }
 
     public void addScore(String player, int score){
-        highScores.put(player, score);
+        highScores.add(new Pair<>(player, score));
+        sort();
+        save("score_saves");
     }
 
-    public HashMap<String, Integer> getHighScores(){
+    public List<Pair<String, Integer>> getHighScores(){
         return highScores;
     }
 
     @Override
-    public void save(String filename) throws IOException {
+    public void save(String filename){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(filename)))) {
-            for(String entry : getSortedList()){
-                writer.write(entry+"\n");
-                System.out.println(entry); 
+            for(Pair<String, Integer> entry : highScores){
+                writer.write(entry.getKey() + ":"+ entry.getValue() +"\n");
+                // System.out.println(entry.getKey() + ":"+ entry.getValue() +"\n");
             }
             writer.close();  
         } catch (IOException e) {
-            throw e;
+            return;
         }
     }
 
@@ -43,23 +48,20 @@ public class ScoreBoard implements SaveHandler{
     }
 
     @Override
-    public Game load(String filename) throws FileNotFoundException {
+    public List<String> load(String filename) throws FileNotFoundException {
         // TODO Auto-generated method stub
         return null;
     }
 
     
 
-    public List<String> getSortedList(){
-        List<Entry<String, Integer>> list = new ArrayList<>(highScores.entrySet());
-        list.sort(Entry.comparingByValue(Comparator.reverseOrder()));
-        
-        List<String> sortedScores = new ArrayList<>();
-        
-        for (Entry<String, Integer> score: list){
-            sortedScores.add(score.getKey() + ": " + score.getValue());
-        }
-        return sortedScores;
+    public void sort(){
+        Collections.sort(highScores, new Comparator<Pair<String, Integer>>() {
+            @Override
+            public int compare(Pair<String, Integer> o1, Pair<String, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
     }
 
 
@@ -69,11 +71,10 @@ public class ScoreBoard implements SaveHandler{
         scoreBoard.addScore("Viljan", 10000);
         scoreBoard.addScore("Arash", 6000);
         scoreBoard.addScore("Jakob", 21000);
-        try {
-            scoreBoard.save("save");
-        } catch (IOException e) {
-            System.out.println("Fil ikke funnet");;
-        }
+        scoreBoard.addScore("Viljan", 500);
+        scoreBoard.addScore("Jennie", 265);
+        scoreBoard.addScore("Didrik", 8999);
+        scoreBoard.addScore("Iver", 12500);
         
     }
 
