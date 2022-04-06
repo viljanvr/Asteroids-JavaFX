@@ -1,28 +1,38 @@
 package asteroids;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
 public class ScoreBoard implements SaveHandler{
 
     private List<Pair<String, Integer>> highScores = new ArrayList<>();
+    private String fileName;
 
-    // public ScoreBoard() {
-    //     highScores = 
-    // }
+
+    public ScoreBoard(String fileName) {
+        this.fileName = fileName;
+        highScores = load();
+    }
 
     public void addScore(String player, int score){
         highScores.add(new Pair<>(player, score));
         sort();
-        save("score_saves");
+        save();
     }
 
     public List<Pair<String, Integer>> getHighScores(){
@@ -30,30 +40,32 @@ public class ScoreBoard implements SaveHandler{
     }
 
     @Override
-    public void save(String filename){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(filename)))) {
+    public void save(){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath()))) {
             for(Pair<String, Integer> entry : highScores){
                 writer.write(entry.getKey() + ":"+ entry.getValue() +"\n");
-                // System.out.println(entry.getKey() + ":"+ entry.getValue() +"\n");
             }
-            writer.close();  
+            writer.close();
         } catch (IOException e) {
             return;
-        }
+        } 
     }
 
-    private String getFilePath(String filename) {
-        return SaveHandler.class.getResource("saves/").getFile()+filename+".txt";
+    private String getFilePath() {
+        return SaveHandler.class.getResource("saves/").getFile()+fileName+".txt";
 
     }
 
     @Override
-    public List<String> load(String filename) throws FileNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Pair<String, Integer>> load() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
+            List<Pair<String, Integer>> list = reader.lines().map(element -> element.split(":")).map(element -> new Pair<String, Integer>(element[0], Integer.parseInt(element[1]))).collect(Collectors.toList());
+            reader.close();
+            return list;
+        } catch (IOException e) {
+            return null;
+        }
     }
-
-    
 
     public void sort(){
         Collections.sort(highScores, new Comparator<Pair<String, Integer>>() {
@@ -64,19 +76,20 @@ public class ScoreBoard implements SaveHandler{
         });
     }
 
-
-
-    public static void main(String[] args){
-        ScoreBoard scoreBoard = new ScoreBoard();
-        scoreBoard.addScore("Viljan", 10000);
-        scoreBoard.addScore("Arash", 6000);
-        scoreBoard.addScore("Jakob", 21000);
-        scoreBoard.addScore("Viljan", 500);
-        scoreBoard.addScore("Jennie", 265);
-        scoreBoard.addScore("Didrik", 8999);
-        scoreBoard.addScore("Iver", 12500);
-        
+    public ObservableList<String> getScores(){
+        ObservableList<String> scores = FXCollections.observableArrayList();
+        highScores.stream().forEach(element -> scores.add(element.getKey() + " : " + element.getValue()));
+        return scores;
     }
+
+    public String toString(){
+        String string = "";
+        for (Pair<String, Integer> element : highScores){
+            string += element.getKey() + " : " + element.getValue() + "\n";
+        }
+        return string;
+    }
+
 
 
     

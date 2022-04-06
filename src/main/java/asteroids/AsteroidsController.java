@@ -27,6 +27,8 @@ public class AsteroidsController {
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
     Media sound;
     MediaPlayer mediaPlayer;
+    ScoreBoard scoreBoard;
+    Boolean gameOverHandleAlreadyExecuted = false;
 
     @FXML
     public Canvas canvas = new Canvas(CanvasWidth, CanvasHeight);
@@ -42,7 +44,7 @@ public class AsteroidsController {
     private Text gameStatus;
 
     @FXML
-    private ListView<String> scoreBoard;
+    private ListView<String> scoreBoardList;
 
     
 
@@ -54,9 +56,14 @@ public class AsteroidsController {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
         mediaPlayer = new MediaPlayer(sound);
         timer = new Timer();
         game = new Game();
+        scoreBoard = new ScoreBoard("score_saves");
+
+        // loads scoreboard from file and updates view
+        updateScoreBoard();
 
         // start rendering
         gc = canvas.getGraphicsContext2D();
@@ -65,13 +72,11 @@ public class AsteroidsController {
 
         // starts AnimationTimer
         timer.start();
-        
-        updateScoreBoard();
-        gameStatus.setText("");
 
         // keylistener to start new game if game is over
         gameStatus.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && game.isGameOver()) {
+                gameOverHandleAlreadyExecuted = false;
                 gameStatus.setText("");
                 game = new Game();
             }
@@ -148,20 +153,15 @@ public class AsteroidsController {
     }
 
     private void updateScoreBoard(){
-        HashMap <String, Integer> highScores = new HashMap<>();
-        highScores.put("Viljan", 1000);
-        highScores.put("Jakob", 500);
-        ObservableList<String> scores = FXCollections.observableArrayList();
-        for (String player: highScores.keySet()){
-            scores.add(player + ": " + highScores.get(player));
-        }
-        scoreBoard.setItems(scores);
+        scoreBoardList.setItems(scoreBoard.getScores());
     }
 
-    private void gameOverHandele() {
-        if (game.isGameOver()){
+    private void gameOverHandel() {
+        if (!gameOverHandleAlreadyExecuted && game.isGameOver()){
             gameStatus.setText("New Game");
+            scoreBoard.addScore("Player", game.getScore());
             updateScoreBoard();
+            gameOverHandleAlreadyExecuted = true;
         }
     }
 
@@ -183,7 +183,7 @@ public class AsteroidsController {
             game.gameLoop(nanotime);
             updateCurrentScore();
             updateLivesLeft();
-            gameOverHandele();
+            gameOverHandel();
 
             // renders all the objects on screen
             game.getSprites().stream().forEach((sprite) -> {
