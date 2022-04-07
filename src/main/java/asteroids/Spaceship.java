@@ -5,8 +5,12 @@ import java.util.Collection;
 
 public class Spaceship extends Sprite {
 
+    private String ThrustImageURL;
+    private Boolean thrust = false;
+
     public Spaceship() {
-        super(200, 200, 39, 23, "asteroids/spaceship.png");
+        super(400, 300, 39, 23, "asteroids/spaceship.png");
+        ThrustImageURL = "asteroids/spaceship-thrust.png";
     }
 
     public void rotateLeft() {
@@ -25,11 +29,21 @@ public class Spaceship extends Sprite {
     }
 
     public void thrust() {
+        thrust = true;
         velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
     }
 
     private void aeroBrake() {
         velocity.addXY(-0.02 * velocity.getX(), -0.02 * velocity.getY());
+    }
+
+    @Override
+    public String getImageURL() {
+        if (thrust){
+            thrust = false;
+            return ThrustImageURL;
+        }
+        return imageURL;
     }
 
     @Override

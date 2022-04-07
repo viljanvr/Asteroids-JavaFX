@@ -14,7 +14,10 @@ public class Game {
 
     public Game() {
         spaceship = new Spaceship();
-        sprites.add(spaceship); // why doesn't new Spaceship work here??
+
+        //spawns in inital asteroid and spaceship
+        sprites.add(spaceship); 
+        sprites.add(new Asteroid(true));
     }
 
     public void gameLoop(long nanotime) {
@@ -43,8 +46,8 @@ public class Game {
             lives -= 1;
         }
 
-        // spawns and asteroid every four seconds (4 000 000 000 in nanoseconds)
-        if (nanotime > lastAsteroidSpawnTime + 4000000000l) {
+        // spawns and asteroid every six seconds (6 000 000 000 in nanoseconds)
+        if (nanotime > lastAsteroidSpawnTime + 6000000000l) {
             sprites.add(new Asteroid(true));
             lastAsteroidSpawnTime = nanotime;
         }

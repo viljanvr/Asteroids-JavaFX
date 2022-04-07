@@ -46,13 +46,17 @@ public class ScoreBoard implements SaveHandler{
                 writer.write(entry.getKey() + ":"+ entry.getValue() +"\n");
             }
             writer.close();
-        } catch (IOException e) {
-            return;
+        } catch (FileNotFoundException e){
+            new File(SaveHandler.class.getResource("").getFile()+"saves").mkdir();
+            save();
         } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getFilePath() {
-        return SaveHandler.class.getResource("saves/").getFile()+fileName+".txt";
+        return SaveHandler.class.getResource("").getFile()+"saves/"+fileName+".txt";
 
     }
 
@@ -62,7 +66,12 @@ public class ScoreBoard implements SaveHandler{
             List<Pair<String, Integer>> list = reader.lines().map(element -> element.split(":")).map(element -> new Pair<String, Integer>(element[0], Integer.parseInt(element[1]))).collect(Collectors.toList());
             reader.close();
             return list;
-        } catch (IOException e) {
+        } catch (FileNotFoundException e){
+            new File(SaveHandler.class.getResource("").getFile()+"saves").mkdir();
+            return new ArrayList<>();
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
