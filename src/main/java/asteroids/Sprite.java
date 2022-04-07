@@ -7,7 +7,7 @@ public abstract class Sprite {
     protected double x1, y1, x2, y2, rotation;
     protected Vector velocity;
     private int imageWidth, imageHeight;
-    private String imageURL;
+    protected String imageURL;
 
     public Sprite(double x1, double y1, int imageWidth, int imageHeight, String imagePath) {
         this.imageURL = imagePath;
