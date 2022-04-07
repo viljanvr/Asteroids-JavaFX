@@ -6,11 +6,11 @@ import java.util.Collection;
 
 public class Asteroid extends Sprite {
 
-    private boolean isNormal;
+    private boolean isLarge;
 
-    public Asteroid(boolean isNormal) {
+    public Asteroid(boolean isLarge) {
         super(-64, -64, 54, 55, "asteroids/asteroid.png");
-        this.isNormal = isNormal;
+        this.isLarge = isLarge;
 
         // spawns at the top-side of the canvas
         if (Math.random() < 0.5)
@@ -22,7 +22,7 @@ public class Asteroid extends Sprite {
         getVelocity().setAngle(Math.random() * 6.28);
     }
 
-    private Asteroid birthDwarfAsteroid(int x1, int y1) {
+    private Asteroid spawnDwarfAsteroid(int x1, int y1) {
         Asteroid dwarfAsteroid = new Asteroid(false);
         dwarfAsteroid.setPosX(x1);
         dwarfAsteroid.setPosY(y1);
@@ -32,11 +32,11 @@ public class Asteroid extends Sprite {
         return dwarfAsteroid;
     }
 
-    public Collection<Sprite> dwarfAsteroidsBirthed() {
+    public Collection<Sprite> splitLargeAsteroid() {
         Collection<Sprite> list = new ArrayList<>();
-        list.add(birthDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
-        list.add(birthDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
-        list.add(birthDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
+        list.add(spawnDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
+        list.add(spawnDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
+        list.add(spawnDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
         return list;
     }
 
@@ -51,8 +51,8 @@ public class Asteroid extends Sprite {
                 .anyMatch(sprite -> this.contains(sprite));
     }
 
-    public boolean isNormal() {
-        return isNormal;
+    public boolean isLarge() {
+        return isLarge;
     }
 
 }
