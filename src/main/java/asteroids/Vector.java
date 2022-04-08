@@ -3,6 +3,7 @@ package asteroids;
 import java.lang.Math;
 
 public class Vector {
+
     private double x, y;
 
     public Vector(double x, double y) {
@@ -19,15 +20,14 @@ public class Vector {
     }
 
     public void setAngle(double angle) {
-        this.setXY(Math.cos(angle) * getLength(), Math.sin(angle) * getLength());
+        setXY(Math.cos(angle) * getLength(), Math.sin(angle) * getLength());
     }
 
     public void setLength(double length) {
-        if (getLength() == 0) {
+        if (getLength() == 0)
             setXY(length, 0);
-        } else {
+        else
             setXY(x / getLength() * length, y / getLength() * length);
-        }
     }
 
     public double getX() {

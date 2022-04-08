@@ -6,37 +6,27 @@ import java.util.Collection;
 
 public class Asteroid extends Sprite {
 
-    private boolean isLarge;
+    public static double randomNumber = Math.random();
 
-    public Asteroid(boolean isLarge) {
-        super(-64, -64, 54, 55, "asteroids/asteroid.png");
-        this.isLarge = isLarge;
+    // Constructor for Large Asteroids
+    public Asteroid() {
+        super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -64,
+                randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -64,
+                1, Math.random() * 6.28, 54, 55,
+                "asteroids/asteroid.png");
 
-        // spawns at the top-side of the canvas
-        if (Math.random() < 0.5)
-            setPosY(Math.random() * AsteroidsController.CanvasHeight);
-        // spawns at the left-side of the canvas
-        else
-            setPosX(Math.random() * AsteroidsController.CanvasWidth);
-        getVelocity().setLength(1);
-        getVelocity().setAngle(Math.random() * 6.28);
     }
 
-    private Asteroid spawnDwarfAsteroid(int x1, int y1) {
-        Asteroid dwarfAsteroid = new Asteroid(false);
-        dwarfAsteroid.setPosX(x1);
-        dwarfAsteroid.setPosY(y1);
-        dwarfAsteroid.setImageURL("asteroids/dwarf_asteroid.png");
-        dwarfAsteroid.setImageSize(37, 38);
-        dwarfAsteroid.getVelocity().setLength(1.4);
-        return dwarfAsteroid;
+    // Constructor for Dwarf Asteroids
+    public Asteroid(int x1, int y1) {
+        super(x1, y1, 1.4, Math.random() * 6.28, 37, 38, "asteroids/dwarf_asteroid.png");
     }
 
     public Collection<Sprite> splitLargeAsteroid() {
         Collection<Sprite> list = new ArrayList<>();
-        list.add(spawnDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
-        list.add(spawnDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
-        list.add(spawnDwarfAsteroid((int) this.getPosX(), (int) this.getPosY()));
+        list.add(new Asteroid((int) getPosX(), (int) getPosY()));
+        list.add(new Asteroid((int) getPosX(), (int) getPosY()));
+        list.add(new Asteroid((int) getPosX(), (int) getPosY()));
         return list;
     }
 
@@ -48,11 +38,10 @@ public class Asteroid extends Sprite {
 
     public Boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> (sprite instanceof Laser || sprite instanceof Spaceship))
-                .anyMatch(sprite -> this.contains(sprite));
+                .anyMatch(sprite -> this.containsSprite(sprite));
     }
 
-    public boolean isLarge() {
-        return isLarge;
+    public Boolean isLarge() {
+        return getVelocity().getLength() == 1;
     }
-
 }
