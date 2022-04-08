@@ -5,12 +5,11 @@ import java.util.Collection;
 
 public class Spaceship extends Sprite {
 
-    private String ThrustImageURL;
-    private Boolean thrust = false;
+    private final String THRUSTIMAGEURL = "asteroids/spaceship-thrust.png";
+    private Boolean showThrust = false;
 
     public Spaceship() {
-        super(400, 300, 39, 23, "asteroids/spaceship.png");
-        ThrustImageURL = "asteroids/spaceship-thrust.png";
+        super(400, 300, 0, 0, 39, 23, "asteroids/spaceship.png");
     }
 
     public void rotateLeft() {
@@ -22,14 +21,11 @@ public class Spaceship extends Sprite {
     }
 
     public Sprite shoot() {
-        Sprite laser = new Laser(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2);
-        laser.getVelocity().setLength(getVelocity().getLength() + 4);
-        laser.getVelocity().setAngle(getRotation());
-        return laser;
+        return new Laser(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2, getRotation());
     }
 
     public void thrust() {
-        thrust = true;
+        showThrust = true;
         velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
     }
 
@@ -39,11 +35,11 @@ public class Spaceship extends Sprite {
 
     @Override
     public String getImageURL() {
-        if (thrust){
-            thrust = false;
-            return ThrustImageURL;
+        if (showThrust) {
+            showThrust = false;
+            return THRUSTIMAGEURL;
         }
-        return imageURL;
+        return IMAGEURL;
     }
 
     @Override
@@ -51,12 +47,11 @@ public class Spaceship extends Sprite {
         super.updatePosition();
         wrap();
         aeroBrake();
-
     }
 
     public Boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> sprite instanceof Asteroid)
-                .anyMatch(asteroid -> this.contains(asteroid));
+                .anyMatch(asteroid -> this.containsSprite(asteroid));
     }
 
 }

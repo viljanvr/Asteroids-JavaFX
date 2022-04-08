@@ -6,24 +6,24 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Game {
-    private Spaceship spaceship;
+
+    private Spaceship spaceship = new Spaceship();
     private Collection<Sprite> sprites = new ArrayList<>();
-    private int score = 0;
-    private int lives = 3;
+    private int score = 0, lives = 3;
     private long lastAsteroidSpawnTime = 0;
 
     public Game() {
-        spaceship = new Spaceship();
 
-        //spawns in inital asteroid and spaceship
-        sprites.add(spaceship); 
-        sprites.add(new Asteroid(true));
+        // spawns in inital asteroid and spaceship
+        // TODO: why the asteroid?
+        sprites.add(spaceship);
+        sprites.add(new Asteroid());
     }
 
     public void gameLoop(long nanotime) {
 
-        // Removes lazer out of bounds
-        // Removes objects when colliding (+ gives points and spawns dwarf asteroids)
+        // Removes lazer out of bounds and collided objects
+        // gives points and spawns dwarf asteroids
         sprites = sprites.stream()
                 .flatMap(sprite -> {
                     if (((sprite instanceof Laser && !((Laser) sprite).checkOutOfBound()) || !(sprite instanceof Laser))
@@ -40,7 +40,8 @@ public class Game {
 
         // decreases number of lives when hitting asteroid, and spawns new spaceship if
         // you have more lives left
-        if (!sprites.contains(spaceship) && lives > 0) {
+        if (!sprites.contains(spaceship) && lives > 0
+                && !sprites.stream().anyMatch(sprite -> sprite.containsCoordinate(410, 310))) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
             lives -= 1;
@@ -48,7 +49,7 @@ public class Game {
 
         // spawns and asteroid every six seconds (6 000 000 000 in nanoseconds)
         if (nanotime > lastAsteroidSpawnTime + 6000000000l) {
-            sprites.add(new Asteroid(true));
+            sprites.add(new Asteroid());
             lastAsteroidSpawnTime = nanotime;
         }
 
@@ -66,11 +67,6 @@ public class Game {
         return score;
     }
 
-    public void incrementScore(int score) {
-        this.score += score;
-
-    }
-
     public Spaceship getSpaceship() {
         return spaceship;
     }
@@ -85,6 +81,10 @@ public class Game {
 
     public boolean isGameOver() {
         return lives == 0 && !sprites.contains(spaceship);
+    }
+
+    private void incrementScore(int score) {
+        this.score += score;
     }
 
 }
