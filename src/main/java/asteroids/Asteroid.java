@@ -6,10 +6,12 @@ import java.util.Collection;
 
 public class Asteroid extends Sprite {
 
-    public static double randomNumber = Math.random();
-
-    // Constructor for Large Asteroids
     public Asteroid() {
+        this(Math.random());
+    }
+
+    // Constructor for Large Asteroids.
+    private Asteroid(double randomNumber) {
         super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -64,
                 randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -64,
                 1, Math.random() * 6.28, 54, 55,

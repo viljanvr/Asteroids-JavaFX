@@ -9,13 +9,13 @@ public abstract class Sprite {
     private final int IMAGEWIDTH, IMAGEHEIGHT;
     protected final String IMAGEURL;
 
-    public Sprite(double x1, double y1, double speed, double angle, int imageWidth, int imageHeight, String IMAGEURL) {
+    public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight, String IMAGEURL) {
         this.IMAGEURL = IMAGEURL;
         this.IMAGEWIDTH = imageWidth;
         this.IMAGEHEIGHT = imageHeight;
 
         getVelocity().setLength(speed);
-        getVelocity().setAngle(angle);
+        getVelocity().setAngle(speedDirection);
         setPosX(x1);
         setPosY(y1);
     }
