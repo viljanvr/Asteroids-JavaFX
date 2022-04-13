@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'Hyperspace';
+    font-style: normal;
+    src: url('hyperspace/Hyperspace.otf');
+}
+
+@font-face {
+    font-family: 'Hyperspace';
+    font-weight: bold;
+    font-style: normal;
+    src: url('hyperspace/HyperspaceBold.otf');
+}
+
+.text {
+    -fx-font-family: "Hyperspace";
+}
+
 .list-view .list-cell {
     -fx-background-color: black;
     -fx-text-fill: white;
@@ -5,3 +22,7 @@
     -fx-font-family: "Source Sans Pro Regular";
 
     }
+
+.text-input {
+    -fx-text-fill: white;
+}

@@ -6,6 +6,7 @@ import javafx.scene.paint.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.canvas.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -45,6 +46,9 @@ public class AsteroidsController {
     @FXML
     private TextField playerName;
 
+    @FXML
+    private Button saveButton;
+
     // initializes the game
     public void initialize() {
 
@@ -59,6 +63,7 @@ public class AsteroidsController {
         game = new Game();
         scoreBoard = new ScoreBoard();
         playerName.setDisable(true);
+        saveButton.setDisable(true);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -88,6 +93,8 @@ public class AsteroidsController {
             scoreBoard.addScore(playerName.getText(), game.getScore());
             updateScoreBoard();
             playerName.setDisable(true);
+            saveButton.setDisable(true);
+
         }
     }
 
@@ -178,6 +185,7 @@ public class AsteroidsController {
             gameStatus.setText("New Game");
             gameOverHandleAlreadyExecuted = true;
             playerName.setDisable(false);
+            saveButton.setDisable(false);
         }
     }
 
