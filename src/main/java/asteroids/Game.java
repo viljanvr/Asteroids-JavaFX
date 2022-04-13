@@ -41,7 +41,7 @@ public class Game {
         // decreases number of lives when hitting asteroid, and spawns new spaceship if
         // you have more lives left
         if (!sprites.contains(spaceship) && lives > 0
-                && !sprites.stream().anyMatch(sprite -> sprite.containsCoordinate(410, 310))) {
+        && !sprites.stream().filter(sprite -> sprite instanceof Asteroid).anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
             lives -= 1;
