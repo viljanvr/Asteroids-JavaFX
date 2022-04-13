@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.canvas.*;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -17,9 +18,9 @@ import java.net.URISyntaxException;
 public class AsteroidsController {
 
     public static final int CANVASWIDTH = 800, CANVASHEIGHT = 600;
-    public Timer timer;
-    public Game game;
-    public GraphicsContext gc;
+    private Timer timer;
+    private Game game;
+    private GraphicsContext gc;
     private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, gameOverHandleAlreadyExecuted = false;;
     Media sound;
@@ -27,7 +28,7 @@ public class AsteroidsController {
     ScoreBoard scoreBoard;
 
     @FXML
-    public Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
+    private Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
 
     @FXML
     private Text currentScore;
@@ -40,6 +41,9 @@ public class AsteroidsController {
 
     @FXML
     private ListView<String> scoreBoardList;
+
+    @FXML
+    private TextField playerName;
 
     // initializes the game
     public void initialize() {
@@ -54,6 +58,7 @@ public class AsteroidsController {
         timer = new Timer();
         game = new Game();
         scoreBoard = new ScoreBoard();
+        playerName.setDisable(true);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -75,6 +80,15 @@ public class AsteroidsController {
             }
         });
 
+    }
+
+    @FXML
+    void handleSave() {
+        if (!playerName.isDisable() && gameOverHandleAlreadyExecuted) {
+            scoreBoard.addScore(playerName.getText(), game.getScore());
+            updateScoreBoard();
+            playerName.setDisable(true);
+        }
     }
 
     @FXML
@@ -162,9 +176,8 @@ public class AsteroidsController {
     private void gameOverHandel() {
         if (!gameOverHandleAlreadyExecuted && game.isGameOver()) {
             gameStatus.setText("New Game");
-            scoreBoard.addScore("Player", game.getScore());
-            updateScoreBoard();
             gameOverHandleAlreadyExecuted = true;
+            playerName.setDisable(false);
         }
     }
 

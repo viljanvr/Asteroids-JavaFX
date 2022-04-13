@@ -15,7 +15,6 @@ public class Game {
     public Game() {
 
         // spawns in inital asteroid and spaceship
-        // TODO: why the asteroid?
         sprites.add(spaceship);
         sprites.add(new Asteroid());
     }
@@ -39,7 +38,8 @@ public class Game {
                 }).collect(Collectors.toList());
 
         // decreases number of lives when hitting asteroid, and spawns new spaceship if
-        // you have more lives left
+        // you have more lives left and if no asteroids are in vacinity of the spawning
+        // area
         if (!sprites.contains(spaceship) && lives > 0
         && !sprites.stream().filter(sprite -> sprite instanceof Asteroid).anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))) {
             spaceship = new Spaceship();
