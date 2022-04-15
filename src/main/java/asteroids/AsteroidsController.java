@@ -24,9 +24,9 @@ public class AsteroidsController {
     private GraphicsContext gc;
     private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, gameOverHandleAlreadyExecuted = false;;
-    Media sound;
-    MediaPlayer mediaPlayer;
-    ScoreBoard scoreBoard;
+    private Media sound;
+    private MediaPlayer mediaPlayer;
+    private ScoreBoard scoreBoard;
 
     @FXML
     private Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
@@ -88,7 +88,7 @@ public class AsteroidsController {
     }
 
     @FXML
-    void handleSave() {
+    public void handleSave() {
         if (!playerName.isDisable() && gameOverHandleAlreadyExecuted) {
             scoreBoard.addScore(playerName.getText(), game.getScore());
             updateScoreBoard();
@@ -130,7 +130,7 @@ public class AsteroidsController {
         }
     }
 
-    public void spaceshipAction(Spaceship spaceship) {
+    private void spaceshipAction(Spaceship spaceship) {
         if (this.UPpressed)
             spaceship.thrust();
         if (this.LEFTpressed)

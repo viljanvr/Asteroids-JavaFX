@@ -66,7 +66,7 @@ public class ScoreBoard implements SaveHandler {
     }
 
     public ObservableList<String> getScores() {
-        return highScores.stream().map(element -> highScores.indexOf(element)+1 + ".  " + element.getKey() + ": " + element.getValue())
+        return highScores.stream().map(element -> highScores.indexOf(element)+1 + ". " + element.getKey() + ": " + element.getValue())
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 

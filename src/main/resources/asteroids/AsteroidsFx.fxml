@@ -22,7 +22,7 @@
       </Text>
       <Text fx:id="livesLeft" fill="WHITE" layoutX="352.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Lives left" wrappingWidth="333.7642517089844">
          <font>
-            <Font name="Source Sans Pro" size="32.0" />
+            <Font size="32.0" />
          </font>
       </Text>
       <Text fx:id="gameStatus" fill="WHITE" layoutX="320.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="" textAlignment="CENTER" wrappingWidth="231.25473022460938">
@@ -32,7 +32,7 @@
       </Text>
       <Pane layoutX="825.0" layoutY="15.0" prefHeight="602.0" prefWidth="265.0" style="-fx-border-color: white;">
          <children>
-            <ListView fx:id="scoreBoardList" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="535.0" prefWidth="245.0" style="-fx-border-color: black; -fx-background-color: black;" stylesheets="@listView.css" />
+            <ListView fx:id="scoreBoardList" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="535.0" prefWidth="245.0" style="-fx-border-color: black; -fx-background-color: black;" stylesheets="@Asteroids.css" />
             <Text fill="WHITE" layoutX="26.0" layoutY="44.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="HIGH SCORES" textAlignment="CENTER">
                <font>
                   <Font name="Source Sans Pro Bold" size="33.0" />
@@ -40,10 +40,10 @@
             </Text>
          </children>
       </Pane>
-      <TextField fx:id="playerName" layoutX="825.0" layoutY="629.0" prefHeight="30.0" prefWidth="210.0" promptText="name" style="-fx-background-color: black; -fx-border-color: white;" stylesheets="@listView.css" text="">
+      <TextField fx:id="playerName" layoutX="825.0" layoutY="629.0" prefHeight="30.0" prefWidth="204.0" promptText="name" style="-fx-background-color: black; -fx-border-color: white;" text="">
          <font>
             <Font name="Source Sans Pro" size="13.0" />
          </font></TextField>
-      <Button fx:id="saveButton" layoutX="1045.0" layoutY="630.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="28.0" prefWidth="45.0" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 0;" text="save" />
+      <Button fx:id="saveButton" layoutX="1038.0" layoutY="630.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="29.0" prefWidth="52.0" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 0; -fx-font-family: Hyperspace; -fx-font-weight: bold;" text="save" textOverrun="CLIP" />
    </children>
 </AnchorPane>

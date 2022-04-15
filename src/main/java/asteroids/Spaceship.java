@@ -39,7 +39,7 @@ public class Spaceship extends Sprite {
             showThrust = false;
             return THRUSTIMAGEURL;
         }
-        return IMAGEURL;
+        return super.getImageURL();
     }
 
     @Override

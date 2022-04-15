@@ -7,7 +7,7 @@ public abstract class Sprite {
     protected double x1, y1, x2, y2, rotation;
     protected Vector velocity = new Vector(0, 0);
     private final int IMAGEWIDTH, IMAGEHEIGHT;
-    protected final String IMAGEURL;
+    private final String IMAGEURL;
 
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight, String IMAGEURL) {
         this.IMAGEURL = IMAGEURL;
@@ -49,7 +49,7 @@ public abstract class Sprite {
         y2 = y1 + IMAGEHEIGHT;
     }
 
-    public void wrap() {
+    protected void wrap() {
         if (x1 > AsteroidsController.CANVASWIDTH) {
             x1 -= AsteroidsController.CANVASWIDTH + 64;
             x2 -= AsteroidsController.CANVASWIDTH + 64;
