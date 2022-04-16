@@ -40,7 +40,7 @@
             </Text>
          </children>
       </Pane>
-      <TextField fx:id="playerName" layoutX="825.0" layoutY="629.0" prefHeight="30.0" prefWidth="204.0" promptText="name" style="-fx-background-color: black; -fx-border-color: white;" text="">
+      <TextField fx:id="playerName" layoutX="825.0" layoutY="629.0" prefHeight="30.0" prefWidth="204.0" promptText="name" style="-fx-background-color: black; -fx-border-color: white;" stylesheets="@Asteroids.css" text="">
          <font>
             <Font name="Source Sans Pro" size="13.0" />
          </font></TextField>

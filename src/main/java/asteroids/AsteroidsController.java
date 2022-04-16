@@ -82,6 +82,8 @@ public class AsteroidsController {
                 gameOverHandleAlreadyExecuted = false;
                 gameStatus.setText("");
                 game = new Game();
+                playerName.setDisable(true);
+                saveButton.setDisable(true);
             }
         });
 
