@@ -45,5 +45,6 @@
             <Font name="Source Sans Pro" size="13.0" />
          </font></TextField>
       <Button fx:id="saveButton" layoutX="1038.0" layoutY="630.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="29.0" prefWidth="52.0" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 0; -fx-font-family: Hyperspace; -fx-font-weight: bold;" text="save" textOverrun="CLIP" />
+      <Text fx:id="invalidInputMessage" fill="RED" layoutX="334.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filen finnes ikke" visible="false" />
    </children>
 </AnchorPane>
