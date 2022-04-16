@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -44,6 +45,15 @@ public class AsteroidsController {
     private Pane savePane;
 
     @FXML
+    private Text saveInfoText;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button dontSaveButton;
+
+    @FXML
     private TextField playerName;
 
     @FXML
@@ -56,7 +66,7 @@ public class AsteroidsController {
     private Text scoreTextLarge;
 
     @FXML
-    private Text scoreTextSmall;    
+    private Text scoreTextSmall;   
 
     // initializes the game
     public void initialize() {
@@ -120,7 +130,7 @@ public class AsteroidsController {
 
     @FXML
     public void handleSave(){
-        scoreBoard.addScore(playerName.getText(), game.getScore());
+        scoreBoard.addScore(playerName.getText().trim(), game.getScore());
         updateScoreBoard();
         savePane.setVisible(false);
         newGameButton.setVisible(true);
@@ -136,8 +146,28 @@ public class AsteroidsController {
     public void startNewGame(){
         gameOverHandleAlreadyExecuted = false;
         game = new Game();
-        savePane.setVisible(true);
         gameOverPane.setVisible(false);
+    }
+
+    @FXML
+    public void playerNameInputChanged(){
+        int textInputLength = playerName.getText().trim().length();
+
+        if(textInputLength == 0) {
+            saveInfoText.setText("Enter playername to save score");
+            saveInfoText.setFill(Color.WHITE);
+            saveButton.setDisable(true);
+        }
+        else if (textInputLength > 16) {
+            saveInfoText.setText("Name cannot exceed 16 characters");
+            saveInfoText.setFill(Color.RED);
+            saveButton.setDisable(true);
+        }
+        else {
+            saveInfoText.setText("Enter playername to save score");
+            saveInfoText.setFill(Color.WHITE);
+            saveButton.setDisable(false);
+        }
     }
 
     private void spaceshipAction(Spaceship spaceship) {
@@ -195,14 +225,11 @@ public class AsteroidsController {
             gameOverPane.setVisible(true);
             newGameButton.setVisible(false);
             savePane.setVisible(true);
-            if(game.getScore() > scoreBoard.getHighScore(0)){
-                scoreTextLarge.setText("New Highscore!");
-                scoreTextSmall.setText("Score: " + game.getScore());
-            }
-            else{
-                scoreTextLarge.setText("Game over!");
-                scoreTextSmall.setText("Score: " + game.getScore());
-            }
+
+            if(game.getScore() > scoreBoard.getHighScore(0)) scoreTextLarge.setText("New Highscore!");
+            else scoreTextLarge.setText("Game over!");
+
+            scoreTextSmall.setText("Score: " + game.getScore());
             gameOverHandleAlreadyExecuted = true;
         }
     }
