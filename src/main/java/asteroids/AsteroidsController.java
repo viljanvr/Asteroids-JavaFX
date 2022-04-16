@@ -69,6 +69,7 @@ public class AsteroidsController {
     private Text saveInfoText;
 
     
+    private Text invalidInputMessage;
 
     // initializes the game
     public void initialize() {
@@ -85,6 +86,9 @@ public class AsteroidsController {
         scoreBoard = new ScoreBoard();
         
         gameOverPane.setVisible(false);
+        playerName.setDisable(true);
+        saveButton.setDisable(true);
+        invalidInputMessage.setDisable(true);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -216,6 +220,14 @@ public class AsteroidsController {
                 scoreTextSmall.setText("Score: " + game.getScore());
             }
             gameOverHandleAlreadyExecuted = true;
+        }
+        if (playerName.getText().length() > 16) {
+            saveButton.setDisable(true);
+            invalidInputMessage.setDisable(false);
+        }
+        if (!invalidInputMessage.isDisable() && playerName.getText().length() <= 16) {
+            saveButton.setDisable(false);
+            invalidInputMessage.setDisable(true);
         }
     }
 
