@@ -61,8 +61,8 @@ public class ScoreBoard implements SaveHandler {
         save();
     }
 
-    public List<Pair<String, Integer>> getHighScores() {
-        return highScores;
+    public int getHighScore(int index) {
+        return (highScores.isEmpty() ? 0 : highScores.get(index).getValue());
     }
 
     public ObservableList<String> getScores() {
