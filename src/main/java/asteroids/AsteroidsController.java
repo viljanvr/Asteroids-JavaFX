@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URISyntaxException;
@@ -38,16 +39,36 @@ public class AsteroidsController {
     private Text livesLeft;
 
     @FXML
-    private Text gameStatus;
+    private ListView<String> scoreBoardList;
 
     @FXML
-    private ListView<String> scoreBoardList;
+    private Pane savePane;
 
     @FXML
     private TextField playerName;
 
     @FXML
     private Button saveButton;
+
+    @FXML
+    private Button dontSaveButton;
+
+    @FXML
+    private Button newGameButton;
+
+    @FXML
+    private Pane gameOverPane;
+
+    @FXML
+    private Text scoreTextLarge;
+
+    @FXML
+    private Text scoreTextSmall;
+
+    @FXML
+    private Text saveInfoText;
+
+    
 
     // initializes the game
     public void initialize() {
@@ -62,8 +83,8 @@ public class AsteroidsController {
         timer = new Timer();
         game = new Game();
         scoreBoard = new ScoreBoard();
-        playerName.setDisable(true);
-        saveButton.setDisable(true);
+        
+        gameOverPane.setVisible(false);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -75,29 +96,6 @@ public class AsteroidsController {
 
         // starts AnimationTimer
         timer.start();
-
-        // keylistener to start new game if game is over
-        gameStatus.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY && game.isGameOver()) {
-                gameOverHandleAlreadyExecuted = false;
-                gameStatus.setText("");
-                game = new Game();
-                playerName.setDisable(true);
-                saveButton.setDisable(true);
-            }
-        });
-
-    }
-
-    @FXML
-    public void handleSave() {
-        if (!playerName.isDisable() && gameOverHandleAlreadyExecuted) {
-            scoreBoard.addScore(playerName.getText(), game.getScore());
-            updateScoreBoard();
-            playerName.setDisable(true);
-            saveButton.setDisable(true);
-
-        }
     }
 
     @FXML
@@ -130,6 +128,28 @@ public class AsteroidsController {
             default -> {
             }
         }
+    }
+
+    @FXML
+    public void handleSave(){
+        scoreBoard.addScore(playerName.getText(), game.getScore());
+        updateScoreBoard();
+        savePane.setVisible(false);
+        newGameButton.setVisible(true);
+    }
+
+    @FXML
+    public void handleDontSave(){
+        savePane.setVisible(false);
+        newGameButton.setVisible(true);  
+    }
+
+    @FXML
+    public void startNewGame(){
+        gameOverHandleAlreadyExecuted = false;
+        game = new Game();
+        savePane.setVisible(true);
+        gameOverPane.setVisible(false);
     }
 
     private void spaceshipAction(Spaceship spaceship) {
@@ -184,10 +204,18 @@ public class AsteroidsController {
 
     private void gameOverHandel() {
         if (!gameOverHandleAlreadyExecuted && game.isGameOver()) {
-            gameStatus.setText("New Game");
+            gameOverPane.setVisible(true);
+            newGameButton.setVisible(false);
+            savePane.setVisible(true);
+            if(game.getScore() > scoreBoard.getHighScore(0)){
+                scoreTextLarge.setText("New Highscore!");
+                scoreTextSmall.setText("Score: " + game.getScore());
+            }
+            else{
+                scoreTextLarge.setText("Game over!");
+                scoreTextSmall.setText("Score: " + game.getScore());
+            }
             gameOverHandleAlreadyExecuted = true;
-            playerName.setDisable(false);
-            saveButton.setDisable(false);
         }
     }
 
