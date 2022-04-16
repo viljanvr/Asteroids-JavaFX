@@ -7,7 +7,7 @@ public abstract class Sprite {
     protected double x1, y1, x2, y2, rotation;
     protected Vector velocity = new Vector(0, 0);
     private final int IMAGEWIDTH, IMAGEHEIGHT;
-    protected final String IMAGEURL;
+    private final String IMAGEURL;
 
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight, String IMAGEURL) {
         this.IMAGEURL = IMAGEURL;
@@ -36,8 +36,10 @@ public abstract class Sprite {
         return (x1 < sprite.x2 && sprite.x1 < x2) ? (y1 < sprite.y2 && sprite.y1 < y2) : false;
     }
 
-    public boolean containsCoordinate(int x1, int y1) {
-        return (x1 > this.x1 && x1 < this.x2 && y1 > this.y1 && y1 < this.y2);
+    public boolean isInsideRectangle(int x1, int y1, int x2, int y2) {
+        return ((this.x1 > x1 && this.x1 < x2 || this.x2 > x1 && this.x2 < x2) && 
+        (this.y1 > y1 && this.y1 < y2 || this.y2 > y1 && this.y2 < y2));
+
     }
 
     public void updatePosition() {
@@ -47,7 +49,7 @@ public abstract class Sprite {
         y2 = y1 + IMAGEHEIGHT;
     }
 
-    public void wrap() {
+    protected void wrap() {
         if (x1 > AsteroidsController.CANVASWIDTH) {
             x1 -= AsteroidsController.CANVASWIDTH + 64;
             x2 -= AsteroidsController.CANVASWIDTH + 64;

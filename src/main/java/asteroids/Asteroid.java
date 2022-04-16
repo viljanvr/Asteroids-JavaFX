@@ -20,15 +20,16 @@ public class Asteroid extends Sprite {
     }
 
     // Constructor for Dwarf Asteroids
-    public Asteroid(int x1, int y1) {
+    public Asteroid(int x1, int y1, Vector velocity) {
         super(x1, y1, 1.4, Math.random() * 6.28, 37, 38, "asteroids/dwarf_asteroid.png");
+        getVelocity().addXY(velocity.getX(), velocity.getY());
     }
 
     public Collection<Sprite> splitLargeAsteroid() {
         Collection<Sprite> list = new ArrayList<>();
-        list.add(new Asteroid((int) getPosX(), (int) getPosY()));
-        list.add(new Asteroid((int) getPosX(), (int) getPosY()));
-        list.add(new Asteroid((int) getPosX(), (int) getPosY()));
+        list.add(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
+        list.add(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
+        list.add(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
         return list;
     }
 

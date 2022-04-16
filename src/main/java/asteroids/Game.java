@@ -41,7 +41,7 @@ public class Game {
         // you have more lives left and if no asteroids are in vacinity of the spawning
         // area
         if (!sprites.contains(spaceship) && lives > 0
-                && !sprites.stream().anyMatch(sprite -> sprite.containsCoordinate(410, 310))) {
+        && !sprites.stream().filter(sprite -> sprite instanceof Asteroid).anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
             lives -= 1;

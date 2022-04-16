@@ -6,6 +6,7 @@ import javafx.scene.paint.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.canvas.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -23,9 +24,9 @@ public class AsteroidsController {
     private GraphicsContext gc;
     private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, gameOverHandleAlreadyExecuted = false;;
-    Media sound;
-    MediaPlayer mediaPlayer;
-    ScoreBoard scoreBoard;
+    private Media sound;
+    private MediaPlayer mediaPlayer;
+    private ScoreBoard scoreBoard;
 
     @FXML
     private Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
@@ -45,6 +46,9 @@ public class AsteroidsController {
     @FXML
     private TextField playerName;
 
+    @FXML
+    private Button saveButton;
+
     // initializes the game
     public void initialize() {
 
@@ -59,6 +63,7 @@ public class AsteroidsController {
         game = new Game();
         scoreBoard = new ScoreBoard();
         playerName.setDisable(true);
+        saveButton.setDisable(true);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -83,11 +88,13 @@ public class AsteroidsController {
     }
 
     @FXML
-    void handleSave() {
+    public void handleSave() {
         if (!playerName.isDisable() && gameOverHandleAlreadyExecuted) {
             scoreBoard.addScore(playerName.getText(), game.getScore());
             updateScoreBoard();
             playerName.setDisable(true);
+            saveButton.setDisable(true);
+
         }
     }
 
@@ -123,7 +130,7 @@ public class AsteroidsController {
         }
     }
 
-    public void spaceshipAction(Spaceship spaceship) {
+    private void spaceshipAction(Spaceship spaceship) {
         if (this.UPpressed)
             spaceship.thrust();
         if (this.LEFTpressed)
@@ -178,6 +185,7 @@ public class AsteroidsController {
             gameStatus.setText("New Game");
             gameOverHandleAlreadyExecuted = true;
             playerName.setDisable(false);
+            saveButton.setDisable(false);
         }
     }
 
