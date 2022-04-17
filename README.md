@@ -18,3 +18,18 @@
 | 16-17 | 19/4 | 29/4 | Fullføre appen med tilhørende dokumentasjon |
 
 **_LYKKE TIL_**
+
+IDEAs:
+
+- maybe reduce the total number of characters in the name allowed? because it currently seldom exeeds 16.
+- make the game more fun?? Make adjustments to the difficulty.
+
+Testing Delegation (sorted by difficulty):
+
+- GameTest (Super mega insanity) -Viljan and Arash
+- ScoreBoardTest (Mega insanity) -Viljan and Arash
+- Sprite (Very hard) -Viljan
+- Vector (Hard) -Arash
+- Asteroid (Medium) -Arash
+- Spaceship (Medium) -Arash
+- Laser (Easy) -Viljan

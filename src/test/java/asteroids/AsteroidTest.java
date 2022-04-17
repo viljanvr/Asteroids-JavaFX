@@ -9,24 +9,36 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class VectorTest {
+public class AsteroidTest {
 
-    private Vector vector;
+    private Asteroid asteroid;
 
     @BeforeEach
     public void setup() {
-        vector = new Vector(3, 3);
+        asteroid = new Asteroid();
     }
 
     @Test
-    @DisplayName("Test vector constructor")
+    @DisplayName("Test the two constructors")
     public void testConstructor() {
         assertEquals(0, 0);
     }
 
     @Test
-    @DisplayName("Test mathematical functions")
+    @DisplayName("Test collision function")
     public void b() {
+        assertEquals(0, 0);
+    }
+
+    @Test
+    @DisplayName("Tests splitLargeAsteroid function")
+    public void c() {
+        assertEquals(0, 0);
+    }
+
+    @Test
+    @DisplayName("Possibly test isLarge")
+    public void d() {
         assertEquals(0, 0);
     }
 

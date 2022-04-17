@@ -9,23 +9,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class VectorTest {
+public class LaserTest {
 
-    private Vector vector;
+    private Laser laser;
 
     @BeforeEach
     public void setup() {
-        vector = new Vector(3, 3);
+        laser = new Laser(30, 30, 1, 1);
+
     }
 
     @Test
-    @DisplayName("Test vector constructor")
-    public void testConstructor() {
+    @DisplayName("Test outOfBounds function")
+    public void a() {
         assertEquals(0, 0);
     }
 
     @Test
-    @DisplayName("Test mathematical functions")
+    @DisplayName("Tests collision function")
     public void b() {
         assertEquals(0, 0);
     }

@@ -20,7 +20,7 @@ public class ScoreBoard implements SaveHandler {
     private final String FILENAME = "score_saves";
 
     public ScoreBoard() {
-        highScores = load();
+        load();
     }
 
     @Override
@@ -39,19 +39,17 @@ public class ScoreBoard implements SaveHandler {
     }
 
     @Override
-    public List<Pair<String, Integer>> load() {
+    public void load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
-            List<Pair<String, Integer>> list = reader.lines().map(element -> element.split(":"))
+            highScores = reader.lines().map(element -> element.split(":"))
                     .map(element -> new Pair<String, Integer>(element[0], Integer.parseInt(element[1])))
                     .collect(Collectors.toList());
             reader.close();
-            return list;
         } catch (FileNotFoundException e) {
             new File(SaveHandler.class.getResource("").getFile() + "saves").mkdir();
-            return new ArrayList<>();
+            highScores = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
@@ -61,12 +59,13 @@ public class ScoreBoard implements SaveHandler {
         save();
     }
 
-    public int getHighScore(int index) {
-        return (highScores.isEmpty() ? 0 : highScores.get(index).getValue());
+    public int getHighScore() {
+        return highScores.isEmpty() ? 0 : highScores.get(0).getValue();
     }
 
     public ObservableList<String> getScores() {
-        return highScores.stream().limit(18).map(element -> highScores.indexOf(element)+1 + ". " + element.getKey() + ": " + element.getValue())
+        return highScores.stream().limit(18)
+                .map(element -> highScores.indexOf(element) + 1 + ". " + element.getKey() + ": " + element.getValue())
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 

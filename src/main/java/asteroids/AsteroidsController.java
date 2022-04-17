@@ -23,7 +23,7 @@ public class AsteroidsController {
     private Game game;
     private GraphicsContext gc;
     private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
-            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, gameOverHandleAlreadyExecuted = false;;
+            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
     private Media sound;
     private MediaPlayer mediaPlayer;
     private ScoreBoard scoreBoard;
@@ -32,40 +32,19 @@ public class AsteroidsController {
     private Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
 
     @FXML
-    private Text currentScore;
+    private Text currentScore, livesLeft, saveInfoText, scoreTextLarge, scoreTextSmall;
 
     @FXML
-    private Text livesLeft;
+    private Button saveButton, dontSaveButton, newGameButton;
+
+    @FXML
+    private Pane savePane, gameOverPane;
 
     @FXML
     private ListView<String> scoreBoardList;
 
     @FXML
-    private Pane savePane;
-
-    @FXML
-    private Text saveInfoText;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private Button dontSaveButton;
-
-    @FXML
     private TextField playerName;
-
-    @FXML
-    private Button newGameButton;
-
-    @FXML
-    private Pane gameOverPane;
-
-    @FXML
-    private Text scoreTextLarge;
-
-    @FXML
-    private Text scoreTextSmall;   
 
     // initializes the game
     public void initialize() {
@@ -80,7 +59,7 @@ public class AsteroidsController {
         timer = new Timer();
         game = new Game();
         scoreBoard = new ScoreBoard();
-        
+
         gameOverPane.setVisible(false);
 
         // loads scoreboard from file and updates view
@@ -95,40 +74,81 @@ public class AsteroidsController {
         timer.start();
     }
 
-    @FXML
-    public void keyPressed(KeyEvent event) {
-        switch (event.getCode()) {
-            case UP -> UPpressed = true;
-            case DOWN -> DOWNpressed = true;
-            case LEFT -> LEFTpressed = true;
-            case RIGHT -> RIGHTpressed = true;
-            case SPACE -> SPACEpressed = true;
-            default -> {
-            }
+    // AnimationTimer runs once every frame
+    private class Timer extends AnimationTimer {
+
+        @Override
+        public void handle(long nanotime) {
+            gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
+
+            game.gameLoop(nanotime);
+            soundEffectHandle();
+            updateCurrentScore();
+            updateLivesLeft();
+            gameOverHandel();
+
+            // renders all the objects on screen
+            game.getSprites().stream().forEach((sprite) -> {
+                renderSprite(sprite);
+            });
+
+            // controls spaceship actions
+            spaceshipAction(game.getSpaceship());
+        }
+    };
+
+    private void renderSprite(Sprite sprite) {
+        gc.save();
+
+        // Places the image on the correct coordinate
+        gc.translate(sprite.getPosX(), sprite.getPosY());
+
+        // Rotates the image
+        gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
+        gc.rotate(Math.toDegrees(sprite.getRotation()));
+        gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
+
+        // Draws the image
+        gc.drawImage(new Image(sprite.getImageURL()), 0, 0);
+        gc.restore();
+    }
+
+    private void soundEffectHandle() {
+        if (game.soundEffectHandle()) {
+            mediaPlayer.play();
+            mediaPlayer.seek(Duration.ZERO);
         }
     }
 
-    @FXML
-    public void keyReleased(KeyEvent event) {
-        switch (event.getCode()) {
-            case UP -> UPpressed = false;
-            case DOWN -> {
-                DOWNpressed = false;
-                DOWNreleased = true;
-            }
-            case LEFT -> LEFTpressed = false;
-            case RIGHT -> RIGHTpressed = false;
-            case SPACE -> {
-                SPACEpressed = false;
-                SPACEreleased = true;
-            }
-            default -> {
-            }
+    private void updateCurrentScore() {
+        currentScore.setText("Score: " + game.getScore());
+    }
+
+    private void updateLivesLeft() {
+        livesLeft.setText(game.getLives() + " lives left");
+    }
+
+    private void gameOverHandel() {
+        if (!gameOverPane.isVisible() && game.isGameOver()) {
+            gameOverPane.setVisible(true);
+            newGameButton.setVisible(false);
+            savePane.setVisible(true);
+
+            if (game.getScore() > scoreBoard.getHighScore())
+                scoreTextLarge.setText("New Highscore!");
+            else
+                scoreTextLarge.setText("Game over!");
+
+            scoreTextSmall.setText("Score: " + game.getScore());
         }
     }
 
+    private void updateScoreBoard() {
+        scoreBoardList.setItems(scoreBoard.getScores());
+    }
+
     @FXML
-    public void handleSave(){
+    private void handleSave() {
         scoreBoard.addScore(playerName.getText().trim(), game.getScore());
         updateScoreBoard();
         savePane.setVisible(false);
@@ -136,33 +156,30 @@ public class AsteroidsController {
     }
 
     @FXML
-    public void handleDontSave(){
+    private void handleDontSave() {
         savePane.setVisible(false);
-        newGameButton.setVisible(true);  
+        newGameButton.setVisible(true);
     }
 
     @FXML
-    public void startNewGame(){
-        gameOverHandleAlreadyExecuted = false;
+    private void startNewGame() {
         game = new Game();
         gameOverPane.setVisible(false);
     }
 
     @FXML
-    public void playerNameInputChanged(){
+    private void playerNameInputChanged() {
         int textInputLength = playerName.getText().trim().length();
 
-        if(textInputLength == 0) {
+        if (textInputLength == 0) {
             saveInfoText.setText("Enter playername to save score");
             saveInfoText.setFill(Color.WHITE);
             saveButton.setDisable(true);
-        }
-        else if (textInputLength > 16) {
+        } else if (textInputLength > 16) {
             saveInfoText.setText("Name cannot exceed 16 characters");
             saveInfoText.setFill(Color.RED);
             saveButton.setDisable(true);
-        }
-        else {
+        } else {
             saveInfoText.setText("Enter playername to save score");
             saveInfoText.setFill(Color.WHITE);
             saveButton.setDisable(false);
@@ -188,76 +205,35 @@ public class AsteroidsController {
         }
     }
 
-    private void renderSprite(Sprite sprite) {
-        gc.save();
-
-        // Places the image on the correct coordinate
-        gc.translate(sprite.getPosX(), sprite.getPosY());
-
-        // Rotates the image
-        gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
-        gc.rotate(Math.toDegrees(sprite.getRotation()));
-        gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
-
-        // Draws the image
-        gc.drawImage(new Image(sprite.getImageURL()), 0, 0);
-        gc.restore();
-    }
-
-    private void updateCurrentScore() {
-        currentScore.setText("Score: " + game.getScore());
-    }
-
-    private void updateLivesLeft() {
-        livesLeft.setText(game.getLives() + " lives left");
-    }
-
-    private void soundEffectHandle() {
-        if (game.soundEffectHandle()) {
-            mediaPlayer.play();
-            mediaPlayer.seek(Duration.ZERO);
+    @FXML
+    private void keyPressed(KeyEvent event) {
+        switch (event.getCode()) {
+            case UP -> UPpressed = true;
+            case DOWN -> DOWNpressed = true;
+            case LEFT -> LEFTpressed = true;
+            case RIGHT -> RIGHTpressed = true;
+            case SPACE -> SPACEpressed = true;
+            default -> {
+            }
         }
     }
 
-    private void gameOverHandel() {
-        if (!gameOverHandleAlreadyExecuted && game.isGameOver()) {
-            gameOverPane.setVisible(true);
-            newGameButton.setVisible(false);
-            savePane.setVisible(true);
-
-            if(game.getScore() > scoreBoard.getHighScore(0)) scoreTextLarge.setText("New Highscore!");
-            else scoreTextLarge.setText("Game over!");
-
-            scoreTextSmall.setText("Score: " + game.getScore());
-            gameOverHandleAlreadyExecuted = true;
+    @FXML
+    private void keyReleased(KeyEvent event) {
+        switch (event.getCode()) {
+            case UP -> UPpressed = false;
+            case DOWN -> {
+                DOWNpressed = false;
+                DOWNreleased = true;
+            }
+            case LEFT -> LEFTpressed = false;
+            case RIGHT -> RIGHTpressed = false;
+            case SPACE -> {
+                SPACEpressed = false;
+                SPACEreleased = true;
+            }
+            default -> {
+            }
         }
     }
-
-    private void updateScoreBoard() {
-        scoreBoardList.setItems(scoreBoard.getScores());
-    }
-
-    // AnimationTimer runs once every frame
-    private class Timer extends AnimationTimer {
-
-        @Override
-        public void handle(long nanotime) {
-            gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
-
-            soundEffectHandle();
-            game.gameLoop(nanotime);
-            updateCurrentScore();
-            updateLivesLeft();
-            gameOverHandel();
-
-            // renders all the objects on screen
-            game.getSprites().stream().forEach((sprite) -> {
-                renderSprite(sprite);
-            });
-
-            // controls spaceship actions
-            spaceshipAction(game.getSpaceship());
-
-        }
-    };
 }
