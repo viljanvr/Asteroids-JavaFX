@@ -11,7 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URISyntaxException;
@@ -38,19 +38,34 @@ public class AsteroidsController {
     private Text livesLeft;
 
     @FXML
-    private Text gameStatus;
-
-    @FXML
     private ListView<String> scoreBoardList;
 
     @FXML
-    private TextField playerName;
+    private Pane savePane;
+
+    @FXML
+    private Text saveInfoText;
 
     @FXML
     private Button saveButton;
 
     @FXML
-    private Text invalidInputMessage;
+    private Button dontSaveButton;
+
+    @FXML
+    private TextField playerName;
+
+    @FXML
+    private Button newGameButton;
+
+    @FXML
+    private Pane gameOverPane;
+
+    @FXML
+    private Text scoreTextLarge;
+
+    @FXML
+    private Text scoreTextSmall;   
 
     // initializes the game
     public void initialize() {
@@ -65,9 +80,8 @@ public class AsteroidsController {
         timer = new Timer();
         game = new Game();
         scoreBoard = new ScoreBoard();
-        playerName.setDisable(true);
-        saveButton.setDisable(true);
-        invalidInputMessage.setDisable(true);
+        
+        gameOverPane.setVisible(false);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -79,27 +93,6 @@ public class AsteroidsController {
 
         // starts AnimationTimer
         timer.start();
-
-        // keylistener to start new game if game is over
-        gameStatus.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY && game.isGameOver()) {
-                gameOverHandleAlreadyExecuted = false;
-                gameStatus.setText("");
-                game = new Game();
-            }
-        });
-
-    }
-
-    @FXML
-    public void handleSave() {
-        if (!playerName.isDisable() && gameOverHandleAlreadyExecuted) {
-            scoreBoard.addScore(playerName.getText(), game.getScore());
-            updateScoreBoard();
-            playerName.setDisable(true);
-            saveButton.setDisable(true);
-
-        }
     }
 
     @FXML
@@ -131,6 +124,48 @@ public class AsteroidsController {
             }
             default -> {
             }
+        }
+    }
+
+    @FXML
+    public void handleSave(){
+        scoreBoard.addScore(playerName.getText().trim(), game.getScore());
+        updateScoreBoard();
+        savePane.setVisible(false);
+        newGameButton.setVisible(true);
+    }
+
+    @FXML
+    public void handleDontSave(){
+        savePane.setVisible(false);
+        newGameButton.setVisible(true);  
+    }
+
+    @FXML
+    public void startNewGame(){
+        gameOverHandleAlreadyExecuted = false;
+        game = new Game();
+        gameOverPane.setVisible(false);
+    }
+
+    @FXML
+    public void playerNameInputChanged(){
+        int textInputLength = playerName.getText().trim().length();
+
+        if(textInputLength == 0) {
+            saveInfoText.setText("Enter playername to save score");
+            saveInfoText.setFill(Color.WHITE);
+            saveButton.setDisable(true);
+        }
+        else if (textInputLength > 16) {
+            saveInfoText.setText("Name cannot exceed 16 characters");
+            saveInfoText.setFill(Color.RED);
+            saveButton.setDisable(true);
+        }
+        else {
+            saveInfoText.setText("Enter playername to save score");
+            saveInfoText.setFill(Color.WHITE);
+            saveButton.setDisable(false);
         }
     }
 
@@ -186,18 +221,15 @@ public class AsteroidsController {
 
     private void gameOverHandel() {
         if (!gameOverHandleAlreadyExecuted && game.isGameOver()) {
-            gameStatus.setText("New Game");
+            gameOverPane.setVisible(true);
+            newGameButton.setVisible(false);
+            savePane.setVisible(true);
+
+            if(game.getScore() > scoreBoard.getHighScore(0)) scoreTextLarge.setText("New Highscore!");
+            else scoreTextLarge.setText("Game over!");
+
+            scoreTextSmall.setText("Score: " + game.getScore());
             gameOverHandleAlreadyExecuted = true;
-            playerName.setDisable(false);
-            saveButton.setDisable(false);
-        }
-        if (playerName.getText().length() > 16) {
-            saveButton.setDisable(true);
-            invalidInputMessage.setDisable(false);
-        }
-        if (!invalidInputMessage.isDisable() && playerName.getText().length() <= 16) {
-            saveButton.setDisable(false);
-            invalidInputMessage.setDisable(true);
         }
     }
 

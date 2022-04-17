@@ -48,7 +48,7 @@ public class Game {
         }
 
         // spawns and asteroid every six seconds (6 000 000 000 in nanoseconds)
-        if (nanotime > lastAsteroidSpawnTime + 6000000000l) {
+        if (nanotime > lastAsteroidSpawnTime + 6000000000l && !isGameOver()) {
             sprites.add(new Asteroid());
             lastAsteroidSpawnTime = nanotime;
         }

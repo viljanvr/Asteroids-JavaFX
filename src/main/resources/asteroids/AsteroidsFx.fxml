@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
@@ -14,6 +15,50 @@
       <Pane fx:id="gameArea" layoutX="14.0" layoutY="14.0" prefHeight="602.0" prefWidth="802.0" style="-fx-background-color: white;">
          <children>
             <Canvas fx:id="canvas" height="600.0" layoutX="1.0" layoutY="1.0" width="800.0" />
+            <Pane fx:id="gameOverPane" layoutX="195.0" layoutY="164.0" prefHeight="274.0" prefWidth="418.0" style="-fx-background-color: black; -fx-border-color: white;">
+               <children>
+                  <Text fx:id="scoreTextLarge" fill="WHITE" layoutY="73.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="NEW HIGHSCORE!" textAlignment="CENTER" wrappingWidth="417.0">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="scoreTextSmall" fill="WHITE" layoutY="101.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Hyperspace;" text="Score: XXXX" textAlignment="CENTER" wrappingWidth="417.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="newGameButton" alignment="CENTER" layoutX="114.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#startNewGame" prefHeight="61.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 30;" stylesheets="@Asteroids.css" text="NEW GAME" textAlignment="CENTER" textOverrun="CLIP">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Button>
+                  <Pane fx:id="savePane" layoutX="86.0" layoutY="139.0" prefHeight="106.0" prefWidth="246.0">
+                     <children>
+                        <Button fx:id="dontSaveButton" layoutX="93.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleDontSave" prefHeight="39.0" prefWidth="153.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="DON'T SAVE" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Button>
+                        <TextField fx:id="playerName" layoutY="15.0" onKeyTyped="#playerNameInputChanged" prefHeight="30.0" prefWidth="246.0" promptText="name" style="-fx-font-size: 18;" stylesheets="@Asteroids.css" text="">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                        </TextField>
+                        <Button fx:id="saveButton" disable="true" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="38.0" prefWidth="83.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="SAVE" textOverrun="CLIP">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                        <Text fx:id="saveInfoText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Enter playername to save score" textAlignment="CENTER" wrappingWidth="281.0" x="-17.0" y="5.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
          </children></Pane>
       <Text fx:id="currentScore" fill="WHITE" layoutX="33.0" layoutY="662.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Score" wrappingWidth="296.74688720703125">
          <font>
@@ -25,26 +70,15 @@
             <Font size="32.0" />
          </font>
       </Text>
-      <Text fx:id="gameStatus" fill="WHITE" layoutX="320.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="" textAlignment="CENTER" wrappingWidth="231.25473022460938">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
       <Pane layoutX="825.0" layoutY="15.0" prefHeight="602.0" prefWidth="265.0" style="-fx-border-color: white;">
          <children>
             <ListView fx:id="scoreBoardList" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="535.0" prefWidth="245.0" style="-fx-border-color: black; -fx-background-color: black;" stylesheets="@Asteroids.css" />
             <Text fill="WHITE" layoutX="26.0" layoutY="44.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="HIGH SCORES" textAlignment="CENTER">
                <font>
-                  <Font name="Source Sans Pro Bold" size="33.0" />
+                  <Font size="33.0" />
                </font>
             </Text>
          </children>
       </Pane>
-      <TextField fx:id="playerName" layoutX="825.0" layoutY="629.0" prefHeight="30.0" prefWidth="204.0" promptText="name" style="-fx-background-color: black; -fx-border-color: white;" text="">
-         <font>
-            <Font name="Source Sans Pro" size="13.0" />
-         </font></TextField>
-      <Button fx:id="saveButton" layoutX="1038.0" layoutY="630.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="29.0" prefWidth="52.0" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 0; -fx-font-family: Hyperspace; -fx-font-weight: bold;" text="save" textOverrun="CLIP" />
-      <Text fx:id="invalidInputMessage" fill="RED" layoutX="334.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filen finnes ikke" visible="false" />
    </children>
 </AnchorPane>

@@ -19,10 +19,18 @@
     -fx-background-color: black;
     -fx-text-fill: white;
     -fx-font-size:15.0;
-    -fx-font-family: "Source Sans Pro Regular";
 
     }
 
 .text-input {
     -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: "Hyperspace";
+    -fx-background-color: black;
+    -fx-border-color: white;
+}
+
+.button {
+    -fx-font-weight: bold;
+    -fx-background-radius: 0;
 }

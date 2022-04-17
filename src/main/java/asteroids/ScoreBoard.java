@@ -61,12 +61,12 @@ public class ScoreBoard implements SaveHandler {
         save();
     }
 
-    public List<Pair<String, Integer>> getHighScores() {
-        return highScores;
+    public int getHighScore(int index) {
+        return (highScores.isEmpty() ? 0 : highScores.get(index).getValue());
     }
 
     public ObservableList<String> getScores() {
-        return highScores.stream().map(element -> highScores.indexOf(element)+1 + ". " + element.getKey() + ": " + element.getValue())
+        return highScores.stream().limit(18).map(element -> highScores.indexOf(element)+1 + ". " + element.getKey() + ": " + element.getValue())
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
