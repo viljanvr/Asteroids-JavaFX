@@ -9,24 +9,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class VectorTest {
+public class GameTest {
 
-    private Vector vector;
+    private Game game;
 
     @BeforeEach
     public void setup() {
-        vector = new Vector(3, 3);
+        game = new Game();
     }
 
     @Test
-    @DisplayName("Test vector constructor")
-    public void testConstructor() {
-        assertEquals(0, 0);
-    }
-
-    @Test
-    @DisplayName("Test mathematical functions")
-    public void b() {
+    @DisplayName("Test EVERYTHING")
+    public void a() {
         assertEquals(0, 0);
     }
 

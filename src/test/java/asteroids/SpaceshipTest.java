@@ -9,25 +9,32 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class VectorTest {
+public class SpaceshipTest {
 
-    private Vector vector;
+    private Spaceship spaceship;
 
     @BeforeEach
     public void setup() {
-        vector = new Vector(3, 3);
+        spaceship = new Spaceship();
+        // super(400, 300, 0, 0, 39, 23, "asteroids/spaceship.png");
     }
 
     @Test
-    @DisplayName("Test vector constructor")
+    @DisplayName("Test mathematical functions")
     public void testConstructor() {
         assertEquals(0, 0);
     }
 
     @Test
-    @DisplayName("Test mathematical functions")
+    @DisplayName("Test shoot function")
     public void b() {
-        assertEquals(0, 0);
+
+    }
+
+    @Test
+    @DisplayName("Tests collision function")
+    public void c() {
+
     }
 
 }
