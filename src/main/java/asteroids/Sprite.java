@@ -14,14 +14,18 @@ public abstract class Sprite {
         this.IMAGEURL = IMAGEURL;
         this.IMAGEWIDTH = imageWidth;
         this.IMAGEHEIGHT = imageHeight;
-
-        this.x1 = x1;
-        this.y1 = y1;
-        x2 = x1 + IMAGEWIDTH;
-        y2 = y1 + IMAGEHEIGHT;
+        
+        setPosXY(x1, y1);
 
         getVelocity().setLength(speed);
         getVelocity().setAngle(speedDirection);
+    }
+
+    public void setPosXY(double x1, double y1) {
+        this.x1 = x1;
+        x2 = x1 + IMAGEWIDTH;
+        this.y1 = y1;
+        y2 = y1 + IMAGEHEIGHT;
     }
 
     public abstract Boolean checkCollision(Collection<Sprite> list);
@@ -36,28 +40,25 @@ public abstract class Sprite {
     }
 
     public void updatePosition() {
-        x1 += velocity.getX();
-        x2 = x1 + IMAGEWIDTH;
-        y1 += velocity.getY();
-        y2 = y1 + IMAGEHEIGHT;
+        setPosXY(x1 + velocity.getX(), y1 + velocity.getY());
     }
 
     protected void wrap() {
         if (x1 > AsteroidsController.CANVASWIDTH) {
-            x1 -= AsteroidsController.CANVASWIDTH + 64;
-            x2 -= AsteroidsController.CANVASWIDTH + 64;
+            x1 -= AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
+            x2 -= AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
         }
-        if (x2 < 0) {
-            x1 += AsteroidsController.CANVASWIDTH + 64;
-            x2 += AsteroidsController.CANVASWIDTH + 64;
+        else if (x2 < 0) {
+            x1 += AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
+            x2 += AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
         }
-        if (y1 > AsteroidsController.CANVASHEIGHT) {
-            y1 -= AsteroidsController.CANVASHEIGHT + 64;
-            y2 -= AsteroidsController.CANVASHEIGHT + 64;
+        else if (y1 > AsteroidsController.CANVASHEIGHT) {
+            y1 -= AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
+            y2 -= AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
         }
-        if (y2 < 0) {
-            y1 += AsteroidsController.CANVASHEIGHT + 64;
-            y2 += AsteroidsController.CANVASHEIGHT + 64;
+        else if (y2 < 0) {
+            y1 += AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
+            y2 += AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
         }
     }
 
