@@ -10,14 +10,17 @@ public class Spaceship extends Sprite {
 
     public Spaceship() {
         super(400, 300, 0, 0, 39, 23, "asteroids/spaceship.png");
+        rotation = 3*Math.PI/2;
     }
 
     public void rotateLeft() {
         rotation -= Math.PI / 45;
+        if (rotation < 0) rotation += 2*Math.PI;
     }
 
     public void rotateRight() {
         rotation += Math.PI / 45;
+        if (rotation > 2*Math.PI) rotation -= 2*Math.PI;
     }
 
     public Sprite shoot() {
@@ -52,7 +55,7 @@ public class Spaceship extends Sprite {
 
     public Boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> sprite instanceof Asteroid)
-                .anyMatch(asteroid -> this.containsSprite(asteroid));
+                .anyMatch(asteroid -> this.overlapsSprite(asteroid));
     }
 
 }

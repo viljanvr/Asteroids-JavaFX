@@ -1,6 +1,7 @@
 package asteroids;
 
 import javafx.animation.AnimationTimer;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
 import javafx.scene.text.Text;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URISyntaxException;
+import java.util.stream.Collectors;
 
 public class AsteroidsController {
 
@@ -144,7 +146,10 @@ public class AsteroidsController {
     }
 
     private void updateScoreBoard() {
-        scoreBoardList.setItems(scoreBoard.getScores());
+        scoreBoardList.setItems(scoreBoard.getScores().stream()
+            .limit(18)
+            .map(element -> scoreBoard.getScores().indexOf(element) + 1 + ". " + element.getKey() + ": " + element.getValue())
+            .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
     @FXML

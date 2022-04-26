@@ -30,13 +30,14 @@ public abstract class Sprite {
 
     public abstract Boolean checkCollision(Collection<Sprite> list);
 
-    public boolean containsSprite(Sprite sprite) {
-        return (x1 < sprite.x2 && sprite.x1 < x2) ? (y1 < sprite.y2 && sprite.y1 < y2) : false;
+    public boolean overlapsSprite(Sprite sprite) {
+        return sprite.isInsideRectangle(x1, y1, x2, y2);
     }
 
-    public boolean isInsideRectangle(int x1, int y1, int x2, int y2) {
-        return (this.x1 > x1 && this.x1 < x2 || this.x2 > x1 && this.x2 < x2) &&
-                (this.y1 > y1 && this.y1 < y2 || this.y2 > y1 && this.y2 < y2);
+    public boolean isInsideRectangle(double x1, double y1, double x2, double y2) {
+        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);
+        // return (this.x1 > x1 && this.x1 < x2 || this.x2 > x1 && this.x2 < x2) &&
+        //         (this.y1 > y1 && this.y1 < y2 || this.y2 > y1 && this.y2 < y2);
     }
 
     public void updatePosition() {

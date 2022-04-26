@@ -16,7 +16,7 @@ import javafx.util.Pair;
 
 public class ScoreBoard implements SaveHandler {
 
-    private List<Pair<String, Integer>> highScores = new ArrayList<>();
+    private List<Pair<String, Integer>> scoresList = new ArrayList<>();
     private final String FILENAME = "score_saves";
 
     public ScoreBoard() {
@@ -26,7 +26,7 @@ public class ScoreBoard implements SaveHandler {
     @Override
     public void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath()))) {
-            for (Pair<String, Integer> entry : highScores) {
+            for (Pair<String, Integer> entry : scoresList) {
                 writer.write(entry.getKey() + ":" + entry.getValue() + "\n");
             }
             writer.close();
@@ -41,32 +41,31 @@ public class ScoreBoard implements SaveHandler {
     @Override
     public void load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
-            highScores = reader.lines().map(element -> element.split(":"))
+            scoresList = reader.lines().map(element -> element.split(":"))
                     .map(element -> new Pair<String, Integer>(element[0], Integer.parseInt(element[1])))
                     .collect(Collectors.toList());
             reader.close();
         } catch (FileNotFoundException e) {
             new File(SaveHandler.class.getResource("").getFile() + "saves").mkdir();
-            highScores = new ArrayList<>();
+            scoresList = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void addScore(String player, int score) {
-        highScores.add(new Pair<>(player, score));
-        highScores.sort((score1, score2) -> score2.getValue() - score1.getValue());
+        scoresList.add(new Pair<>(player, score));
+        scoresList.sort((score1, score2) -> score2.getValue() - score1.getValue());
         save();
     }
 
     public int getHighScore() {
-        return highScores.isEmpty() ? 0 : highScores.get(0).getValue();
+        return scoresList.isEmpty() ? 0 : scoresList.get(0).getValue();
     }
 
-    public ObservableList<String> getScores() {
-        return highScores.stream().limit(18)
-                .map(element -> highScores.indexOf(element) + 1 + ". " + element.getKey() + ": " + element.getValue())
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    public List<Pair<String, Integer>> getScores() {
+        return scoresList;
+        
     }
 
     private String getFilePath() {

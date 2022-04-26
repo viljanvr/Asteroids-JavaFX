@@ -13,7 +13,7 @@ public class Laser extends Sprite {
 
     public Boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> sprite instanceof Asteroid)
-                .anyMatch(asteroid -> this.containsSprite(asteroid));
+                .anyMatch(asteroid -> this.overlapsSprite(asteroid));
     }
 
 }
