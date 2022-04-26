@@ -45,6 +45,6 @@ public class Asteroid extends Sprite {
     }
 
     public Boolean isLarge() {
-        return getVelocity().getLength() == 1;
+        return getImageWidth() == 54;
     }
 }
