@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public abstract class Sprite {
 
-    protected double x1, y1, x2, y2, rotation;
+    protected double x1, y1, x2, y2;
     protected Vector velocity = new Vector(0, 0);
     private final int IMAGEWIDTH, IMAGEHEIGHT;
     private final String IMAGEURL;
@@ -35,9 +35,7 @@ public abstract class Sprite {
     }
 
     public boolean isInsideRectangle(double x1, double y1, double x2, double y2) {
-        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);
-        // return (this.x1 > x1 && this.x1 < x2 || this.x2 > x1 && this.x2 < x2) &&
-        //         (this.y1 > y1 && this.y1 < y2 || this.y2 > y1 && this.y2 < y2);
+        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);  
     }
 
     public void updatePosition() {
@@ -73,10 +71,6 @@ public abstract class Sprite {
 
     public double getPosY() {
         return y1;
-    }
-
-    public double getRotation() {
-        return rotation;
     }
 
     public String getImageURL() {

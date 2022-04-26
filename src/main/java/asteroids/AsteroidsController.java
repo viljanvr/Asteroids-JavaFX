@@ -106,9 +106,11 @@ public class AsteroidsController {
         gc.translate(sprite.getPosX(), sprite.getPosY());
 
         // Rotates the image
-        gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
-        gc.rotate(Math.toDegrees(sprite.getRotation()));
-        gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
+        if(sprite instanceof Spaceship){
+            gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
+            gc.rotate(Math.toDegrees(((Spaceship)sprite).getRotation()));
+            gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
+        }
 
         // Draws the image
         gc.drawImage(new Image(sprite.getImageURL()), 0, 0);

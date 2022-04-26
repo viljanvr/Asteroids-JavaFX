@@ -7,6 +7,7 @@ public class Spaceship extends Sprite {
 
     private final String THRUSTIMAGEURL = "asteroids/spaceship-thrust.png";
     private Boolean showThrust = false;
+    private double rotation;
 
     public Spaceship() {
         super(400, 300, 0, 0, 39, 23, "asteroids/spaceship.png");
@@ -15,12 +16,14 @@ public class Spaceship extends Sprite {
 
     public void rotateLeft() {
         rotation -= Math.PI / 45;
-        if (rotation < 0) rotation += 2*Math.PI;
     }
 
     public void rotateRight() {
-        rotation += Math.PI / 45;
-        if (rotation > 2*Math.PI) rotation -= 2*Math.PI;
+        rotation += Math.PI / 45; 
+    }
+
+    public double getRotation() {
+        return rotation;
     }
 
     public Sprite shoot() {

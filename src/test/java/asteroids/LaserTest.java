@@ -33,7 +33,8 @@ public class LaserTest {
         assertEquals(300, laser3.getPosX(), "Test that x-coordinate is 300.");
         assertEquals(300, laser3.getPosY(), "Test that y-coordinate is 300.");
         assertEquals(10, laser3.getVelocity().getLength(), "Test that the velocity is 10.");
-        assertEquals(7*Math.PI/6, laser3.getVelocity().getAngle(), DELTA,"Checks that the angle of the velocity vector is 7*PI/6.");
+        assertEquals(-10*Math.sqrt(3)/2, laser3.getVelocity().getX(), DELTA,"Checks that the angle of the velocity vector is 7*PI/6.");
+        assertEquals(-10/2, laser3.getVelocity().getY(), DELTA,"Checks that the angle of the velocity vector is 7*PI/6.");
         assertEquals(8,laser3.getImageWidth(), "Checks that image width is 8");
         assertEquals(8,laser3.getImageHeight(), "Checks that image height is 8");
         assertEquals("asteroids/laser.png", laser3.getImageURL(), "Checks that image URL is correct");
