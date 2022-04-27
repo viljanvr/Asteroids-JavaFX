@@ -29,7 +29,7 @@ public class ScoreBoard implements SaveHandler {
             }
             writer.close();
         } catch (FileNotFoundException e) {
-            new File(SaveHandler.class.getResource("").getFile() + "saves").mkdir();
+            new File("saves").mkdir();
             save();
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,8 +44,12 @@ public class ScoreBoard implements SaveHandler {
                     .collect(Collectors.toList());
             reader.close();
         } catch (FileNotFoundException e) {
-            new File(SaveHandler.class.getResource("").getFile() + "saves").mkdir();
+
+            new File("saves").mkdir();
+
+
             scoresList = new ArrayList<>();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,6 +71,6 @@ public class ScoreBoard implements SaveHandler {
     }
 
     private String getFilePath() {
-        return SaveHandler.class.getResource("").getFile() + "saves/" + FILENAME + ".txt";
+        return "saves/" + FILENAME + ".txt";
     }
 }

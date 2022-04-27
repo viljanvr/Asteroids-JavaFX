@@ -33,7 +33,7 @@ public class Spaceship extends Sprite {
 
     public void thrust() {
         showThrust = true;
-        velocity.addXY(Math.cos(this.getRotation()) * 0.2, Math.sin(this.getRotation()) * 0.2);
+        velocity.addXY(Math.cos(getRotation()) * 0.2, Math.sin(getRotation()) * 0.2);
     }
 
     private void aeroBrake() {

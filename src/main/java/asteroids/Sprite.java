@@ -14,7 +14,7 @@ public abstract class Sprite {
         this.IMAGEURL = IMAGEURL;
         this.IMAGEWIDTH = imageWidth;
         this.IMAGEHEIGHT = imageHeight;
-        
+
         setPosXY(x1, y1);
 
         getVelocity().setLength(speed);
@@ -46,16 +46,13 @@ public abstract class Sprite {
         if (x1 > AsteroidsController.CANVASWIDTH) {
             x1 -= AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
             x2 -= AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
-        }
-        else if (x2 < 0) {
+        } else if (x2 < 0) {
             x1 += AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
             x2 += AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
-        }
-        else if (y1 > AsteroidsController.CANVASHEIGHT) {
+        } else if (y1 > AsteroidsController.CANVASHEIGHT) {
             y1 -= AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
             y2 -= AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
-        }
-        else if (y2 < 0) {
+        } else if (y2 < 0) {
             y1 += AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
             y2 += AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
         }
