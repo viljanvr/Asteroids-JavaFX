@@ -1,6 +1,7 @@
 package asteroids;
 
 import javafx.animation.AnimationTimer;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.paint.*;
 import javafx.scene.text.Text;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URISyntaxException;
+import java.util.stream.Collectors;
 
 public class AsteroidsController {
 
@@ -22,7 +24,7 @@ public class AsteroidsController {
     private Timer timer;
     private Game game;
     private GraphicsContext gc;
-    private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
+    private boolean UPpressed = false, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
     private Media sound;
     private MediaPlayer mediaPlayer;
@@ -104,9 +106,11 @@ public class AsteroidsController {
         gc.translate(sprite.getPosX(), sprite.getPosY());
 
         // Rotates the image
-        gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
-        gc.rotate(Math.toDegrees(sprite.getRotation()));
-        gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
+        if(sprite instanceof Spaceship){
+            gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
+            gc.rotate(Math.toDegrees(((Spaceship)sprite).getRotation()));
+            gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
+        }
 
         // Draws the image
         gc.drawImage(new Image(sprite.getImageURL()), 0, 0);
@@ -144,7 +148,10 @@ public class AsteroidsController {
     }
 
     private void updateScoreBoard() {
-        scoreBoardList.setItems(scoreBoard.getScores());
+        scoreBoardList.setItems(scoreBoard.getScores().stream()
+            .limit(18)
+            .map(element -> scoreBoard.getScores().indexOf(element) + 1 + ". " + element.getKey() + ": " + element.getValue())
+            .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
     @FXML
@@ -193,12 +200,6 @@ public class AsteroidsController {
             spaceship.rotateLeft();
         if (this.RIGHTpressed)
             spaceship.rotateRight();
-
-        if (this.DOWNpressed && this.DOWNreleased) {
-            game.getSprites().add(new Asteroid());
-            this.DOWNreleased = false;
-        }
-
         if (this.SPACEpressed && this.SPACEreleased) {
             game.getSprites().add(spaceship.shoot());
             this.SPACEreleased = false;
@@ -209,7 +210,6 @@ public class AsteroidsController {
     private void keyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case UP -> UPpressed = true;
-            case DOWN -> DOWNpressed = true;
             case LEFT -> LEFTpressed = true;
             case RIGHT -> RIGHTpressed = true;
             case SPACE -> SPACEpressed = true;
@@ -222,10 +222,6 @@ public class AsteroidsController {
     private void keyReleased(KeyEvent event) {
         switch (event.getCode()) {
             case UP -> UPpressed = false;
-            case DOWN -> {
-                DOWNpressed = false;
-                DOWNreleased = true;
-            }
             case LEFT -> LEFTpressed = false;
             case RIGHT -> RIGHTpressed = false;
             case SPACE -> {

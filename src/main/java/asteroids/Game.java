@@ -1,14 +1,14 @@
 package asteroids;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Game {
 
     private Spaceship spaceship = new Spaceship();
-    private Collection<Sprite> sprites = new ArrayList<>();
+    private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
     private long lastAsteroidSpawnTime = 0;
 
@@ -72,7 +72,7 @@ public class Game {
         return spaceship;
     }
 
-    public Collection<Sprite> getSprites() {
+    public List<Sprite> getSprites() {
         return sprites;
     }
 
