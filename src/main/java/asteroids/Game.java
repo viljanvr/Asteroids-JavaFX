@@ -14,32 +14,35 @@ public class Game {
 
     public Game() {
 
-        // spawns in inital asteroid and spaceship
+        // Spawns in inital asteroid and spaceship
         sprites.add(spaceship);
         sprites.add(new Asteroid());
     }
 
     public void gameLoop(long nanotime) {
 
-        // Removes lazer out of bounds and collided objects
-        // gives points and spawns dwarf asteroids
         sprites = sprites.stream()
                 .flatMap(sprite -> {
+                    //Removes spaceship/sprites that have collided and lasers that are out of bounds by not returning them.
                     if (((sprite instanceof Laser && !((Laser) sprite).checkOutOfBound()) || !(sprite instanceof Laser))
                             && !sprite.checkCollision(sprites)) {
                         return Stream.of(sprite);
-                    } else if (sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()) {
+                    } 
+                    //Increases the score wtih 20 points when a large asteroid collides with a laser or spaceship and return 3 new small asteroids.
+                    else if (sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()) {
                         incrementScore(20);
                         return ((Asteroid) sprite).splitLargeAsteroid().stream();
-                    } else if (sprite instanceof Asteroid) {
+                    } 
+                    //Increases the score wtih 10 points when a small asteroid collides with a laser or spaceship.
+                    else if (sprite instanceof Asteroid) {
                         incrementScore(10);
                     }
                     return null;
                 }).collect(Collectors.toList());
 
-        // decreases number of lives when hitting asteroid, and spawns new spaceship if
+        // Decreases number of lives when hitting asteroid, and spawns new spaceship if
         // you have more lives left and if no asteroids are in vacinity of the spawning
-        // area
+        // area.
         if (!sprites.contains(spaceship) && lives > 0
                 && !sprites.stream().filter(sprite -> sprite instanceof Asteroid)
                         .anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))) {
@@ -48,13 +51,13 @@ public class Game {
             lives -= 1;
         }
 
-        // spawns and asteroid every six seconds (6 000 000 000 in nanoseconds)
-        if (nanotime > lastAsteroidSpawnTime + 6000000000l && !isGameOver()) {
+        // Spawns and asteroid every six seconds (6 000 000 000 in nanoseconds)
+        if (nanotime >= lastAsteroidSpawnTime + 6000000000l && !isGameOver()) {
             sprites.add(new Asteroid());
             lastAsteroidSpawnTime = nanotime;
         }
 
-        // updates the position of all the sprites
+        // Updates the position of all the sprites
         sprites.stream().forEach((sprite) -> {
             sprite.updatePosition();
         });

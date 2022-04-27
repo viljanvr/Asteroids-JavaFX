@@ -60,8 +60,9 @@ public class AsteroidsController {
         mediaPlayer = new MediaPlayer(sound);
         timer = new Timer();
         game = new Game();
-        scoreBoard = new ScoreBoard();
+        scoreBoard = new ScoreBoard("score_saves");
 
+        //Hide end of game screen.
         gameOverPane.setVisible(false);
 
         // loads scoreboard from file and updates view
@@ -132,6 +133,7 @@ public class AsteroidsController {
         livesLeft.setText(game.getLives() + " lives left");
     }
 
+    //Shows the end of game screen when player has lost all of their lives.
     private void gameOverHandel() {
         if (!gameOverPane.isVisible() && game.isGameOver()) {
             gameOverPane.setVisible(true);
