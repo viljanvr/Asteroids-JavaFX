@@ -15,9 +15,11 @@ import javafx.util.Pair;
 public class ScoreBoard implements SaveHandler {
 
     private List<Pair<String, Integer>> scoresList = new ArrayList<>();
-    private final String FILENAME = "score_saves";
+    private final String FILENAME;
+    private final String PARENTFOLDER = "saves";
 
-    public ScoreBoard() {
+    public ScoreBoard(String FILENAME) {
+        this.FILENAME = FILENAME;
         load();
     }
 
@@ -29,7 +31,7 @@ public class ScoreBoard implements SaveHandler {
             }
             writer.close();
         } catch (FileNotFoundException e) {
-            new File(SaveHandler.class.getResource("").getFile() + "saves").mkdir();
+            new File(PARENTFOLDER).mkdir();
             save();
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +46,7 @@ public class ScoreBoard implements SaveHandler {
                     .collect(Collectors.toList());
             reader.close();
         } catch (FileNotFoundException e) {
-            new File(SaveHandler.class.getResource("").getFile() + "saves").mkdir();
+            new File(PARENTFOLDER).mkdir();
             scoresList = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,6 +69,8 @@ public class ScoreBoard implements SaveHandler {
     }
 
     private String getFilePath() {
-        return SaveHandler.class.getResource("").getFile() + "saves/" + FILENAME + ".txt";
+        return PARENTFOLDER + "/" + FILENAME + ".txt";
     }
+
+    
 }
