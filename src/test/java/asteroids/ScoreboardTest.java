@@ -8,21 +8,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
 public class ScoreboardTest {
     private ScoreBoard scoreBoard, scoreBoard2;
-    private ArrayList <String> playerNames = new ArrayList<>(Arrays.asList("Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Charlotte", "William", "Sophia", "James",
+    private List <String> playerNames = new ArrayList<>(Arrays.asList("Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Charlotte", "William", "Sophia", "James",
     "Amelia", "Benjamin", "Isabella", "Lucas", "Mia",	"Henry", "Evelyn", "Alexander", "Harper"));
-    private ArrayList <Integer> scores = new ArrayList<>(Arrays.asList(1010, 940, 1260, 120, 300, 1500, 970, 780, 990, 1410, 940, 700, 810, 310, 780, 790, 1000, 1650, 290, 850));
-    private ArrayList <Integer> addedScoresSorted = new ArrayList<>();
+    private List <Integer> scores = new ArrayList<>(Arrays.asList(1010, 940, 1260, 120, 300, 1500, 970, 780, 990, 1410, 940, 700, 810, 310, 780, 790, 1000, 1650, 290, 850));
     
 
     @BeforeEach
@@ -34,6 +32,7 @@ public class ScoreboardTest {
     @Test
     @DisplayName("Test adding scores")
     public void addScoreTest(){
+        ArrayList <Integer> addedScoresSorted = new ArrayList<>();
 
         assertEquals(new ArrayList<>(), scoreBoard.getScores(), "Check that the scorelist is empty.");
         
@@ -63,10 +62,10 @@ public class ScoreboardTest {
         assertEquals(scores.get(0), scoreBoard.getHighScore(), "Check that highscore is 0 when no scores are added.");
 
         scoreBoard.addScore(playerNames.get(1), scores.get(1));
-        assertEquals(scores.get(0), scoreBoard.getHighScore(), "Add a score, and check that highscore is updated.");
+        assertEquals(scores.get(0), scoreBoard.getHighScore(), "Add the first score, and check that highscore is updated.");
 
         scoreBoard.addScore(playerNames.get(2), scores.get(2));
-        assertEquals(scores.get(2), scoreBoard.getHighScore(), "Add new score that is worse than the previous, so highscore remains unchanged.");
+        assertEquals(scores.get(2), scoreBoard.getHighScore(), "Add new score, but not a highscore.");
 
         scoreBoard.addScore(playerNames.get(3), scores.get(3));
         assertEquals(scores.get(2), scoreBoard.getHighScore(), "Add new highscore.");

@@ -40,14 +40,14 @@ public class SpriteTest {
     @DisplayName("Test Sprite super constructor")
     public void testConstructor() {
 
-        assertEquals(300, sprite1.getPosX());
-        assertEquals(400, sprite1.getPosY());
-        assertEquals(20, sprite1.getImageWidth());
-        assertEquals(10, sprite1.getImageHeight());
-        assertEquals("asteroids/exampleURL.png", sprite1.getImageURL());
-        assertEquals(5, sprite1.getVelocity().getLength());
-        assertEquals(Math.PI/2, sprite1.getVelocity().getAngle(), DELTA);
-        assertEquals(0, sprite1.getRotation());
+        assertEquals(300, sprite1.getPosX(), "Test x-coordinate.");
+        assertEquals(400, sprite1.getPosY(), "Test y-coordinate.");
+        assertEquals(20, sprite1.getImageWidth(), "Test image width.");
+        assertEquals(10, sprite1.getImageHeight(), "Test image height.");
+        assertEquals("asteroids/exampleURL.png", sprite1.getImageURL(), "Test image URL.");
+        assertEquals(5, sprite1.getVelocity().getLength(), "Test velocity.");
+        assertEquals(0, sprite1.getVelocity().getX(), DELTA, "Test x-component of velocity.");
+        assertEquals(5, sprite1.getVelocity().getY(), DELTA, "Test y-component of velocity.");
 
     }
 
@@ -153,15 +153,15 @@ public class SpriteTest {
         sprite1.setPosXY(300, 601);
         sprite1.wrap();
         assertEquals(300, sprite1.getPosX(), "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the bottom");
-        assertEquals(-9, sprite1.getPosY(), "Check that y-coordinate is changed  when the sprite has gone out of the image from the bottom");
+        assertEquals(-9, sprite1.getPosY(), "Check that y-coordinate is changed when the sprite has gone out of the image from the bottom");
         sprite1.wrap();
         assertEquals(300, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(-9, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");
 
         sprite1.setPosXY(-21, 400);
         sprite1.wrap();
-        assertEquals(799, sprite1.getPosX(), "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the left");
-        assertEquals(400, sprite1.getPosY(), "Check that y-coordinate is changed  when the sprite has gone out of the image from the left");
+        assertEquals(799, sprite1.getPosX(), "Check that x-coordinate is changed when the sprite has gone out of the image from the left");
+        assertEquals(400, sprite1.getPosY(), "Check that y-coordinate remains unchanged when the sprite has gone out of the image from the left");
         sprite1.wrap();
         assertEquals(799, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(400, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");
@@ -169,7 +169,7 @@ public class SpriteTest {
         sprite1.setPosXY(300, -11);
         sprite1.wrap();
         assertEquals(300, sprite1.getPosX(), "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the top");
-        assertEquals(599, sprite1.getPosY(), "Check that y-coordinate is changed  when the sprite has gone out of the image from the top");
+        assertEquals(599, sprite1.getPosY(), "Check that y-coordinate is changed when the sprite has gone out of the image from the top");
         sprite1.wrap();
         assertEquals(300, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(599, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");

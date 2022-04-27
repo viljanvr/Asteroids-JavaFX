@@ -24,7 +24,7 @@ public class AsteroidsController {
     private Timer timer;
     private Game game;
     private GraphicsContext gc;
-    private boolean UPpressed = false, DOWNpressed = false, DOWNreleased = true, LEFTpressed = false,
+    private boolean UPpressed = false, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
     private Media sound;
     private MediaPlayer mediaPlayer;
@@ -200,12 +200,6 @@ public class AsteroidsController {
             spaceship.rotateLeft();
         if (this.RIGHTpressed)
             spaceship.rotateRight();
-
-        if (this.DOWNpressed && this.DOWNreleased) {
-            game.getSprites().add(new Asteroid());
-            this.DOWNreleased = false;
-        }
-
         if (this.SPACEpressed && this.SPACEreleased) {
             game.getSprites().add(spaceship.shoot());
             this.SPACEreleased = false;
@@ -216,7 +210,6 @@ public class AsteroidsController {
     private void keyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case UP -> UPpressed = true;
-            case DOWN -> DOWNpressed = true;
             case LEFT -> LEFTpressed = true;
             case RIGHT -> RIGHTpressed = true;
             case SPACE -> SPACEpressed = true;
@@ -229,10 +222,6 @@ public class AsteroidsController {
     private void keyReleased(KeyEvent event) {
         switch (event.getCode()) {
             case UP -> UPpressed = false;
-            case DOWN -> {
-                DOWNpressed = false;
-                DOWNreleased = true;
-            }
             case LEFT -> LEFTpressed = false;
             case RIGHT -> RIGHTpressed = false;
             case SPACE -> {

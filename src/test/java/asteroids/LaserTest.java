@@ -69,8 +69,8 @@ public class LaserTest {
         assertFalse(laser2.checkCollision(Arrays.asList(asteroid)), "Checks that laser2 doesn't collide with asteroid");
 
         asteroid.setPosXY(0, 0);
-        assertFalse(laser1.checkCollision(Arrays.asList(asteroid)), "Checks that laser1 doesn't collide with asteroid2");
-        assertTrue(laser2.checkCollision(Arrays.asList(asteroid)), "Checks that laser2 collides with asteroid2");
+        assertFalse(laser1.checkCollision(Arrays.asList(asteroid)), "Checks that laser1 doesn't collide with asteroid");
+        assertTrue(laser2.checkCollision(Arrays.asList(asteroid)), "Checks that laser2 collides with asteroid");
 
         spaceship = new Spaceship();
         spaceship.setPosXY(0, 100);
