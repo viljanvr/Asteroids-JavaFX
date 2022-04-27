@@ -1,7 +1,6 @@
 package asteroids;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -12,16 +11,21 @@ import org.junit.jupiter.api.Test;
 public class GameTest {
 
     private Game game;
+    private Spaceship previousSpaceship;
+    private Asteroid asteroid;
+
 
     @BeforeEach
     public void setup() {
         game = new Game();
+        asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
+        asteroid.setPosXY(500, 500);
     }
 
     @Test
     @DisplayName("Test constructor")
     public void constructorTest() {
-        
+
         checkSpriteCount(1, 0, 1, 0);
 
         assertEquals(0, game.getScore(), "Check that score is 0.");
@@ -135,20 +139,21 @@ public class GameTest {
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Checks that another asteroid has spawned after 6 more seconds.");
     }
 
-
-
     public void checkSpriteCount(int spaceships, int lasers, int largeAsteroids, int smallAsteroids){
         assertEquals(spaceships, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Spaceship).count() , "Checks that there are " + spaceships + " spaceship(s).");
+                .filter(sprite -> sprite instanceof Spaceship).count(),
+                "Checks that there are " + spaceships + " spaceship(s).");
 
         assertEquals(lasers, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Laser).count() , "Checks that there are " + lasers + " laser(s).");
+                .filter(sprite -> sprite instanceof Laser).count(), "Checks that there are " + lasers + " laser(s).");
 
         assertEquals(largeAsteroids, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid)sprite).isLarge()).count() ,"Checks that there are " + largeAsteroids + " large asteroid(s).");
+                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
+                "Checks that there are " + largeAsteroids + " large asteroid(s).");
 
         assertEquals(smallAsteroids, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Asteroid && !((Asteroid)sprite).isLarge()).count() , "Checks that there are " + smallAsteroids+ " small asteroid(s).");
+                .filter(sprite -> sprite instanceof Asteroid && !((Asteroid) sprite).isLarge()).count(),
+                "Checks that there are " + smallAsteroids + " small asteroid(s).");
     }
 
     public void collideSpaceshipLargeAsteroid(){

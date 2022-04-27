@@ -1,7 +1,6 @@
 package asteroids;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
@@ -14,9 +13,10 @@ import org.junit.jupiter.api.Test;
 
 public class SpriteTest {
 
-    public class SpriteImplementation extends Sprite{
+    public class SpriteImplementation extends Sprite {
 
-        public SpriteImplementation(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight, String IMAGEURL){
+        public SpriteImplementation(double x1, double y1, double speed, double speedDirection, int imageWidth,
+                int imageHeight, String IMAGEURL) {
             super(x1, y1, speed, speedDirection, imageWidth, imageHeight, IMAGEURL);
         }
 
@@ -32,8 +32,8 @@ public class SpriteTest {
 
     @BeforeEach
     public void setup() {
-        sprite1 = new SpriteImplementation(300, 400, 5, Math.PI/2, 20, 10, "asteroids/exampleURL.png");
-        sprite2 = new SpriteImplementation(200, 200, 3, 7*Math.PI/6, 30, 30, "asteroids/exampleURL.png");
+        sprite1 = new SpriteImplementation(300, 400, 5, Math.PI / 2, 20, 10, "asteroids/exampleURL.png");
+        sprite2 = new SpriteImplementation(200, 200, 3, 7 * Math.PI / 6, 30, 30, "asteroids/exampleURL.png");
     }
 
     @Test
@@ -62,27 +62,29 @@ public class SpriteTest {
     }
 
     @Test
-    @DisplayName ("Test overlapsSprite function")
-    public void overlapsSpriteTest(){
+    @DisplayName("Test overlapsSprite function")
+    public void overlapsSpriteTest() {
         sprite2.setPosXY(200, 400);
 
         sprite1.setPosXY(229, 400);
         assertTrue(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is overlapping the right side of sprite2");
 
         sprite1.setPosXY(230, 400);
-        assertFalse(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is to the right of sprite2, but not overlapping");
+        assertFalse(sprite1.overlapsSprite(sprite2),
+                "Checks when sprite1 is to the right of sprite2, but not overlapping");
 
         sprite1.setPosXY(200, 429);
         assertTrue(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is overlapping the bottom side of sprite2");
 
-        sprite1.setPosXY(200,430);
+        sprite1.setPosXY(200, 430);
         assertFalse(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is beneath sprite2, but not overlapping");
 
         sprite1.setPosXY(181, 400);
         assertTrue(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is overlapping the left side of sprite2");
 
         sprite1.setPosXY(180, 400);
-        assertFalse(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is to the left of sprite2, but not overlapping");
+        assertFalse(sprite1.overlapsSprite(sprite2),
+                "Checks when sprite1 is to the left of sprite2, but not overlapping");
 
         sprite1.setPosXY(200, 391);
         assertTrue(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is overlapping the upper side of sprite2");
@@ -90,86 +92,99 @@ public class SpriteTest {
         sprite1.setPosXY(200, 390);
         assertFalse(sprite1.overlapsSprite(sprite2), "Checks when sprite1 is above sprite2, but not overlapping");
 
-        
     }
 
     @Test
     @DisplayName("Test isInsideRectangle function")
     public void isInsideRectangleTest() {
         sprite2.setPosXY(499, 300);
-        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is overlapping the right side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
+        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is overlapping the right side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
 
         sprite2.setPosXY(500, 300);
-        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is to the right of the rectangle, but not overlapping");
+        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is to the right of the rectangle, but not overlapping");
 
         sprite2.setPosXY(400, 399);
-        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is overlapping the bottom side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
+        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is overlapping the bottom side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
 
         sprite2.setPosXY(400, 400);
-        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is beneath the rectangle, but not overlapping");
+        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is beneath the rectangle, but not overlapping");
 
         sprite2.setPosXY(271, 300);
-        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is overlapping the left side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
+        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is overlapping the left side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
 
         sprite2.setPosXY(270, 300);
-        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is to the left of the rectangle, but not overlapping");
+        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is to the left of the rectangle, but not overlapping");
 
         sprite2.setPosXY(400, 171);
-        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is overlapping the upper side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
+        assertTrue(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is overlapping the upper side of rectangle defined by the two corner coordinates (300, 200) and (500, 400)");
 
         sprite2.setPosXY(400, 170);
-        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400), "Checks when sprite2 is above the rectangle, but not overlapping");
+        assertFalse(sprite2.isInsideRectangle(300, 200, 500, 400),
+                "Checks when sprite2 is above the rectangle, but not overlapping");
 
     }
-
-   
 
     @Test
     @DisplayName("Test updatePosition function")
     public void updatePositionTest() {
 
-        
         sprite1.updatePosition();
         sprite2.updatePosition();
         assertEquals(300, sprite1.getPosX(), DELTA, "Checks that the sprite2's x-coordinate remains unchanged.");
-        assertEquals(400+5, sprite1.getPosY(), DELTA, "Checks that the sprite2's y-coordinate has increased with 5 units.");
-        assertEquals(200-(3*Math.sqrt(3)/2), sprite2.getPosX(), DELTA, "Checks that the sprite2's x-coordinate has decreased with 3*sqrt(3)/2 units.");
-        assertEquals(198.5, sprite2.getPosY(), DELTA, "Checks that the sprite2's y-coordinate has decreased with 3/2 units.");
+        assertEquals(400 + 5, sprite1.getPosY(), DELTA,
+                "Checks that the sprite2's y-coordinate has increased with 5 units.");
+        assertEquals(200 - (3 * Math.sqrt(3) / 2), sprite2.getPosX(), DELTA,
+                "Checks that the sprite2's x-coordinate has decreased with 3*sqrt(3)/2 units.");
+        assertEquals(198.5, sprite2.getPosY(), DELTA,
+                "Checks that the sprite2's y-coordinate has decreased with 3/2 units.");
     }
-
-    
 
     @Test
     @DisplayName("Test wrap functions")
     public void wrapTest() {
         sprite1.setPosXY(801, 400);
         sprite1.wrap();
-        assertEquals(-19, sprite1.getPosX(), "Check that x-coordinate is changed when the sprite has gone out of the image from the right");
-        assertEquals(400, sprite1.getPosY(), "Check that y-coordinate remains unchanged when the sprite has gone out of the image from the right");
+        assertEquals(-19, sprite1.getPosX(),
+                "Check that x-coordinate is changed when the sprite has gone out of the image from the right");
+        assertEquals(400, sprite1.getPosY(),
+                "Check that y-coordinate remains unchanged when the sprite has gone out of the image from the right");
         sprite1.wrap();
         assertEquals(-19, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(400, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");
 
         sprite1.setPosXY(300, 601);
         sprite1.wrap();
-        assertEquals(300, sprite1.getPosX(), "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the bottom");
-        assertEquals(-9, sprite1.getPosY(), "Check that y-coordinate is changed when the sprite has gone out of the image from the bottom");
+        assertEquals(300, sprite1.getPosX(),
+                "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the bottom");
+        assertEquals(-9, sprite1.getPosY(),
+                "Check that y-coordinate is changed when the sprite has gone out of the image from the bottom");
         sprite1.wrap();
         assertEquals(300, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(-9, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");
 
         sprite1.setPosXY(-21, 400);
         sprite1.wrap();
-        assertEquals(799, sprite1.getPosX(), "Check that x-coordinate is changed when the sprite has gone out of the image from the left");
-        assertEquals(400, sprite1.getPosY(), "Check that y-coordinate remains unchanged when the sprite has gone out of the image from the left");
+        assertEquals(799, sprite1.getPosX(),
+                "Check that x-coordinate is changed when the sprite has gone out of the image from the left");
+        assertEquals(400, sprite1.getPosY(),
+                "Check that y-coordinate remains unchanged when the sprite has gone out of the image from the left");
         sprite1.wrap();
         assertEquals(799, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(400, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");
 
         sprite1.setPosXY(300, -11);
         sprite1.wrap();
-        assertEquals(300, sprite1.getPosX(), "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the top");
-        assertEquals(599, sprite1.getPosY(), "Check that y-coordinate is changed when the sprite has gone out of the image from the top");
+        assertEquals(300, sprite1.getPosX(),
+                "Check that x-coordinate remains unchanged when the sprite has gone out of the image from the top");
+        assertEquals(599, sprite1.getPosY(),
+                "Check that y-coordinate is changed when the sprite has gone out of the image from the top");
         sprite1.wrap();
         assertEquals(300, sprite1.getPosX(), "Check that wrap doesn't change x-coordinate");
         assertEquals(599, sprite1.getPosY(), "Check that wrap doesn't change y-coordinate");

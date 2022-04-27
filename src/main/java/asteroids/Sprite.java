@@ -1,6 +1,9 @@
 package asteroids;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class Sprite {
 
@@ -11,6 +14,12 @@ public abstract class Sprite {
 
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight,
             String IMAGEURL) {
+
+        checkValidNumbers(-64, "innvalid x or y coordinate input", x1, y2);
+        checkValidNumbers(0, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
+        if (IMAGEURL.isEmpty() || IMAGEURL.isBlank())
+            throw new IllegalArgumentException("innvalid imageURL");
+
         this.IMAGEURL = IMAGEURL;
         this.IMAGEWIDTH = imageWidth;
         this.IMAGEHEIGHT = imageHeight;
@@ -35,7 +44,7 @@ public abstract class Sprite {
     }
 
     public boolean isInsideRectangle(double x1, double y1, double x2, double y2) {
-        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);  
+        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);
     }
 
     public void updatePosition() {
@@ -80,5 +89,12 @@ public abstract class Sprite {
 
     public int getImageHeight() {
         return IMAGEHEIGHT;
+    }
+
+    protected void checkValidNumbers(int limit, String info, Double... numbers) {
+        List<Double> numberslist = new ArrayList<Double>(Arrays.asList(numbers));
+        if (numberslist.stream().anyMatch(number -> number < limit))
+            throw new IllegalArgumentException(info);
+
     }
 }
