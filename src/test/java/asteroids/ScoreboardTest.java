@@ -16,16 +16,15 @@ import javafx.util.Pair;
 
 public class ScoreboardTest {
     private ScoreBoard scoreBoard, scoreBoard2;
-    private List<String> playerNames = new ArrayList<>(Arrays.asList("Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava",
-            "Elijah", "Charlotte", "William", "Sophia", "James",
-            "Amelia", "Benjamin", "Isabella", "Lucas", "Mia", "Henry", "Evelyn", "Alexander", "Harper"));
-    private List<Integer> scores = new ArrayList<>(Arrays.asList(1010, 940, 1260, 120, 300, 1500, 970, 780, 990, 1410,
-            940, 700, 810, 310, 780, 790, 1000, 1650, 290, 850));
+    private List <String> playerNames = new ArrayList<>(Arrays.asList("Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava", "Elijah", "Charlotte", "William", "Sophia", "James",
+    "Amelia", "Benjamin", "Isabella", "Lucas", "Mia",	"Henry", "Evelyn", "Alexander", "Harper"));
+    private List <Integer> scores = new ArrayList<>(Arrays.asList(1010, 940, 1260, 120, 300, 1500, 970, 780, 990, 1410, 940, 700, 810, 310, 780, 790, 1000, 1650, 290, 850));
+    private final String FILENAME = "scores_test";
 
     @BeforeEach
     public void setup() {
         deleteScoresFile();
-        scoreBoard = new ScoreBoard();
+        scoreBoard = new ScoreBoard(FILENAME);
     }
 
     @Test
@@ -52,7 +51,7 @@ public class ScoreboardTest {
     }
 
     @Test
-    @DisplayName("Test highscore is correct")
+    @DisplayName("Test highscore getHighScore method")
     public void getHighScoreTest() {
         assertEquals(0, scoreBoard.getHighScore(), "Check that the highscore is 0 when no scores are set");
 
@@ -77,16 +76,14 @@ public class ScoreboardTest {
         for (int i = 0; i < 20; i++) {
             scoreBoard.addScore(playerNames.get(i), scores.get(i));
         }
-
-        scoreBoard2 = new ScoreBoard();
-        assertEquals(scoreBoard.getScores(), scoreBoard2.getScores(),
-                "Checks that the new scoreboard loads all entries in the file");
+        scoreBoard2 = new ScoreBoard(FILENAME);
+        assertEquals(scoreBoard.getScores(), scoreBoard2.getScores(), "Checks that the new scoreboard loads all entries in the file");
     }
 
-    private void deleteScoresFile() {
-        String filePath = ScoreboardTest.class.getResource("").getFile() + "saves/score_saves.txt";
-        File f = new File(filePath);
-        f.delete();
-
-    }
+    private void deleteScoresFile(){
+        String filePath = "saves/" + FILENAME + ".txt";
+        File f= new File(filePath);
+        f.delete(); 
+        
+    }  
 }
