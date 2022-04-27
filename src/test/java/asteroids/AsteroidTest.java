@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -16,12 +17,13 @@ public class AsteroidTest {
 
     private Asteroid asteroid;
     private Asteroid randomAsteroid;
-    Collection<Sprite> sprites;
+    List<Sprite> sprites;
 
     @BeforeEach
     public void setup() {
-        asteroid = new Asteroid(300, 300, new Vector(0, 0));
         randomAsteroid = new Asteroid();
+        asteroid = (Asteroid) randomAsteroid.splitLargeAsteroid().get(0);
+        asteroid.setPosXY(300, 300);
         sprites = new ArrayList<>();
     }
 
@@ -58,7 +60,9 @@ public class AsteroidTest {
     @DisplayName("Tests the collision detector function")
     public void checkCollisionTest() {
         Collection<Sprite> sprites = new ArrayList<>();
-        sprites.add(new Asteroid(305, 305, new Vector(0, 0)));
+        Asteroid asteroid2 = (Asteroid) randomAsteroid.splitLargeAsteroid().get(0);
+        asteroid2.setPosXY(305, 305);
+        sprites.add(asteroid2);
         assertFalse(asteroid.checkCollision(sprites), "Checks collision with another asteroid");
         sprites.add(new Laser(305, 305, 0, 0));
         assertTrue(asteroid.checkCollision(sprites), "Checks collision with a laser");
