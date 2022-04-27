@@ -46,7 +46,9 @@ public class ScoreBoard implements SaveHandler {
                     .collect(Collectors.toList());
             reader.close();
         } catch (FileNotFoundException e) {
+
             new File(PARENTFOLDER).mkdir();
+
             scoresList = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,6 +56,9 @@ public class ScoreBoard implements SaveHandler {
     }
 
     public void addScore(String player, int score) {
+        if (player.isBlank() || player.isEmpty() || score < 0) {
+            throw new IllegalArgumentException("innvalid score");
+        }
         scoresList.add(new Pair<>(player, score));
         scoresList.sort((score1, score2) -> score2.getValue() - score1.getValue());
         save();
@@ -65,11 +70,12 @@ public class ScoreBoard implements SaveHandler {
 
     public List<Pair<String, Integer>> getScores() {
         return scoresList;
-        
+
     }
 
     private String getFilePath() {
         return PARENTFOLDER + "/" + FILENAME + ".txt";
+
     }
 
     

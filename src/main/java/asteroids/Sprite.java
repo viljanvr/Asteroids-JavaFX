@@ -1,6 +1,9 @@
 package asteroids;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class Sprite {
 
@@ -11,10 +14,16 @@ public abstract class Sprite {
 
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight,
             String IMAGEURL) {
+
+        checkValidNumbers(-64, "innvalid x or y coordinate input", x1, y2);
+        checkValidNumbers(0, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
+        if (IMAGEURL.isEmpty() || IMAGEURL.isBlank())
+            throw new IllegalArgumentException("innvalid imageURL");
+
         this.IMAGEURL = IMAGEURL;
         this.IMAGEWIDTH = imageWidth;
         this.IMAGEHEIGHT = imageHeight;
-        
+
         setPosXY(x1, y1);
 
         getVelocity().setLength(speed);
@@ -35,7 +44,7 @@ public abstract class Sprite {
     }
 
     public boolean isInsideRectangle(double x1, double y1, double x2, double y2) {
-        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);  
+        return (this.x1 < x2 && x1 < this.x2) && (this.y1 < y2 && y1 < this.y2);
     }
 
     public void updatePosition() {
@@ -46,16 +55,13 @@ public abstract class Sprite {
         if (x1 > AsteroidsController.CANVASWIDTH) {
             x1 -= AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
             x2 -= AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
-        }
-        else if (x2 < 0) {
+        } else if (x2 < 0) {
             x1 += AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
             x2 += AsteroidsController.CANVASWIDTH + IMAGEWIDTH;
-        }
-        else if (y1 > AsteroidsController.CANVASHEIGHT) {
+        } else if (y1 > AsteroidsController.CANVASHEIGHT) {
             y1 -= AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
             y2 -= AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
-        }
-        else if (y2 < 0) {
+        } else if (y2 < 0) {
             y1 += AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
             y2 += AsteroidsController.CANVASHEIGHT + IMAGEHEIGHT;
         }
@@ -83,5 +89,12 @@ public abstract class Sprite {
 
     public int getImageHeight() {
         return IMAGEHEIGHT;
+    }
+
+    protected void checkValidNumbers(int limit, String info, Double... numbers) {
+        List<Double> numberslist = new ArrayList<Double>(Arrays.asList(numbers));
+        if (numberslist.stream().anyMatch(number -> number < limit))
+            throw new IllegalArgumentException(info);
+
     }
 }
