@@ -47,7 +47,9 @@ public class ScoreBoard implements SaveHandler {
             reader.close();
         } catch (FileNotFoundException e) {
             new File(PARENTFOLDER).mkdir();
+
             scoresList = new ArrayList<>();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,6 +72,7 @@ public class ScoreBoard implements SaveHandler {
 
     private String getFilePath() {
         return PARENTFOLDER + "/" + FILENAME + ".txt";
+
     }
 
     
