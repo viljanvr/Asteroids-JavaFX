@@ -122,17 +122,17 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Test that a large asteroid is spawned every 6 seconds")
+    @DisplayName("Test that a large asteroid is spawned every 5 seconds")
     public void testAsteroidSpawning(){
         game.gameLoop(800000000000000l);
         assertEquals(2, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Check that game spawns a second asteroid first time gameLoop runs.");
-        game.gameLoop(800006000000000l);
+        game.gameLoop(800005000000000l);
         assertEquals(3, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Check that an asteroid has spawned after 6 seconds.");
-        game.gameLoop(800012000000000l);
+                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Check that an asteroid has spawned after 5 seconds.");
+        game.gameLoop(800010000000000l);
         assertEquals(4, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Checks that another asteroid has spawned after 6 more seconds.");
+                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Checks that another asteroid has spawned after 5 more seconds.");
     }
 
 

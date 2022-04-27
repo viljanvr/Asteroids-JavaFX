@@ -27,8 +27,8 @@ public class Spaceship extends Sprite {
     }
 
     public Sprite shoot() {
-        return new Laser(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2, getVelocity().getLength(),
-                getRotation());
+        return new Laser(getPosX() + getImageWidth() / 2 - 4 + 15*Math.cos(rotation), getPosY() + getImageHeight() / 2 - 4 + 15*Math.sin(rotation), 
+        getVelocity().getLength(), getRotation());
     }
 
     public void thrust() {
