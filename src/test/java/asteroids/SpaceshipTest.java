@@ -36,8 +36,8 @@ public class SpaceshipTest {
     @DisplayName("Test shoot function")
     public void shootTest() {
         Sprite laser = spaceship.shoot();
-        assertEquals(spaceship.getPosX() + spaceship.getImageWidth() / 2, laser.getPosX(), "Checks laser x-position");
-        assertEquals(spaceship.getPosY() + spaceship.getImageHeight() / 2, laser.getPosY(), "Checks laser y-position");
+        assertEquals(spaceship.getPosX() + spaceship.getImageWidth() / 2.0 - 4, laser.getPosX(), "Checks laser x-position");
+        assertEquals(spaceship.getPosY() + spaceship.getImageHeight() / 2.0 - 4 - 15, laser.getPosY(), "Checks laser y-position");
         spaceship.rotateRight();
         spaceship.getVelocity().setLength(5);
         Sprite laser2 = spaceship.shoot();

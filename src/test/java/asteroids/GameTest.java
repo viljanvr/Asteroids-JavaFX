@@ -3,6 +3,7 @@ package asteroids;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.Test;
 public class GameTest {
 
     private Game game;
-    private Spaceship previousSpaceship;
     private Asteroid asteroid;
 
 
@@ -114,7 +114,7 @@ public class GameTest {
     @DisplayName("Prevent spawning spaceship when object is the way.")
     public void spawnKillPrevetionTest(){
         game.getSprites().removeIf(sprite -> sprite instanceof Spaceship);
-        game.getSprites().add(new Asteroid(400, 300, new Vector(0, 0)));
+        addAsteroid(400, 300, true);
         game.gameLoop(0);
         assertEquals(0, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Spaceship).count() , "Checks that spaceship doesn't spawn when an asteroid is in the way.");
@@ -126,17 +126,17 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Test that a large asteroid is spawned every 6 seconds")
+    @DisplayName("Test that a large asteroid is spawned every 5 seconds")
     public void testAsteroidSpawning(){
         game.gameLoop(800000000000000l);
         assertEquals(2, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Check that game spawns a second asteroid first time gameLoop runs.");
-        game.gameLoop(800006000000000l);
+        game.gameLoop(800005000000000l);
         assertEquals(3, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Check that an asteroid has spawned after 6 seconds.");
-        game.gameLoop(800012000000000l);
+                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Check that an asteroid has spawned after 5 seconds.");
+        game.gameLoop(800010000000000l);
         assertEquals(4, game.getSprites().stream()
-                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Checks that another asteroid has spawned after 6 more seconds.");
+                .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count() , "Checks that another asteroid has spawned after 5 more seconds.");
     }
 
     public void checkSpriteCount(int spaceships, int lasers, int largeAsteroids, int smallAsteroids){
@@ -159,31 +159,36 @@ public class GameTest {
     public void collideSpaceshipLargeAsteroid(){
         game.getSprites().removeIf(sprite -> !(sprite instanceof Spaceship));
         game.getSpaceship().setPosXY(500, 500);
-        game.getSprites().add(new Asteroid());
-        game.getSprites().get(1).setPosXY(500, 500);
+        addAsteroid(500, 500, true);
         game.gameLoop(0);
     }
 
     public void collideSpaceshipSmallAsteroid(){
         game.getSprites().removeIf(sprite -> !(sprite instanceof Spaceship));
         game.getSpaceship().setPosXY(500, 500);
-        game.getSprites().add(new Asteroid(500, 500, new Vector(0, 0)));
+        addAsteroid(500, 500, false);
         game.gameLoop(0);
     }
 
     public void collideLaserLargeAsteroid(){
         game.getSprites().removeIf(sprite -> !(sprite instanceof Spaceship));
-        game.getSprites().add(new Asteroid());
-        game.getSprites().get(1).setPosXY(500, 500);
+        addAsteroid(500, 500, true);
         game.getSprites().add(new Laser(500, 500, 0, 0));
         game.gameLoop(0);
     }
 
     public void collideLaserSmallAsteroid(){
         game.getSprites().removeIf(sprite -> !(sprite instanceof Spaceship));
-        game.getSprites().add(new Asteroid(500, 500, new Vector(0, 0)));
+        addAsteroid(500, 500, false);
         game.getSprites().add(new Laser(500, 500, 0, 0));
         game.gameLoop(0);
+    }
+
+    public void addAsteroid(int x, int y, Boolean isLarge){
+        Asteroid asteroid = isLarge ? new Asteroid() : (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
+        asteroid.setPosXY(x, y);
+        game.getSprites().add(asteroid);
+
     }
 
 }
