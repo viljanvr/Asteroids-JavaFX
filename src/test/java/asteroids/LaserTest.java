@@ -33,12 +33,12 @@ public class LaserTest {
         assertEquals(300, laser3.getPosY(), "Test that y-coordinate is 300.");
         assertEquals(10, laser3.getVelocity().getLength(), "Test that the velocity is 10.");
         assertEquals(-10 * Math.sqrt(3) / 2, laser3.getVelocity().getX(), DELTA,
-                "Checks that the angle of the velocity vector is 7*PI/6.");
+                "Checks that the angle of the velocity vector is 7*PI/6, by checking the x-component of the velocity.");
         assertEquals(-10 / 2, laser3.getVelocity().getY(), DELTA,
-                "Checks that the angle of the velocity vector is 7*PI/6.");
-        assertEquals(8, laser3.getImageWidth(), "Checks that image width is 8");
-        assertEquals(8, laser3.getImageHeight(), "Checks that image height is 8");
-        assertEquals("asteroids/laser.png", laser3.getImageURL(), "Checks that image URL is correct");
+                "Checks that the angle of the velocity vector is 7*PI/6, by checking the y-component of the velocity.");
+        assertEquals(8, laser3.getImageWidth(), "Checks that image width is 8.");
+        assertEquals(8, laser3.getImageHeight(), "Checks that image height is 8.");
+        assertEquals("asteroids/laser.png", laser3.getImageURL(), "Checks that image URL is correct.");
     }
 
     @Test
@@ -50,7 +50,7 @@ public class LaserTest {
     }
 
     private void laserOutOfBoundsTest(Laser laser, int framesToOutOfBounds) {
-        assertFalse(laser.checkOutOfBound(), "Checks that the laser is inside the playable area");
+        assertFalse(laser.checkOutOfBound(), "Checks that the laser is inside the playable area.");
         for (int i = 0; i < framesToOutOfBounds - 1; i++) {
             laser.updatePosition();
         }
@@ -67,17 +67,16 @@ public class LaserTest {
     public void checkCollisionTest() {
         asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(0, 100);
-        assertTrue(laser1.checkCollision(Arrays.asList(asteroid)), "Checks that laser1 collides with asteroid");
-        assertFalse(laser2.checkCollision(Arrays.asList(asteroid)), "Checks that laser2 doesn't collide with asteroid");
-
-        asteroid.setPosXY(0, 0);
-        assertFalse(laser1.checkCollision(Arrays.asList(asteroid)), "Checks that laser1 doesn't collide with asteroid");
-        assertTrue(laser2.checkCollision(Arrays.asList(asteroid)), "Checks that laser2 collides with asteroid");
+        assertTrue(laser1.checkCollision(Arrays.asList(asteroid)), "Checks that laser collides with asteroid.");
 
         spaceship = new Spaceship();
         spaceship.setPosXY(0, 100);
         assertFalse(laser1.checkCollision(Arrays.asList(spaceship)),
-                "Laser should never collide with spaceship, eventhough the overlap");
+                "Laser should never collide with spaceship, eventhough they overlap.");
+
+        laser2.setPosXY(0, 100);
+        assertFalse(laser1.checkCollision(Arrays.asList(laser2)),
+                "Laser should never collide with another laser, eventhough they overlap.");
     }
 
 }

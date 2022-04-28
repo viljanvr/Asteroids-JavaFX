@@ -60,7 +60,7 @@ public class VectorTest {
     }
 
     private void checksXYPositions(double x, double y) {
-        assertEquals(x, vector.getX());
-        assertEquals(y, vector.getY());
+        assertEquals(x, vector.getX(), "Checks that x is " + x + ", but was " + vector.getX() + ".");
+        assertEquals(y, vector.getY(), "Checks that y is " + y + ", but was " + vector.getY() + ".");
     }
 }

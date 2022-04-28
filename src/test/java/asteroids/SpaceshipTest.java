@@ -2,12 +2,8 @@ package asteroids;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,10 +21,10 @@ public class SpaceshipTest {
     @DisplayName("Test rotate functions")
     public void rotateFunctionsTest() {
         spaceship.rotateLeft();
-        assertEquals(3 * Math.PI / 2 - Math.PI / 45, spaceship.getRotation(), "Checks rotation after rotated left");
+        assertEquals(3 * Math.PI / 2 - Math.PI / 45, spaceship.getRotation(), "Checks rotation after rotated left.");
         spaceship.rotateRight();
         spaceship.rotateRight();
-        assertEquals(3 * Math.PI / 2 + Math.PI / 45, spaceship.getRotation(), "Checks rotation after rotated right");
+        assertEquals(3 * Math.PI / 2 + Math.PI / 45, spaceship.getRotation(), "Checks rotation after rotated right.");
     }
 
     @Test
@@ -36,9 +32,9 @@ public class SpaceshipTest {
     public void shootTest() {
         Sprite laser = spaceship.shoot();
         assertEquals(spaceship.getPosX() + spaceship.getImageWidth() / 2.0 - 4, laser.getPosX(),
-                "Checks laser x-position");
+                "Checks laser x-position.");
         assertEquals(spaceship.getPosY() + spaceship.getImageHeight() / 2.0 - 4 - 15, laser.getPosY(),
-                "Checks laser y-position");
+                "Checks laser y-position.");
         spaceship.rotateRight();
         spaceship.getVelocity().setLength(5);
         Sprite laser2 = spaceship.shoot();
@@ -49,7 +45,7 @@ public class SpaceshipTest {
                 DELTA,
                 "Checks if laser's speed directions is equivalent to spaceship rotation, by checking the y-component of laser's velocity.");
         assertEquals(spaceship.getVelocity().getLength() + 4, laser2.getVelocity().getLength(), DELTA,
-                "checks laser speed after chanding spaceship speed ");
+                "checks laser speed after changing spaceship speed to 5.");
 
     }
 
@@ -119,23 +115,25 @@ public class SpaceshipTest {
     @Test
     @DisplayName("Tests getImageURL")
     public void getImageURLTest() {
-        assertEquals("asteroids/spaceship.png", spaceship.getImageURL(), "Checks the url without thrust");
-        spaceship.thrust();
-        assertEquals("asteroids/spaceship-thrust.png", spaceship.getImageURL(), "Checks the url when thrust is active");
         assertEquals("asteroids/spaceship.png", spaceship.getImageURL(),
-                "Checks the url when thrust is no longer active");
+                "Checks the URL when player is not thrusting.");
+        spaceship.thrust();
+        assertEquals("asteroids/spaceship-thrust.png", spaceship.getImageURL(),
+                "Checks the URl when player is thrusting.");
+        assertEquals("asteroids/spaceship.png", spaceship.getImageURL(),
+                "Checks the URL when player no longer is thrusting.");
 
     }
 
     @Test
     @DisplayName("Tests the collision detector function")
     public void checkCollisionTest() {
-        Collection<Sprite> sprites = new ArrayList<>();
-        sprites.add(new Laser(405, 305, 0, 0));
-        assertFalse(spaceship.checkCollision(sprites), "Checks that spaceship doesnt collide with laser");
+        Laser laser = new Laser(405, 305, 0, 0);
+        assertFalse(spaceship.checkCollision(Arrays.asList(laser)),
+                "Spaceship should never collide with laser, eventhough they overlap.");
+
         Asteroid asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(405, 305);
-        sprites.add(asteroid);
-        assertTrue(spaceship.checkCollision(sprites), "Checks that spaceship collides with asteroid.");
+        assertTrue(spaceship.checkCollision(Arrays.asList(asteroid)), "Checks that spaceship collides with asteroid.");
     }
 }
