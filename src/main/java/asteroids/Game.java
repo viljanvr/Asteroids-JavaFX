@@ -23,17 +23,20 @@ public class Game {
 
         sprites = sprites.stream()
                 .flatMap(sprite -> {
-                    //Removes spaceship/sprites that have collided and lasers that are out of bounds by not returning them.
+                    // Removes spaceship/sprites that have collided and lasers that are out of
+                    // bounds by not returning them.
                     if (((sprite instanceof Laser && !((Laser) sprite).checkOutOfBound()) || !(sprite instanceof Laser))
                             && !sprite.checkCollision(sprites)) {
                         return Stream.of(sprite);
-                    } 
-                    //Increases the score wtih 20 points when a large asteroid collides with a laser or spaceship and return 3 new small asteroids.
+                    }
+                    // Increases the score wtih 20 points when a large asteroid collides with a
+                    // laser or spaceship and return 3 new small asteroids.
                     else if (sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()) {
                         incrementScore(20);
                         return ((Asteroid) sprite).splitLargeAsteroid().stream();
-                    } 
-                    //Increases the score wtih 10 points when a small asteroid collides with a laser or spaceship.
+                    }
+                    // Increases the score wtih 10 points when a small asteroid collides with a
+                    // laser or spaceship.
                     else if (sprite instanceof Asteroid) {
                         incrementScore(10);
                     }

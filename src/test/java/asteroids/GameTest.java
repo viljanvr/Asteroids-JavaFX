@@ -33,7 +33,7 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Tests that correct sprites are added/removed when spaceship collides with large asteroid")
+    @DisplayName("Tests that correct sprites are added/removed when spaceship collides with large asteroid.")
     public void testLargeAsteroidCollision() {
         collideSpaceshipLargeAsteroid();
         checkSpriteCount(1, 0, 0, 3);
@@ -41,7 +41,7 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Tests that correct sprites are added/removed when spaceship collides with small asteroid")
+    @DisplayName("Tests that correct sprites are added/removed when spaceship collides with small asteroid.")
     public void testSmallAsteroidCollision() {
         collideSpaceshipSmallAsteroid();
         checkSpriteCount(1, 0, 0, 0);
@@ -49,23 +49,23 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Tests that correct sprites are added/removed when laser hits large asteroid")
+    @DisplayName("Tests that correct sprites are added/removed when laser hits large asteroid.")
     public void testLargeAsteroidHit() {
         collideLaserLargeAsteroid();
         checkSpriteCount(1, 0, 0, 3);
-        assertEquals(previousSpaceship, game.getSpaceship(), "Check that the spaceship remains the same as before");
+        assertEquals(previousSpaceship, game.getSpaceship(), "Check that the spaceship remains the same as before.");
     }
 
     @Test
-    @DisplayName("Tests that correct sprites are added/removed when laser hits small asteroid")
+    @DisplayName("Tests that correct sprites are added/removed when laser hits small asteroid.")
     public void testSmallAsteroidHit() {
         collideLaserSmallAsteroid();
         checkSpriteCount(1, 0, 0, 0);
-        assertEquals(previousSpaceship, game.getSpaceship(), "Check that the spaceship remians the same as before");
+        assertEquals(previousSpaceship, game.getSpaceship(), "Check that the spaceship remians the same as before.");
     }
 
     @Test
-    @DisplayName("Tests incrementScore and score increase when an asteroid collides with another sprite.")
+    @DisplayName("Tests incrementScore when an asteroid collides with another sprite.")
     public void scoreTest() {
         collideSpaceshipLargeAsteroid();
         assertEquals(20, game.getScore(),
@@ -85,31 +85,32 @@ public class GameTest {
     @Test
     @DisplayName("Tests losing lives and isGameOver")
     public void deathTest() {
-        assertEquals(3, game.getLives(), "Check that the player has three lives left");
+        assertEquals(3, game.getLives(), "Check that the player has three lives left.");
         assertFalse(game.isGameOver(), "Check that game is not over.");
 
         collideSpaceshipLargeAsteroid();
-        assertEquals(2, game.getLives(), "Check that player looses a life after colliding with a large Asteroid");
+        assertEquals(2, game.getLives(), "Check that player looses a life after colliding with a large Asteroid.");
 
         collideSpaceshipSmallAsteroid();
-        assertEquals(1, game.getLives(), "Check that player looses a life after colliding with a small Asteroid");
+        assertEquals(1, game.getLives(), "Check that player looses a life after colliding with a small Asteroid.");
 
         collideLaserLargeAsteroid();
-        assertEquals(1, game.getLives(), "Check that laser colliding with large asteroid doesn't affect lives left");
+        assertEquals(1, game.getLives(), "Check that laser colliding with large asteroid doesn't affect lives left.");
 
         collideLaserSmallAsteroid();
-        assertEquals(1, game.getLives(), "Check that laser colliding with small asteroid doesn't affect lives left");
+        assertEquals(1, game.getLives(), "Check that laser colliding with small asteroid doesn't affect lives left.");
 
         collideSpaceshipLargeAsteroid();
-        assertEquals(0, game.getLives(), "Check that the player has zero lives left");
+        assertEquals(0, game.getLives(),
+                "Check that the player has zero lives left after colliding with asteroids 3 times.");
         assertFalse(game.isGameOver(), "Check that game is not over when having zero lives left.");
 
         collideSpaceshipSmallAsteroid();
-        assertTrue(game.isGameOver(), "Check that game is over.");
+        assertTrue(game.isGameOver(), "Check that game is over after colliding a fourth time.");
     }
 
     @Test
-    @DisplayName("Prevents spawning spaceship when object is the way.")
+    @DisplayName("Prevents spawning spaceship when object is the way")
     public void spawnKillPrevetionTest() {
         game.getSprites().removeIf(sprite -> sprite instanceof Spaceship);
         addAsteroid(400, 300, true);
@@ -122,7 +123,7 @@ public class GameTest {
         game.gameLoop(0);
         assertEquals(1, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Spaceship).count(),
-                "Checks that s spaceship spawns when the asteroids have dissepeared.");
+                "Checks that s spaceship spawns when the asteroid has dissepeared.");
     }
 
     @Test
@@ -132,10 +133,10 @@ public class GameTest {
         assertEquals(2, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
                 "Check that game spawns a second asteroid first time gameLoop runs.");
-        game.gameLoop(800004000000000l);
+        game.gameLoop(800004900000000l);
         assertEquals(2, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
-                "Check that no additional asteroids have spawned after 4 seconds.");
+                "Check that no additional asteroids have spawned after 4,9 seconds.");
         game.gameLoop(800005000000000l);
         assertEquals(3, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
@@ -160,12 +161,12 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Tests soundEffektHandle")
+    @DisplayName("Tests soundEffectHandle")
     public void soundEffectHandleTest() {
-        assertFalse(game.soundEffectHandle(), "Check that sound effect does not play when no asteroid is colliding");
+        assertFalse(game.soundEffectHandle(), "Check that sound effect doesn't play when no asteroids have collided.");
         game.getSpaceship().setPosXY(500, 500);
         addAsteroid(500, 500, true);
-        assertTrue(game.soundEffectHandle(), "Check that sound effect plays when as asteroid is colliding");
+        assertTrue(game.soundEffectHandle(), "Check that sound effect plays when an asteroid has collided");
     }
 
     public void collideSpaceshipLargeAsteroid() {
@@ -196,6 +197,7 @@ public class GameTest {
         game.gameLoop(0);
     }
 
+    // Used to easily add a small or large asteroid at a specific coordinate.
     public void addAsteroid(int x, int y, Boolean isLarge) {
         Asteroid asteroid = isLarge ? new Asteroid() : (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(x, y);

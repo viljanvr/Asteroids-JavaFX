@@ -20,14 +20,13 @@ import javafx.util.Pair;
 public class ScoreboardTest {
     private ScoreBoard scoreBoard, scoreBoard2;
     private List<String> playerNames = new ArrayList<>(Arrays.asList("Liam", "Olivia", "Noah", "Emma", "Oliver", "Ava",
-            "Elijah", "Charlotte", "William", "Sophia", "James",
-            "Amelia", "Benjamin", "Isabella", "Lucas", "Mia", "Henry", "Evelyn", "Alexander", "Harper"));
+            "Elijah", "Charlotte", "William", "Sophia", "James", "Amelia", "Benjamin",
+            "Isabella", "Lucas", "Mia", "Henry", "Evelyn", "Alexander", "Harper"));
     private List<Integer> scores = new ArrayList<>(Arrays.asList(1010, 940, 1260, 120, 300, 1500, 970, 780, 990, 1410,
             940, 700, 810, 310, 780, 790, 1000, 1650, 290, 850));
 
     private final String FILE_NAME = "score_save";
     private final String PARENTDIRECTORY_NAME = "testsaves";
-
 
     @BeforeEach
     public void setup() {
@@ -96,20 +95,18 @@ public class ScoreboardTest {
     @Test
     @DisplayName("Test highscore getHighScore method")
     public void getHighScoreTest() {
-        assertEquals(0, scoreBoard.getHighScore(), "Check that the highscore is 0 when no scores are set");
+        assertEquals(0, scoreBoard.getHighScore(), "Check that the highscore is 0 when no scores are set.");
 
         scoreBoard.addScore(playerNames.get(0), scores.get(0));
-        assertEquals(scores.get(0), scoreBoard.getHighScore(), "Check that highscore is 0 when no scores are added.");
+        assertEquals(scores.get(0), scoreBoard.getHighScore(),
+                "Check that highscore is 1010 when first score is added.");
 
         scoreBoard.addScore(playerNames.get(1), scores.get(1));
         assertEquals(scores.get(0), scoreBoard.getHighScore(),
-                "Add the first score, and check that highscore is updated.");
+                "Add a new score, but not a highscore.");
 
         scoreBoard.addScore(playerNames.get(2), scores.get(2));
-        assertEquals(scores.get(2), scoreBoard.getHighScore(), "Add new score, but not a highscore.");
-
-        scoreBoard.addScore(playerNames.get(3), scores.get(3));
-        assertEquals(scores.get(2), scoreBoard.getHighScore(), "Add new highscore.");
+        assertEquals(scores.get(2), scoreBoard.getHighScore(), "Add a new highscore, and check that it is 1260.");
 
     }
 
@@ -121,7 +118,7 @@ public class ScoreboardTest {
         }
         scoreBoard2 = new ScoreBoard(PARENTDIRECTORY_NAME, FILE_NAME);
         assertEquals(scoreBoard.getScores(), scoreBoard2.getScores(),
-                "Checks that the new scoreboard loads all entries in the file");
+                "Checks that the new scoreboard loads all entries from the file.");
     }
 
     @Test
