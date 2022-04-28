@@ -21,10 +21,12 @@ public class SpaceshipTest {
     @DisplayName("Test rotate functions")
     public void rotateFunctionsTest() {
         spaceship.rotateLeft();
-        assertEquals(3 * Math.PI / 2 - Math.PI / 45, spaceship.getRotation(), "Checks rotation after rotated left.");
+        assertEquals(3 * Math.PI / 2 - Math.PI / 45, spaceship.getRotation(),
+                "Checks rotation after rotated left.");
         spaceship.rotateRight();
         spaceship.rotateRight();
-        assertEquals(3 * Math.PI / 2 + Math.PI / 45, spaceship.getRotation(), "Checks rotation after rotated right.");
+        assertEquals(3 * Math.PI / 2 + Math.PI / 45, spaceship.getRotation(),
+                "Checks rotation after rotated right.");
     }
 
     @Test
@@ -38,10 +40,12 @@ public class SpaceshipTest {
         spaceship.rotateRight();
         spaceship.getVelocity().setLength(5);
         Sprite laser2 = spaceship.shoot();
-        assertEquals(Math.cos(spaceship.getRotation()), laser2.getVelocity().getX() / laser2.getVelocity().getLength(),
+        assertEquals(Math.cos(spaceship.getRotation()),
+                laser2.getVelocity().getX() / laser2.getVelocity().getLength(),
                 DELTA,
                 "Checks if laser's speed direction is equivalent to spaceship rotation, by checking the x-component of laser's velocity.");
-        assertEquals(Math.sin(spaceship.getRotation()), laser2.getVelocity().getY() / laser2.getVelocity().getLength(),
+        assertEquals(Math.sin(spaceship.getRotation()),
+                laser2.getVelocity().getY() / laser2.getVelocity().getLength(),
                 DELTA,
                 "Checks if laser's speed directions is equivalent to spaceship rotation, by checking the y-component of laser's velocity.");
         assertEquals(spaceship.getVelocity().getLength() + 4, laser2.getVelocity().getLength(), DELTA,
@@ -134,6 +138,7 @@ public class SpaceshipTest {
 
         Asteroid asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(405, 305);
-        assertTrue(spaceship.checkCollision(Arrays.asList(asteroid)), "Checks that spaceship collides with asteroid.");
+        assertTrue(spaceship.checkCollision(Arrays.asList(asteroid)),
+                "Checks that spaceship collides with asteroid.");
     }
 }
