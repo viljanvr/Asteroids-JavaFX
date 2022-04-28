@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 public class VectorTest {
 
     private Vector vector;
+    private final double DELTA = 0.01;
 
     @BeforeEach
     public void setup() {
@@ -31,8 +32,12 @@ public class VectorTest {
     @Test
     @DisplayName("Tests setAngle function")
     public void setAngleTest() {
-        vector.setAngle(Math.PI);
-        // TODO: what do here??
+        vector.setAngle(4 * Math.PI / 6);
+        assertEquals(-vector.getLength() / 2, vector.getX(), DELTA,
+                "Test that x-component is correct after setting angle.");
+        assertEquals(Math.sqrt(3) * vector.getLength() / 2, vector.getY(), DELTA,
+                "Test that y-component is correct after setting angle.");
+
     }
 
     @Test
