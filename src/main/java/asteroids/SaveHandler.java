@@ -5,8 +5,8 @@ import java.io.IOException;
 
 public interface SaveHandler {
 
-	public void save() throws FileNotFoundException, IOException;
+    public void save() throws FileNotFoundException, IOException;
 
-	public void load() throws FileNotFoundException;
+    public void load() throws FileNotFoundException;
 
 }
