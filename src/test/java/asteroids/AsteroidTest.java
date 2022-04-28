@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -33,13 +32,13 @@ public class AsteroidTest {
 
         Boolean isAsteroidRandoAndNotOutOfBounds =
                 // Test spawning on left side of the screen.
-                (randomAsteroid.getPosX() == -64
-                        && randomAsteroid.getPosY() >= 0
-                        && randomAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT) ||
+                (bigAsteroid.getPosX() == -64
+                        && bigAsteroid.getPosY() >= 0
+                        && bigAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT) ||
                 // Cheks spawning on top side of the screen.
-                        (randomAsteroid.getPosY() == -64
-                                && randomAsteroid.getPosX() >= 0
-                                && randomAsteroid.getPosX() <= AsteroidsController.CANVASWIDTH);
+                        (bigAsteroid.getPosY() == -64
+                                && bigAsteroid.getPosX() >= 0
+                                && bigAsteroid.getPosX() <= AsteroidsController.CANVASWIDTH);
         assertTrue(isAsteroidRandoAndNotOutOfBounds);
 
     }
