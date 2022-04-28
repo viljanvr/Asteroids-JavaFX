@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class AsteroidsController {
@@ -60,7 +61,7 @@ public class AsteroidsController {
         mediaPlayer = new MediaPlayer(sound);
         timer = new Timer();
         game = new Game();
-        scoreBoard = new ScoreBoard("score_saves");
+        scoreBoard = new ScoreBoard("saves", "score_saves");
 
         // Hide end of game screen.
         gameOverPane.setVisible(false);
@@ -183,6 +184,10 @@ public class AsteroidsController {
             saveButton.setDisable(true);
         } else if (textInputLength > 16) {
             saveInfoText.setText("Name cannot exceed 16 characters");
+            saveInfoText.setFill(Color.RED);
+            saveButton.setDisable(true);
+        } else if (!Pattern.matches("[a-zA-Z0-9_æøåÆØÅ ]*", playerName.getText().trim())) {
+            saveInfoText.setText("Playername cannot include special characters");
             saveInfoText.setFill(Color.RED);
             saveButton.setDisable(true);
         } else {
