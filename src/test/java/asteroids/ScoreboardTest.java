@@ -28,6 +28,7 @@ public class ScoreboardTest {
     private final String FILE_NAME = "score_save";
     private final String PARENTDIRECTORY_NAME = "testsaves";
 
+
     @BeforeEach
     public void setup() {
         scoreBoard = new ScoreBoard(PARENTDIRECTORY_NAME, FILE_NAME);
@@ -153,5 +154,6 @@ public class ScoreboardTest {
         deleteScoreFile();
         File directory = new File(PARENTDIRECTORY_NAME);
         directory.delete();
+
     }
 }

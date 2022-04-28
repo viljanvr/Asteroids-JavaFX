@@ -13,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class SpaceshipTest {
-
     private Spaceship spaceship;
     private static final double DELTA = 0.01;
 
@@ -139,5 +138,4 @@ public class SpaceshipTest {
         sprites.add(asteroid);
         assertTrue(spaceship.checkCollision(sprites), "Checks that spaceship collides with asteroid.");
     }
-
 }

@@ -141,11 +141,7 @@ public class AsteroidsController {
             newGameButton.setVisible(false);
             savePane.setVisible(true);
 
-            if (game.getScore() > scoreBoard.getHighScore())
-                scoreTextLarge.setText("New Highscore!");
-            else
-                scoreTextLarge.setText("Game over!");
-
+            scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New Highscore!" : "Game over!");
             scoreTextSmall.setText("Score: " + game.getScore());
         }
     }

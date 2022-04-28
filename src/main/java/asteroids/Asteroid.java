@@ -1,7 +1,7 @@
 package asteroids;
 
 import java.lang.Math;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,11 +27,9 @@ public class Asteroid extends Sprite {
     }
 
     public List<Sprite> splitLargeAsteroid() {
-        List<Sprite> list = new ArrayList<>();
-        list.add(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
-        list.add(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
-        list.add(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
-        return list;
+        return Arrays.asList(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
+                new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
+                new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
     }
 
     @Override
