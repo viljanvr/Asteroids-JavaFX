@@ -62,7 +62,7 @@ public class AsteroidsController {
         game = new Game();
         scoreBoard = new ScoreBoard("score_saves");
 
-        //Hide end of game screen.
+        // Hide end of game screen.
         gameOverPane.setVisible(false);
 
         // loads scoreboard from file and updates view
@@ -107,9 +107,9 @@ public class AsteroidsController {
         gc.translate(sprite.getPosX(), sprite.getPosY());
 
         // Rotates the image
-        if(sprite instanceof Spaceship){
+        if (sprite instanceof Spaceship) {
             gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
-            gc.rotate(Math.toDegrees(((Spaceship)sprite).getRotation()));
+            gc.rotate(Math.toDegrees(((Spaceship) sprite).getRotation()));
             gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
         }
 
@@ -133,27 +133,24 @@ public class AsteroidsController {
         livesLeft.setText(game.getLives() + " lives left");
     }
 
-    //Shows the end of game screen when player has lost all of their lives.
+    // Shows the end of game screen when player has lost all of their lives.
     private void gameOverHandel() {
         if (!gameOverPane.isVisible() && game.isGameOver()) {
             gameOverPane.setVisible(true);
             newGameButton.setVisible(false);
             savePane.setVisible(true);
 
-            if (game.getScore() > scoreBoard.getHighScore())
-                scoreTextLarge.setText("New Highscore!");
-            else
-                scoreTextLarge.setText("Game over!");
-
+            scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New Highscore!" : "Game over!");
             scoreTextSmall.setText("Score: " + game.getScore());
         }
     }
 
     private void updateScoreBoard() {
         scoreBoardList.setItems(scoreBoard.getScores().stream()
-            .limit(18)
-            .map(element -> scoreBoard.getScores().indexOf(element) + 1 + ". " + element.getKey() + ": " + element.getValue())
-            .collect(Collectors.toCollection(FXCollections::observableArrayList)));
+                .limit(18)
+                .map(element -> scoreBoard.getScores().indexOf(element) + 1 + ". " + element.getKey() + ": "
+                        + element.getValue())
+                .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
     @FXML
