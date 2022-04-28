@@ -9,17 +9,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javafx.util.Pair;
 
 public class ScoreBoard implements SaveHandler {
 
     private List<Pair<String, Integer>> scoresList = new ArrayList<>();
-    private final String FILENAME;
-    private final String PARENTFOLDER = "saves";
+    private final String FILE_NAME;
+    private final String PARENTDIRECTORY_NAME;
 
-    public ScoreBoard(String FILENAME) {
-        this.FILENAME = FILENAME;
+    public ScoreBoard(String PARENTDIRECTORY_NAME, String FILE_NAME) {
+        checkValidFileString(PARENTDIRECTORY_NAME, "Directory name can only include letters, numbers and underscores.");
+        checkValidFileString(FILE_NAME, "File name can only include letters, numbers and underscores.");
+
+        this.PARENTDIRECTORY_NAME = PARENTDIRECTORY_NAME;
+        this.FILE_NAME = FILE_NAME;
         load();
     }
 
@@ -31,7 +36,7 @@ public class ScoreBoard implements SaveHandler {
             }
             writer.close();
         } catch (FileNotFoundException e) {
-            new File(PARENTFOLDER).mkdir();
+            new File(PARENTDIRECTORY_NAME).mkdir();
             save();
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,9 +51,7 @@ public class ScoreBoard implements SaveHandler {
                     .collect(Collectors.toList());
             reader.close();
         } catch (FileNotFoundException e) {
-
-            new File(PARENTFOLDER).mkdir();
-
+            new File(PARENTDIRECTORY_NAME).mkdir();
             scoresList = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,9 +77,12 @@ public class ScoreBoard implements SaveHandler {
     }
 
     private String getFilePath() {
-        return PARENTFOLDER + "/" + FILENAME + ".txt";
+        return PARENTDIRECTORY_NAME + "/" + FILE_NAME + ".txt";
 
     }
 
-    
+    private void checkValidFileString(String s, String message) {
+        if (!Pattern.matches("[a-zA-Z0-9_]+", s))
+            throw new IllegalArgumentException(message);
+    }
 }

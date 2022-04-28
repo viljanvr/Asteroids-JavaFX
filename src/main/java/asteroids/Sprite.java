@@ -15,8 +15,8 @@ public abstract class Sprite {
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight,
             String IMAGEURL) {
 
-        checkValidNumbers(-64, "innvalid x or y coordinate input", x1, y2);
-        checkValidNumbers(0, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
+        checkNumberLargerThan(-64, "innvalid x or y coordinate input", x1, y2);
+        checkNumberLargerThan(0, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
         if (IMAGEURL.isEmpty() || IMAGEURL.isBlank())
             throw new IllegalArgumentException("innvalid imageURL");
 
@@ -91,7 +91,7 @@ public abstract class Sprite {
         return IMAGEHEIGHT;
     }
 
-    protected void checkValidNumbers(int limit, String info, Double... numbers) {
+    protected void checkNumberLargerThan(int limit, String info, Double... numbers) {
         List<Double> numberslist = new ArrayList<Double>(Arrays.asList(numbers));
         if (numberslist.stream().anyMatch(number -> number < limit))
             throw new IllegalArgumentException(info);

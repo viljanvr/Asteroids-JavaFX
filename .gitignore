@@ -203,3 +203,4 @@ buildNumber.properties
 
 #Ignore savegame files
 saves/
+testsaves/

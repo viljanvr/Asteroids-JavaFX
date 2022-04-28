@@ -15,11 +15,11 @@ import org.junit.jupiter.api.Test;
 public class SpaceshipTest {
 
     private Spaceship spaceship;
+    private static final double DELTA = 0.01;
 
     @BeforeEach
     public void setup() {
         spaceship = new Spaceship();
-        // super(400, 300, 0, 0, 39, 23, "asteroids/spaceship.png");
     }
 
     @Test
@@ -36,17 +36,20 @@ public class SpaceshipTest {
     @DisplayName("Test shoot function")
     public void shootTest() {
         Sprite laser = spaceship.shoot();
-        assertEquals(spaceship.getPosX() + spaceship.getImageWidth() / 2.0 - 4, laser.getPosX(), "Checks laser x-position");
-        assertEquals(spaceship.getPosY() + spaceship.getImageHeight() / 2.0 - 4 - 15, laser.getPosY(), "Checks laser y-position");
+        assertEquals(spaceship.getPosX() + spaceship.getImageWidth() / 2.0 - 4, laser.getPosX(),
+                "Checks laser x-position");
+        assertEquals(spaceship.getPosY() + spaceship.getImageHeight() / 2.0 - 4 - 15, laser.getPosY(),
+                "Checks laser y-position");
         spaceship.rotateRight();
         spaceship.getVelocity().setLength(5);
         Sprite laser2 = spaceship.shoot();
         assertEquals(Math.cos(spaceship.getRotation()), laser2.getVelocity().getX() / laser2.getVelocity().getLength(),
-                0.01);
+                DELTA,
+                "Checks if laser's speed direction is equivalent to spaceship rotation, by checking the x-component of laser's velocity.");
         assertEquals(Math.sin(spaceship.getRotation()), laser2.getVelocity().getY() / laser2.getVelocity().getLength(),
-                0.01);
-        // "Checks if laser rotation is equivalent to spaceship rotation");
-        assertEquals(spaceship.getVelocity().getLength() + 4, laser2.getVelocity().getLength(), 0.001,
+                DELTA,
+                "Checks if laser's speed directions is equivalent to spaceship rotation, by checking the y-component of laser's velocity.");
+        assertEquals(spaceship.getVelocity().getLength() + 4, laser2.getVelocity().getLength(), DELTA,
                 "checks laser speed after chanding spaceship speed ");
 
     }
@@ -55,19 +58,32 @@ public class SpaceshipTest {
     @DisplayName("Tests thrust function")
     public void thrustTest() {
         spaceship.thrust();
-        assertEquals(Math.cos(3 * Math.PI / 2) * 0.2, spaceship.getVelocity().getX(),
-                "Checks speed increase in x-cordinate");
-        assertEquals(Math.sin(3 * Math.PI / 2) * 0.2, spaceship.getVelocity().getY(),
-                "Checks speed increase in y-cordinate");
-        spaceship.rotateRight();
-        /*
-         * assertEquals(Math.cos(3 * Math.PI / 2 + Math.PI / 45) * 0.2,
-         * spaceship.getVelocity().getX(), 0.01,
-         * "Checks speed increase in x-cordinate after rotation");
-         * assertEquals(Math.sin(Math.PI / 45) * 0.2, spaceship.getVelocity().getY(),
-         * 0.1,
-         * "Checks speed increase in y-cordinate after rotation");
-         */
+        assertEquals(0, spaceship.getVelocity().getX(), DELTA,
+                "Check that x-component of velocity remains unchanged when thrusting upwards.");
+        assertEquals(-0.2, spaceship.getVelocity().getY(), DELTA,
+                "Check that y-component of velocity decreases when thrusting upwards.");
+
+        // Rotate 92 degrees to the right.
+        for (int i = 0; i < 23; i++) {
+            spaceship.rotateRight();
+        }
+
+        spaceship.thrust();
+        assertEquals(0.2, spaceship.getVelocity().getX(), DELTA,
+                "Check that x-component of velocity increases when thrusting to the right.");
+        assertEquals(-0.2, spaceship.getVelocity().getY(), DELTA,
+                "Check that y-component of velocity remains unchanged when thrusting to the right.");
+
+        // Rotate 44 degrees to the right
+        for (int i = 0; i < 11; i++) {
+            spaceship.rotateRight();
+        }
+
+        spaceship.thrust();
+        assertEquals(0.2 + 0.2 / Math.sqrt(2), spaceship.getVelocity().getX(), DELTA,
+                "Check that x-component of velocity increases when thrusting to down right.");
+        assertEquals(-0.2 + 0.2 / Math.sqrt(2), spaceship.getVelocity().getY(), DELTA,
+                "Check that y-component of velocity increases when thrusting to down right.");
     }
 
     @Test
@@ -77,10 +93,28 @@ public class SpaceshipTest {
         for (int i = 0; i < 5; i++) {
             spaceship.thrust();
         }
-        double velocityX = spaceship.getVelocity().getX();
+
         spaceship.updatePosition();
-        // assertEquals(1 - 0.02 * velocityX, spaceship.getVelocity().getX(),
-        // 0.1, "Checks velocity in x coordinate after speed is 1");
+        assertEquals(0, spaceship.getVelocity().getX(), DELTA,
+                "Check that x-component of velocity remains unchanged when velocity direction is upwards.");
+        assertEquals(-1 + 0.02, spaceship.getVelocity().getY(), DELTA,
+                "Check that y-component of velocity slows down when velocity direction is upwards.");
+
+        // Rotate 44 degrees to the left.
+        for (int i = 0; i < 11; i++) {
+            spaceship.rotateLeft();
+        }
+        for (int i = 0; i < 5; i++) {
+            spaceship.thrust();
+        }
+        spaceship.updatePosition();
+        assertEquals(Math.cos(226 * Math.PI / 180) - 0.02 * Math.cos(226 * Math.PI / 180),
+                spaceship.getVelocity().getX(), DELTA,
+                "Check that x-component of velocity slows down when velocity direction is left upwards.");
+        ;
+        assertEquals(-0.98 + Math.cos(226 * Math.PI / 180) + 0.02 * (0.98 + Math.cos(226 * Math.PI / 180)),
+                spaceship.getVelocity().getY(), DELTA,
+                "Check that y-component of velocity slows down when velocity direction is left upwards.");
     }
 
     @Test
@@ -99,11 +133,11 @@ public class SpaceshipTest {
     public void checkCollisionTest() {
         Collection<Sprite> sprites = new ArrayList<>();
         sprites.add(new Laser(405, 305, 0, 0));
-        assertFalse(spaceship.checkCollision(sprites), "Checks collision with laser");
+        assertFalse(spaceship.checkCollision(sprites), "Checks that spaceship doesnt collide with laser");
         Asteroid asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(405, 305);
         sprites.add(asteroid);
-        assertTrue(spaceship.checkCollision(sprites), "Checks collision with asteroid");
+        assertTrue(spaceship.checkCollision(sprites), "Checks that spaceship collides with asteroid.");
     }
 
 }

@@ -34,6 +34,7 @@
                   </Button>
                   <Pane fx:id="savePane" layoutX="86.0" layoutY="139.0" prefHeight="106.0" prefWidth="246.0">
                      <children>
+                        <Text fx:id="saveInfoText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Enter playername to save score" textAlignment="CENTER" wrappingWidth="410.0" x="-82.0" y="5.0" />
                         <Button fx:id="dontSaveButton" layoutX="93.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleDontSave" prefHeight="39.0" prefWidth="153.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="DON'T SAVE" textFill="WHITE" textOverrun="CLIP">
                            <font>
                               <Font size="18.0" />
@@ -54,7 +55,6 @@
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Text fx:id="saveInfoText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Enter playername to save score" textAlignment="CENTER" wrappingWidth="281.0" x="-17.0" y="5.0" />
                      </children>
                   </Pane>
                </children>

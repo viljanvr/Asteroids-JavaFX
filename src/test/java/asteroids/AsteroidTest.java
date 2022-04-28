@@ -15,15 +15,15 @@ import org.junit.jupiter.api.Test;
 
 public class AsteroidTest {
 
-    private Asteroid asteroid;
-    private Asteroid randomAsteroid;
+    private Asteroid smallAsteroid;
+    private Asteroid bigAsteroid;
     List<Sprite> sprites;
 
     @BeforeEach
     public void setup() {
-        randomAsteroid = new Asteroid();
-        asteroid = (Asteroid) randomAsteroid.splitLargeAsteroid().get(0);
-        asteroid.setPosXY(300, 300);
+        bigAsteroid = new Asteroid();
+        smallAsteroid = (Asteroid) bigAsteroid.splitLargeAsteroid().get(0);
+        smallAsteroid.setPosXY(300, 300);
         sprites = new ArrayList<>();
     }
 
@@ -32,51 +32,58 @@ public class AsteroidTest {
     public void testConstructor() {
 
         Boolean isAsteroidRandom;
-        if (randomAsteroid.getPosX() == -64) {
-            if (randomAsteroid.getPosY() >= 0 || randomAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT)
-                isAsteroidRandom = true;
-            else
-                isAsteroidRandom = false;
-        } else {
-            if (randomAsteroid.getPosY() == -64)
-                isAsteroidRandom = true;
-            else
-                isAsteroidRandom = false;
-        }
+        // Checks that asteroid spawns on the left side of the screen.
+        if (bigAsteroid.getPosX() == -64)
+            isAsteroidRandom = bigAsteroid.getPosY() >= 0
+                    || bigAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT;
+        // or that asteroids spawns on the top side of the screen.
+        else if (bigAsteroid.getPosX() >= 0 || bigAsteroid.getPosX() <= AsteroidsController.CANVASWIDTH)
+            isAsteroidRandom = bigAsteroid.getPosY() == -64;
+        else
+            isAsteroidRandom = false;
         assertTrue(isAsteroidRandom);
     }
 
     @Test
     @DisplayName("Tests splitLargeAsteroid function")
     public void splitLargeAsteroidTest() {
-        sprites.addAll(asteroid.splitLargeAsteroid());
-        assertEquals(3, sprites.size(), "Checks if the astroids was split into three dwarf asteriods");
+        bigAsteroid.setPosXY(300, 400);
+        sprites.addAll(bigAsteroid.splitLargeAsteroid());
+        assertEquals(3, sprites.size(), "Checks that there are three total sprites");
         assertTrue(sprites.stream()
-                .allMatch(sprite -> sprite instanceof Asteroid && sprite.getPosX() == 300 && sprite.getPosY() == 300),
-                "Checks if the attributes of dwarf asteroids matcht with the parent asteroids");
+                .allMatch(sprite -> sprite instanceof Asteroid && !((Asteroid) sprite).isLarge()),
+                "Checks that all sprites are of type small asteroid.");
+        sprites.stream().forEach(sprite -> assertEquals(300, sprite.getPosX(),
+                "Check that all new asteroids have correct x-coordinate"));
+        sprites.stream().forEach(sprite -> assertEquals(400, sprite.getPosY(),
+                "Check that all new asteroids have correct y-coordinate"));
+        sprites.stream().forEach(sprite -> assertTrue(
+                0.4 <= sprite.getVelocity().getLength() && sprite.getVelocity().getLength() <= 2.4,
+                "Check that the velocity of the new asteroids is between 0.4 and 2.4 units, but was "
+                        + sprite.getVelocity().getLength() + "."));
     }
 
     @Test
     @DisplayName("Tests the collision detector function")
     public void checkCollisionTest() {
-        Collection<Sprite> sprites = new ArrayList<>();
-        Asteroid asteroid2 = (Asteroid) randomAsteroid.splitLargeAsteroid().get(0);
+        Asteroid asteroid2 = (Asteroid) bigAsteroid.splitLargeAsteroid().get(0);
         asteroid2.setPosXY(305, 305);
         sprites.add(asteroid2);
-        assertFalse(asteroid.checkCollision(sprites), "Checks collision with another asteroid");
+        assertFalse(smallAsteroid.checkCollision(sprites),
+                "Checks that an asteroid doesn't collide with another asteroid");
         sprites.add(new Laser(305, 305, 0, 0));
-        assertTrue(asteroid.checkCollision(sprites), "Checks collision with a laser");
+        assertTrue(smallAsteroid.checkCollision(sprites), "Checks that an asteroid collides with a laser");
         sprites.clear();
         sprites.add(new Spaceship());
-        asteroid.setPosXY(400, 300);
-        assertTrue(asteroid.checkCollision(sprites), "Checks collision with a spaceship");
+        smallAsteroid.setPosXY(400, 300);
+        assertTrue(smallAsteroid.checkCollision(sprites), "Checks that an asteroid collides with a spaceship");
     }
 
     @Test
     @DisplayName("Tests the isLarge function")
     public void isLargeTest() {
-        assertFalse(asteroid.isLarge());
-        assertTrue(randomAsteroid.isLarge());
+        assertFalse(smallAsteroid.isLarge(), "Test a small asteorid.");
+        assertTrue(bigAsteroid.isLarge(), "Test a large asteroid.");
     }
 
 }
