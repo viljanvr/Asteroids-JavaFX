@@ -28,22 +28,19 @@ public class AsteroidTest {
     }
 
     @Test
-    @DisplayName("Test random asteroid constructor")
+    @DisplayName("Test random asteroid constructor and also tha it is not out of bounds")
     public void testConstructor() {
 
-        Boolean isAsteroidRandom;
-        if (randomAsteroid.getPosX() == -64) {
-            if (randomAsteroid.getPosY() >= 0 || randomAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT)
-                isAsteroidRandom = true;
-            else
-                isAsteroidRandom = false;
-        } else {
-            if (randomAsteroid.getPosY() == -64)
-                isAsteroidRandom = true;
-            else
-                isAsteroidRandom = false;
-        }
-        assertTrue(isAsteroidRandom);
+        Boolean isAsteroidRandoAndNotOutOfBounds =
+                // Test spawning on left side of the screen.
+                (randomAsteroid.getPosX() == -64
+                        && randomAsteroid.getPosY() >= 0
+                        && randomAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT) ||
+                // Cheks spawning on top side of the screen.
+                        (randomAsteroid.getPosY() == -64
+                                && randomAsteroid.getPosX() >= 0
+                                && randomAsteroid.getPosX() <= AsteroidsController.CANVASWIDTH);
+        assertTrue(isAsteroidRandoAndNotOutOfBounds);
     }
 
     @Test
