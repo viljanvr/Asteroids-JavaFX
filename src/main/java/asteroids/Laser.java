@@ -11,7 +11,7 @@ public class Laser extends Sprite {
         return x1 > AsteroidsController.CANVASWIDTH || x2 < 0 || y1 > AsteroidsController.CANVASHEIGHT || y2 < 0;
     }
 
-    public Boolean checkCollision(Collection<Sprite> list) {
+    public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> sprite instanceof Asteroid)
                 .anyMatch(asteroid -> this.overlapsSprite(asteroid));
     }

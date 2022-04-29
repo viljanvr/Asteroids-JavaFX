@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public class Spaceship extends Sprite {
 
-    private final String THRUSTIMAGEURL = "asteroids/spaceship-thrust.png";
+    private final String THRUSTIMAGE_URL = "asteroids/spaceship-thrust.png";
     private Boolean showThrust = false;
     private double rotation = 3 * Math.PI / 2;
 
@@ -44,7 +44,7 @@ public class Spaceship extends Sprite {
     public String getImageURL() {
         if (showThrust) {
             showThrust = false;
-            return THRUSTIMAGEURL;
+            return THRUSTIMAGE_URL;
         }
         return super.getImageURL();
     }
@@ -56,7 +56,7 @@ public class Spaceship extends Sprite {
         aeroBrake();
     }
 
-    public Boolean checkCollision(Collection<Sprite> list) {
+    public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> sprite instanceof Asteroid)
                 .anyMatch(asteroid -> this.overlapsSprite(asteroid));
     }
