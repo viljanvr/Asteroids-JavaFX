@@ -133,14 +133,14 @@ public class GameTest {
         assertEquals(2, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
                 "Check that game spawns a second asteroid first time gameLoop runs.");
-        game.gameLoop(800004900000000l);
+        game.gameLoop(800003900000000l);
         assertEquals(2, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
-                "Check that no additional asteroids have spawned after 4,9 seconds.");
-        game.gameLoop(800005000000000l);
+                "Check that no additional asteroids have spawned after 3,9 seconds.");
+        game.gameLoop(800004000000000l);
         assertEquals(3, game.getSprites().stream()
                 .filter(sprite -> sprite instanceof Asteroid && ((Asteroid) sprite).isLarge()).count(),
-                "Checks that an asteroid has spawned after 5 seconds.");
+                "Checks that an asteroid has spawned after 4 seconds.");
     }
 
     public void checkSpriteCount(int spaceships, int lasers, int largeAsteroids, int smallAsteroids) {
