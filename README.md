@@ -10,12 +10,11 @@
 
 ---
 
-<figure>
-<img src="pictures/GameOverScreen.png" alt="Asteroids game" width="600"/>
-<figcaption>Game over screen. You have to posibility to either save or discard your score.</figcaption>
-</figure>
+## Screenshots
 
-<figure>
-<img src="pictures/NewGameScreen.png" alt="Asteroids game" width="600"/>
-<figcaption>You can always start a new game after you've died.</figcaption>
-</figure>
+<p>
+<img src="pictures/GameOverScreen.png" alt="Asteroids game" width="500"/>
+<img src="pictures/NewGameScreen.png" alt="Asteroids game" width="500"/>
+<figcaption>Game over screen: You have to posibility to either save or discard your score and then start a new game. </figcaption>
+
+**_Made by Arash and Viljan_**

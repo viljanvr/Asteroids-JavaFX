@@ -182,8 +182,8 @@ public class AsteroidsController {
             saveInfoText.setText("Enter playername to save score");
             saveInfoText.setFill(Color.WHITE);
             saveButton.setDisable(true);
-        } else if (textInputLength > 16) {
-            saveInfoText.setText("Name cannot exceed 16 characters");
+        } else if (textInputLength > 14) {
+            saveInfoText.setText("Name cannot exceed 14 characters");
             saveInfoText.setFill(Color.RED);
             saveButton.setDisable(true);
         } else if (!Pattern.matches("[a-zA-Z0-9_æøåÆØÅ ]*", playerName.getText().trim())) {
@@ -204,7 +204,7 @@ public class AsteroidsController {
             spaceship.rotateLeft();
         if (this.RIGHTpressed)
             spaceship.rotateRight();
-        if (this.SPACEpressed && this.SPACEreleased) {
+        if (this.SPACEpressed && this.SPACEreleased && !game.isGameOver()) {
             game.getSprites().add(spaceship.shoot());
             this.SPACEreleased = false;
         }

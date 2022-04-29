@@ -10,15 +10,15 @@ public abstract class Sprite {
     protected double x1, y1, x2, y2;
     protected Vector velocity = new Vector(0, 0);
     private final int IMAGEWIDTH, IMAGEHEIGHT;
-    private final String IMAGEURL;
+    private final String IMAGE_URL;
 
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight,
-            String IMAGEURL) {
+            String IMAGE_URL) {
         checkValidNumbers(-64, AsteroidsController.CANVASWIDTH, "innvalid x coordinate input", x1);
         checkValidNumbers(-64, AsteroidsController.CANVASHEIGHT, "innvalid y coordinate input", y1);
         checkValidNumbers(0, 64, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
 
-        this.IMAGEURL = IMAGEURL;
+        this.IMAGE_URL = IMAGE_URL;
         this.IMAGEWIDTH = imageWidth;
         this.IMAGEHEIGHT = imageHeight;
 
@@ -35,7 +35,7 @@ public abstract class Sprite {
         y2 = y1 + IMAGEHEIGHT;
     }
 
-    public abstract Boolean checkCollision(Collection<Sprite> list);
+    public abstract boolean checkCollision(Collection<Sprite> list);
 
     public boolean overlapsSprite(Sprite sprite) {
         return sprite.isInsideRectangle(x1, y1, x2, y2);
@@ -78,7 +78,7 @@ public abstract class Sprite {
     }
 
     public String getImageURL() {
-        return IMAGEURL;
+        return IMAGE_URL;
     }
 
     public int getImageWidth() {
