@@ -127,7 +127,7 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Tests that a large asteroid is spawned every 5 seconds")
+    @DisplayName("Tests that a large asteroid is spawned every 4 seconds")
     public void testAsteroidSpawning() {
         game.gameLoop(800000000000000l);
         assertEquals(2, game.getSprites().stream()
