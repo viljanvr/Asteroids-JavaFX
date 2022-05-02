@@ -27,8 +27,9 @@ public class AsteroidsController implements GameListener {
     private GraphicsContext gc;
     private boolean UPpressed = false, LEFTpressed = false,
             RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
-    private Media sound;
-    private MediaPlayer mediaPlayer;
+    private Media collisionSound, soundTrack;
+    private MediaPlayer collisionSoundPlayer, soundTrackPlayer;
+
     private ScoreBoard scoreBoard;
 
     @FXML
@@ -53,12 +54,17 @@ public class AsteroidsController implements GameListener {
     public void initialize() {
 
         try {
-            sound = new Media(getClass().getClassLoader().getResource("asteroids/boom.mp3").toURI().toString());
+            collisionSound = new Media(
+                    getClass().getClassLoader().getResource("asteroids/boom.mp3").toURI().toString());
+            soundTrack = new Media(
+                    getClass().getClassLoader().getResource("asteroids/soundTrack.mp3").toURI().toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        mediaPlayer = new MediaPlayer(sound);
+        collisionSoundPlayer = new MediaPlayer(collisionSound);
+        soundTrackPlayer = new MediaPlayer(soundTrack);
+        soundTrackPlayer.play();
         timer = new Timer();
         scoreBoard = new ScoreBoard("saves", "score_saves");
 
@@ -229,8 +235,8 @@ public class AsteroidsController implements GameListener {
 
     @Override
     public void spirteCollided() {
-        mediaPlayer.play();
-        mediaPlayer.seek(Duration.ZERO);
+        collisionSoundPlayer.play();
+        collisionSoundPlayer.seek(Duration.ZERO);
 
     }
 

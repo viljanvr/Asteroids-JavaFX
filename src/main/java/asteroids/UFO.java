@@ -12,7 +12,7 @@ public class UFO extends Sprite {
     private UFO(double randomNumber) {
         super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASWIDTH : -54,
                 randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
-                0.4, Math.random() * 6.28, 50, 31,
+                1, Math.random() * 6.28, 50, 31,
                 "asteroids/UFO.png");
 
     }
@@ -31,7 +31,7 @@ public class UFO extends Sprite {
 
     public Laser shootTowardSpaceship(Double x1, Double y1) {
         double result = Math.atan2((y1 - this.y1), (-this.x1 + x1));
-        return new Laser(getPosX(), getPosY(), 1.5, result, false);
+        return new Laser(getPosX() + getImageWidth() / 2, getPosY() + getImageHeight() / 2, 1.5, result, false);
     }
 
 }

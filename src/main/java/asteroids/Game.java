@@ -12,8 +12,7 @@ public class Game {
     private Spaceship spaceship = new Spaceship();
     private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
-    private long lastAsteroidSpawnTime = 0;
-    private long lastUfoSpawnTime = 0;
+    private long lastAsteroidSpawnTime = 0, lastUfoSpawnTime = 0;
 
     public Game(GameListener gameListener) {
         this.gameListener = gameListener;
@@ -27,6 +26,10 @@ public class Game {
     }
 
     public void gameLoop(long nanotime) {
+
+        if (sprites.stream().anyMatch(sprite -> sprite.checkCollision(sprites))) {
+            gameListener.spirteCollided();
+        }
 
         sprites = sprites.stream()
                 .flatMap(sprite -> {
@@ -54,10 +57,6 @@ public class Game {
                     return null;
                 }).collect(Collectors.toList());
 
-        if (sprites.stream().anyMatch(sprite -> sprite.checkCollision(sprites))) {
-            gameListener.spirteCollided();
-        }
-
         // Decreases number of lives when hitting asteroid, and spawns new spaceship if
         // you have more lives left and if no asteroids are in vacinity of the spawning
         // area.
@@ -74,9 +73,8 @@ public class Game {
         if (nanotime >= lastAsteroidSpawnTime + 4000000000l && !isGameOver()) {
             sprites.add(new Asteroid());
             if (sprites.stream().anyMatch(sprite -> sprite instanceof UFO))
-                sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().orElse(null))
+                sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().get())
                         .shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()));
-
             lastAsteroidSpawnTime = nanotime;
         }
 
