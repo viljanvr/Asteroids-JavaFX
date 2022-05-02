@@ -3,8 +3,12 @@ package asteroids;
 import java.util.Collection;
 
 public class Laser extends Sprite {
-    public Laser(double x1, double y1, double speed, double speedDirection) {
+
+    private boolean friendly;
+
+    public Laser(double x1, double y1, double speed, double speedDirection, boolean friendly) {
         super(x1, y1, speed + 4, speedDirection, 8, 8, "asteroids/laser.png");
+        this.friendly = friendly;
     }
 
     public boolean checkOutOfBound() {
@@ -14,6 +18,10 @@ public class Laser extends Sprite {
     public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(sprite -> sprite instanceof Asteroid)
                 .anyMatch(asteroid -> this.overlapsSprite(asteroid));
+    }
+
+    public boolean getFriendly() {
+        return friendly;
     }
 
 }

@@ -132,7 +132,7 @@ public class SpaceshipTest {
     @Test
     @DisplayName("Tests the collision detector function")
     public void checkCollisionTest() {
-        Laser laser = new Laser(405, 305, 0, 0);
+        Laser laser = new Laser(405, 305, 0, 0, true);
         assertFalse(spaceship.checkCollision(Arrays.asList(laser)),
                 "Spaceship should never collide with laser, eventhough they overlap.");
 
