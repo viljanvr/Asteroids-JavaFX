@@ -5,7 +5,7 @@ import java.util.Collection;
 public class UFO extends Sprite {
 
     public UFO() {
-        super(-30, 100, 0.4, 0, 50, 50, "asteroids/ufo.png");
+        super(-30, 100, 1.5, 0, 50, 50, "asteroids/ufo.png");
     }
 
     @Override
@@ -17,7 +17,7 @@ public class UFO extends Sprite {
     public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(
                 sprite -> ((sprite instanceof Laser && ((Laser) sprite).getFriendly()) || sprite instanceof Spaceship))
-                .anyMatch(sprite -> this.overlapsSprite(sprite));
+                .anyMatch(sprite -> overlapsSprite(sprite));
     }
 
     public Laser shootTowardSpaceship(Double x1, Double y1) {
