@@ -228,7 +228,7 @@ public class AsteroidsController implements GameListener {
     }
 
     @Override
-    public void asteroidCollided() {
+    public void spirteCollided() {
         mediaPlayer.play();
         mediaPlayer.seek(Duration.ZERO);
 

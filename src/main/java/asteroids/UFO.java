@@ -14,6 +14,7 @@ public class UFO extends Sprite {
                 randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
                 0.4, Math.random() * 6.28, 50, 31,
                 "asteroids/UFO.png");
+
     }
 
     @Override
@@ -25,7 +26,7 @@ public class UFO extends Sprite {
     public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(
                 sprite -> ((sprite instanceof Laser && ((Laser) sprite).getFriendly()) || sprite instanceof Spaceship))
-                .anyMatch(sprite -> this.overlapsSprite(sprite));
+                .anyMatch(sprite -> overlapsSprite(sprite));
     }
 
     public Laser shootTowardSpaceship(Double x1, Double y1) {

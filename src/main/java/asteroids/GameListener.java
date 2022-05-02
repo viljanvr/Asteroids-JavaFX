@@ -6,7 +6,7 @@ public interface GameListener {
 
     public void gameOver();
 
-    public void asteroidCollided();
+    public void spirteCollided();
 
     public void scoreChanged(int newScore);
 

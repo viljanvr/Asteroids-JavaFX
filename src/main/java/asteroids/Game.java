@@ -46,11 +46,17 @@ public class Game {
                     // laser or spaceship.
                     else if (sprite instanceof Asteroid) {
                         incrementScore(10);
+                    } else if (sprite instanceof UFO) {
+                        incrementScore(50);
                     } else if (sprite instanceof Spaceship && lives == 0) {
                         gameListener.gameOver();
                     }
                     return null;
                 }).collect(Collectors.toList());
+
+        if (sprites.stream().anyMatch(sprite -> sprite.checkCollision(sprites))) {
+            gameListener.spirteCollided();
+        }
 
         // Decreases number of lives when hitting asteroid, and spawns new spaceship if
         // you have more lives left and if no asteroids are in vacinity of the spawning
@@ -106,9 +112,6 @@ public class Game {
     }
 
     private void incrementScore(int score) {
-        this.score += score;
-        gameListener.scoreChanged(this.score);
-        gameListener.asteroidCollided();
+        gameListener.scoreChanged(this.score += score);
     }
-
 }
