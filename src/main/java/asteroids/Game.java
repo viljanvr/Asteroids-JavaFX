@@ -12,6 +12,7 @@ public class Game {
     private Spaceship spaceship = new Spaceship();
     private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
+
     private long lastAsteroidSpawnTime = 0;
     private long lastUfoSpawnTime = 0;
     private long lastUFOShootTime = 0;
@@ -82,7 +83,7 @@ public class Game {
         // If UFO exist, shoot a laser every 2,5 seconds.
         if (nanotime >= lastUFOShootTime + 2500000000l && !isGameOver()) {
             if (sprites.stream().anyMatch(sprite -> sprite instanceof UFO))
-                sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().orElse(null))
+                sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().get())
                         .shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()));
             lastUFOShootTime = nanotime;
         }

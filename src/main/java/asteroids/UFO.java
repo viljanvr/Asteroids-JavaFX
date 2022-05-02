@@ -19,7 +19,6 @@ public class UFO extends Sprite {
                                         : Math.random() * Math.PI / 2 + 5 * Math.PI / 4),
                 50, 31,
                 "asteroids/UFO.png");
-
     }
 
     @Override
