@@ -12,10 +12,7 @@ public class Game {
     private Spaceship spaceship = new Spaceship();
     private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
-
-    private long lastAsteroidSpawnTime = 0;
-    private long lastUfoSpawnTime = 0;
-    private long lastUFOShootTime = 0;
+    private long lastAsteroidSpawnTime = 0, lastUfoSpawnTime = 0, lastUFOShootTime = 0;
 
     public Game(GameListener gameListener) {
         this.gameListener = gameListener;
@@ -24,8 +21,6 @@ public class Game {
 
         // Spawns in inital asteroid and spaceship
         sprites.add(spaceship);
-        sprites.add(new Asteroid());
-
     }
 
     public void gameLoop(long nanotime) {
@@ -63,7 +58,7 @@ public class Game {
         // Decreases number of lives when hitting asteroid, and spawns new spaceship if
         // you have more lives left and if no asteroids are in vacinity of the spawning
         // area.
-        if (!sprites.contains(spaceship) && lives > 0
+        if (!doesGameContainSpaceship() && lives > 0
                 && !sprites.stream().filter(sprite -> sprite instanceof Asteroid)
                         .anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))) {
             spaceship = new Spaceship();
@@ -73,18 +68,19 @@ public class Game {
         }
 
         // Spawns and asteroid every five seconds (5 000 000 000 in nanoseconds)
-        if (nanotime >= lastAsteroidSpawnTime + 5000000000l && !isGameOver()) {
+        if (nanotime >= lastAsteroidSpawnTime + 5000000000l && doesGameContainSpaceship()) {
             sprites.add(new Asteroid());
             lastAsteroidSpawnTime = nanotime;
             sprites.stream().filter(sprite -> sprite instanceof UFO)
-                    .forEach(sprite -> sprite.getVelocity().setAngle(Math.random() * 6.28));
+                    .forEach(sprite -> ((UFO) sprite).changeDirection());
         }
 
         // If UFO exist, shoot a laser every 2,5 seconds.
         if (nanotime >= lastUFOShootTime + 2500000000l && !isGameOver()) {
             if (sprites.stream().anyMatch(sprite -> sprite instanceof UFO))
-                sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().get())
-                        .shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()));
+                sprites.addAll(sprites.stream().filter(sprite -> sprite instanceof UFO)
+                        .map(sprite -> ((UFO) sprite).shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()))
+                        .collect(Collectors.toList()));
             lastUFOShootTime = nanotime;
         }
 
@@ -117,7 +113,11 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return lives == 0 && !sprites.contains(spaceship);
+        return lives == 0 && !doesGameContainSpaceship();
+    }
+
+    public boolean doesGameContainSpaceship() {
+        return sprites.contains(spaceship);
     }
 
     private void incrementScore(int score) {

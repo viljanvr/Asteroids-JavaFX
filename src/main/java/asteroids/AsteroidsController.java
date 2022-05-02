@@ -64,6 +64,11 @@ public class AsteroidsController implements GameListener {
 
         collisionSoundPlayer = new MediaPlayer(collisionSound);
         soundTrackPlayer = new MediaPlayer(soundTrack);
+        soundTrackPlayer.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                soundTrackPlayer.seek(Duration.ZERO);
+            }
+        });
         soundTrackPlayer.play();
         timer = new Timer();
         scoreBoard = new ScoreBoard("saves", "score_saves");
@@ -183,7 +188,7 @@ public class AsteroidsController implements GameListener {
             spaceship.rotateLeft();
         if (this.RIGHTpressed)
             spaceship.rotateRight();
-        if (this.SPACEpressed && this.SPACEreleased && !game.isGameOver()) {
+        if (this.SPACEpressed && this.SPACEreleased && game.doesGameContainSpaceship()) {
             game.getSprites().add(spaceship.shoot());
             this.SPACEreleased = false;
         }

@@ -33,7 +33,7 @@ public class Spaceship extends Sprite {
 
     public void thrust() {
         showThrust = true;
-        velocity.addXY(Math.cos(getRotation()) * 0.2, Math.sin(getRotation()) * 0.2);
+        velocity.addXY(Math.cos(getRotation()) * 0.18, Math.sin(getRotation()) * 0.18);
     }
 
     private void aeroBrake() {
@@ -58,8 +58,9 @@ public class Spaceship extends Sprite {
 
     public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(
-                sprite -> sprite instanceof Laser && !((Laser) sprite).getFriendly() || sprite instanceof Asteroid)
-                .anyMatch(sprite -> this.overlapsSprite(sprite));
+                sprite -> (sprite instanceof Laser && !((Laser) sprite).getFriendly()) || sprite instanceof UFO
+                        || sprite instanceof Asteroid)
+                .anyMatch(sprite -> overlapsSprite(sprite));
     }
 
 }
