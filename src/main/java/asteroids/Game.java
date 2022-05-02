@@ -97,7 +97,7 @@ public class Game {
 
     private void incrementScore(int score) {
         this.score += score;
-        gameListener.scoreChanged(score);
+        gameListener.scoreChanged(this.score);
         gameListener.asteroidCollided();
     }
 
