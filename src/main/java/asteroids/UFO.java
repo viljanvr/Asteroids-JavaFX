@@ -5,7 +5,15 @@ import java.util.Collection;
 public class UFO extends Sprite {
 
     public UFO() {
-        super(-30, 100, 0.4, 0, 50, 50, "asteroids/ufo.png");
+        this(Math.random());
+    }
+
+    // Constructor for Large Asteroids.
+    private UFO(double randomNumber) {
+        super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASWIDTH : -54,
+                randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
+                0.4, Math.random() * 6.28, 50, 31,
+                "asteroids/UFO.png");
     }
 
     @Override
