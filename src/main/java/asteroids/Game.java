@@ -12,7 +12,10 @@ public class Game {
     private Spaceship spaceship = new Spaceship();
     private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
-    private long lastAsteroidSpawnTime = 0, lastUfoSpawnTime = 0;
+
+    private long lastAsteroidSpawnTime = 0;
+    private long lastUfoSpawnTime = 0;
+    private long lastUFOShootTime = 0;
 
     public Game(GameListener gameListener) {
         this.gameListener = gameListener;
@@ -69,15 +72,23 @@ public class Game {
             gameListener.livesLeftChanged(lives);
         }
 
-        // Spawns and asteroid every four seconds (4 000 000 000 in nanoseconds)
-        if (nanotime >= lastAsteroidSpawnTime + 4000000000l && !isGameOver()) {
+        // Spawns and asteroid every five seconds (5 000 000 000 in nanoseconds)
+        if (nanotime >= lastAsteroidSpawnTime + 5000000000l && !isGameOver()) {
             sprites.add(new Asteroid());
+            lastAsteroidSpawnTime = nanotime;
+            sprites.stream().filter(sprite -> sprite instanceof UFO)
+                    .forEach(sprite -> sprite.getVelocity().setAngle(Math.random() * 6.28));
+        }
+
+        // If UFO exist, shoot a laser every 2,5 seconds.
+        if (nanotime >= lastUFOShootTime + 2500000000l && !isGameOver()) {
             if (sprites.stream().anyMatch(sprite -> sprite instanceof UFO))
                 sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().get())
                         .shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()));
-            lastAsteroidSpawnTime = nanotime;
+            lastUFOShootTime = nanotime;
         }
 
+        // Spawns a new UFO every 9.
         if (nanotime >= lastUfoSpawnTime + 9000000000l && !isGameOver()) {
             sprites.add(new UFO());
             lastUfoSpawnTime = nanotime;
