@@ -12,15 +12,15 @@ public abstract class Sprite {
     private final int IMAGEWIDTH, IMAGEHEIGHT;
     private final String IMAGE_URL;
 
-    public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight,
+    public Sprite(double x1, double y1, double speed, double speedDirection, int IMAGEWIDTH, int IMAGEHEIGHT,
             String IMAGE_URL) {
         checkValidNumbers(-55, AsteroidsController.CANVASWIDTH, "innvalid x coordinate input", x1);
         checkValidNumbers(-55, AsteroidsController.CANVASHEIGHT, "innvalid y coordinate input", y1);
-        checkValidNumbers(0, 55, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
+        checkValidNumbers(0, 55, "innvalid image height or width input", (double) IMAGEHEIGHT, (double) IMAGEWIDTH);
 
         this.IMAGE_URL = IMAGE_URL;
-        this.IMAGEWIDTH = imageWidth;
-        this.IMAGEHEIGHT = imageHeight;
+        this.IMAGEWIDTH = IMAGEWIDTH;
+        this.IMAGEHEIGHT = IMAGEHEIGHT;
 
         setPosXY(x1, y1);
 

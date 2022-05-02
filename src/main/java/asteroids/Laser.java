@@ -16,8 +16,9 @@ public class Laser extends Sprite {
     }
 
     public boolean checkCollision(Collection<Sprite> list) {
-        return list.stream().filter(sprite -> sprite instanceof Asteroid)
-                .anyMatch(asteroid -> this.overlapsSprite(asteroid));
+        return list.stream()
+                .filter(sprite -> (sprite instanceof Spaceship && !getFriendly()) || sprite instanceof Asteroid)
+                .anyMatch(asteroid -> overlapsSprite(asteroid));
     }
 
     public boolean getFriendly() {

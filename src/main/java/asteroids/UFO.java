@@ -39,4 +39,8 @@ public class UFO extends Sprite {
                 getPosY() + getImageHeight() / 2 - 4 + 15 * Math.sin(result), 1.5, result, false);
     }
 
+    public void changeDirection() {
+        getVelocity().setAngle(Math.random() * 6.28);
+    }
+
 }
