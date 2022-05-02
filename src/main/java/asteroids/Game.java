@@ -7,16 +7,22 @@ import java.util.stream.Stream;
 
 public class Game {
 
+    private GameListener gameListener;
+
     private Spaceship spaceship = new Spaceship();
     private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
     private long lastAsteroidSpawnTime = 0;
 
-    public Game() {
+    public Game(GameListener gameListener) {
+        this.gameListener = gameListener;
+        gameListener.scoreChanged(score);
+        gameListener.livesLeftChanged(lives);
 
         // Spawns in inital asteroid and spaceship
         sprites.add(spaceship);
         sprites.add(new Asteroid());
+
     }
 
     public void gameLoop(long nanotime) {
@@ -39,6 +45,8 @@ public class Game {
                     // laser or spaceship.
                     else if (sprite instanceof Asteroid) {
                         incrementScore(10);
+                    } else if (sprite instanceof Spaceship && lives == 0) {
+                        gameListener.gameOver();
                     }
                     return null;
                 }).collect(Collectors.toList());
@@ -52,6 +60,7 @@ public class Game {
             spaceship = new Spaceship();
             sprites.add(spaceship);
             lives -= 1;
+            gameListener.livesLeftChanged(lives);
         }
 
         // Spawns and asteroid every four seconds (4 000 000 000 in nanoseconds)
@@ -64,10 +73,6 @@ public class Game {
         sprites.stream().forEach((sprite) -> {
             sprite.updatePosition();
         });
-    }
-
-    public boolean soundEffectHandle() {
-        return sprites.stream().anyMatch(sprite -> sprite instanceof Asteroid && sprite.checkCollision(sprites));
     }
 
     public int getScore() {
@@ -92,6 +97,8 @@ public class Game {
 
     private void incrementScore(int score) {
         this.score += score;
+        gameListener.scoreChanged(score);
+        gameListener.asteroidCollided();
     }
 
 }

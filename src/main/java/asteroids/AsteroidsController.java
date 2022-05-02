@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class AsteroidsController {
+public class AsteroidsController implements GameListener {
 
     public static final int CANVASWIDTH = 800, CANVASHEIGHT = 600;
     private Timer timer;
@@ -60,7 +60,7 @@ public class AsteroidsController {
 
         mediaPlayer = new MediaPlayer(sound);
         timer = new Timer();
-        game = new Game();
+        game = new Game(this);
         scoreBoard = new ScoreBoard("saves", "score_saves");
 
         // Hide end of game screen.
@@ -86,10 +86,6 @@ public class AsteroidsController {
             gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
             game.gameLoop(nanotime);
-            soundEffectHandle();
-            updateCurrentScore();
-            updateLivesLeft();
-            gameOverHandel();
 
             // renders all the objects on screen
             game.getSprites().stream().forEach((sprite) -> {
@@ -119,32 +115,33 @@ public class AsteroidsController {
         gc.restore();
     }
 
-    private void soundEffectHandle() {
-        if (game.soundEffectHandle()) {
-            mediaPlayer.play();
-            mediaPlayer.seek(Duration.ZERO);
-        }
-    }
+    // private void soundEffectHandle() {
+    // if (game.soundEffectHandle()) {
+    // mediaPlayer.play();
+    // mediaPlayer.seek(Duration.ZERO);
+    // }
+    // }
 
-    private void updateCurrentScore() {
-        currentScore.setText("Score: " + game.getScore());
-    }
+    // private void updateCurrentScore() {
+    // currentScore.setText("Score: " + game.getScore());
+    // }
 
-    private void updateLivesLeft() {
-        livesLeft.setText(game.getLives() + " lives left");
-    }
+    // private void updateLivesLeft() {
+    // livesLeft.setText(game.getLives() + " lives left");
+    // }
 
-    // Shows the end of game screen when player has lost all of their lives.
-    private void gameOverHandel() {
-        if (!gameOverPane.isVisible() && game.isGameOver()) {
-            gameOverPane.setVisible(true);
-            newGameButton.setVisible(false);
-            savePane.setVisible(true);
+    // // Shows the end of game screen when player has lost all of their lives.
+    // private void gameOverHandel() {
+    // if (!gameOverPane.isVisible() && game.isGameOver()) {
+    // gameOverPane.setVisible(true);
+    // newGameButton.setVisible(false);
+    // savePane.setVisible(true);
 
-            scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New Highscore!" : "Game over!");
-            scoreTextSmall.setText("Score: " + game.getScore());
-        }
-    }
+    // scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New
+    // Highscore!" : "Game over!");
+    // scoreTextSmall.setText("Score: " + game.getScore());
+    // }
+    // }
 
     private void updateScoreBoard() {
         scoreBoardList.setItems(scoreBoard.getScores().stream()
@@ -170,7 +167,7 @@ public class AsteroidsController {
 
     @FXML
     private void startNewGame() {
-        game = new Game();
+        game = new Game(this);
         gameOverPane.setVisible(false);
     }
 
@@ -235,5 +232,34 @@ public class AsteroidsController {
             default -> {
             }
         }
+    }
+
+    @Override
+    public void livesLeftChanged(int livesLeft) {
+        this.livesLeft.setText(livesLeft + " lives left");
+
+    }
+
+    @Override
+    public void gameOver() {
+        gameOverPane.setVisible(true);
+        newGameButton.setVisible(false);
+        savePane.setVisible(true);
+
+        scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New Highscore!" : "Game over!");
+        scoreTextSmall.setText("Score: " + game.getScore());
+
+    }
+
+    @Override
+    public void asteroidCollided() {
+        mediaPlayer.play();
+        mediaPlayer.seek(Duration.ZERO);
+
+    }
+
+    @Override
+    public void scoreChanged(int newScore) {
+        currentScore.setText("Score: " + newScore);
     }
 }
