@@ -186,14 +186,14 @@ public class GameTest {
     public void collideLaserLargeAsteroid() {
         game.getSprites().removeIf(sprite -> !(sprite instanceof Spaceship));
         addAsteroid(500, 500, true);
-        game.getSprites().add(new Laser(500, 500, 0, 0));
+        game.getSprites().add(new Laser(500, 500, 0, 0, true));
         game.gameLoop(0);
     }
 
     public void collideLaserSmallAsteroid() {
         game.getSprites().removeIf(sprite -> !(sprite instanceof Spaceship));
         addAsteroid(500, 500, false);
-        game.getSprites().add(new Laser(500, 500, 0, 0));
+        game.getSprites().add(new Laser(500, 500, 0, 0, true));
         game.gameLoop(0);
     }
 

@@ -13,6 +13,7 @@ public class Game {
     private List<Sprite> sprites = new ArrayList<>();
     private int score = 0, lives = 3;
     private long lastAsteroidSpawnTime = 0;
+    private long lastUfoSpawnTime = 0;
 
     public Game(GameListener gameListener) {
         this.gameListener = gameListener;
@@ -66,7 +67,16 @@ public class Game {
         // Spawns and asteroid every four seconds (4 000 000 000 in nanoseconds)
         if (nanotime >= lastAsteroidSpawnTime + 4000000000l && !isGameOver()) {
             sprites.add(new Asteroid());
+            if (sprites.stream().anyMatch(sprite -> sprite instanceof UFO))
+                sprites.add(((UFO) sprites.stream().filter(sprite -> sprite instanceof UFO).findAny().orElse(null))
+                        .shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()));
+
             lastAsteroidSpawnTime = nanotime;
+        }
+
+        if (nanotime >= lastUfoSpawnTime + 9000000000l && !isGameOver()) {
+            sprites.add(new UFO());
+            lastUfoSpawnTime = nanotime;
         }
 
         // Updates the position of all the sprites

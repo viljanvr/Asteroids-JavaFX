@@ -28,7 +28,7 @@ public class Spaceship extends Sprite {
     public Sprite shoot() {
         return new Laser(getPosX() + getImageWidth() / 2.0 - 4 + 15 * Math.cos(rotation),
                 getPosY() + getImageHeight() / 2.0 - 4 + 15 * Math.sin(rotation),
-                getVelocity().getLength(), getRotation());
+                getVelocity().getLength(), getRotation(), true);
     }
 
     public void thrust() {
@@ -57,8 +57,9 @@ public class Spaceship extends Sprite {
     }
 
     public boolean checkCollision(Collection<Sprite> list) {
-        return list.stream().filter(sprite -> sprite instanceof Asteroid)
-                .anyMatch(asteroid -> this.overlapsSprite(asteroid));
+        return list.stream().filter(
+                sprite -> sprite instanceof Laser && !((Laser) sprite).getFriendly() || sprite instanceof Asteroid)
+                .anyMatch(sprite -> this.overlapsSprite(sprite));
     }
 
 }

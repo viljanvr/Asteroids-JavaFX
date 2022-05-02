@@ -39,7 +39,8 @@ public class Asteroid extends Sprite {
     }
 
     public boolean checkCollision(Collection<Sprite> list) {
-        return list.stream().filter(sprite -> (sprite instanceof Laser || sprite instanceof Spaceship))
+        return list.stream().filter(
+                sprite -> sprite instanceof Laser || sprite instanceof Spaceship)
                 .anyMatch(sprite -> this.overlapsSprite(sprite));
     }
 

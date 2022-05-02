@@ -21,9 +21,9 @@ public class LaserTest {
 
     @BeforeEach
     public void setup() {
-        laser1 = new Laser(0, 100, 1, 0);
-        laser2 = new Laser(0, 0, 1, Math.PI / 4);
-        laser3 = new Laser(300, 300, 6, 7 * Math.PI / 6);
+        laser1 = new Laser(0, 100, 1, 0, true);
+        laser2 = new Laser(0, 0, 1, Math.PI / 4, true);
+        laser3 = new Laser(300, 300, 6, 7 * Math.PI / 6, true);
     }
 
     @Test

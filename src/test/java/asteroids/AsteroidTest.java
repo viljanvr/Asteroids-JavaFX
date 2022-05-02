@@ -71,7 +71,7 @@ public class AsteroidTest {
         assertFalse(smallAsteroid.checkCollision(sprites),
                 "Asteroid should never collide with another asteroid, eventhough they overlap.");
 
-        sprites.add(new Laser(305, 305, 0, 0));
+        sprites.add(new Laser(305, 305, 0, 0, true));
         assertTrue(smallAsteroid.checkCollision(sprites), "Checks that an asteroid collides with a laser");
 
         sprites.clear();
