@@ -13,8 +13,8 @@ public class Asteroid extends Sprite {
 
     // Constructor for Large Asteroids.
     private Asteroid(double randomNumber) {
-        super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -64,
-                randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -64,
+        super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASWIDTH : -54,
+                randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
                 1, Math.random() * 6.28, 54, 55,
                 "asteroids/asteroid.png");
 

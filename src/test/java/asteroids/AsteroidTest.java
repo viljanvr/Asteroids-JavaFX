@@ -32,11 +32,11 @@ public class AsteroidTest {
 
         Boolean isAsteroidRandoAndNotOutOfBounds =
                 // Test spawning on left side of the screen.
-                (bigAsteroid.getPosX() == -64
+                (bigAsteroid.getPosX() == -54
                         && bigAsteroid.getPosY() >= 0
                         && bigAsteroid.getPosY() <= AsteroidsController.CANVASHEIGHT) ||
                 // Cheks spawning on top side of the screen.
-                        (bigAsteroid.getPosY() == -64
+                        (bigAsteroid.getPosY() == -55
                                 && bigAsteroid.getPosX() >= 0
                                 && bigAsteroid.getPosX() <= AsteroidsController.CANVASWIDTH);
         assertTrue(isAsteroidRandoAndNotOutOfBounds);

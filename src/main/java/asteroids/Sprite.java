@@ -14,9 +14,9 @@ public abstract class Sprite {
 
     public Sprite(double x1, double y1, double speed, double speedDirection, int imageWidth, int imageHeight,
             String IMAGE_URL) {
-        checkValidNumbers(-64, AsteroidsController.CANVASWIDTH, "innvalid x coordinate input", x1);
-        checkValidNumbers(-64, AsteroidsController.CANVASHEIGHT, "innvalid y coordinate input", y1);
-        checkValidNumbers(0, 64, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
+        checkValidNumbers(-55, AsteroidsController.CANVASWIDTH, "innvalid x coordinate input", x1);
+        checkValidNumbers(-55, AsteroidsController.CANVASHEIGHT, "innvalid y coordinate input", y1);
+        checkValidNumbers(0, 55, "innvalid image height or width input", (double) imageHeight, (double) imageWidth);
 
         this.IMAGE_URL = IMAGE_URL;
         this.IMAGEWIDTH = imageWidth;

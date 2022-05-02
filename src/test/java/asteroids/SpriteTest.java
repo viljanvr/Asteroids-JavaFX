@@ -205,8 +205,8 @@ public class SpriteTest {
     @DisplayName("Test exception throws")
     public void exceptionThrowTest() {
         // Tests for less that min.
-        checkEceptionThrow(-65, 0, 0, 0);
-        checkEceptionThrow(0, -65, 0, 0);
+        checkEceptionThrow(-56, 0, 0, 0);
+        checkEceptionThrow(0, -56, 0, 0);
         checkEceptionThrow(0, 0, -1, 0);
         checkEceptionThrow(0, 0, 0, -1);
         // Tests for more than max.
