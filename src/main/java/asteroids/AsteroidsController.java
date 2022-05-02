@@ -70,7 +70,7 @@ public class AsteroidsController implements GameListener {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
-        // Hide end of game screen.
+        // Propt user with welcome screen
         newGameButton.setVisible(true);
         savePane.setVisible(false);
 
@@ -115,34 +115,6 @@ public class AsteroidsController implements GameListener {
         gc.drawImage(new Image(sprite.getImageURL()), 0, 0);
         gc.restore();
     }
-
-    // private void soundEffectHandle() {
-    // if (game.soundEffectHandle()) {
-    // mediaPlayer.play();
-    // mediaPlayer.seek(Duration.ZERO);
-    // }
-    // }
-
-    // private void updateCurrentScore() {
-    // currentScore.setText("Score: " + game.getScore());
-    // }
-
-    // private void updateLivesLeft() {
-    // livesLeft.setText(game.getLives() + " lives left");
-    // }
-
-    // // Shows the end of game screen when player has lost all of their lives.
-    // private void gameOverHandel() {
-    // if (!gameOverPane.isVisible() && game.isGameOver()) {
-    // gameOverPane.setVisible(true);
-    // newGameButton.setVisible(false);
-    // savePane.setVisible(true);
-
-    // scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New
-    // Highscore!" : "Game over!");
-    // scoreTextSmall.setText("Score: " + game.getScore());
-    // }
-    // }
 
     private void updateScoreBoard() {
         scoreBoardList.setItems(scoreBoard.getScores().stream()
