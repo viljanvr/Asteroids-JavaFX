@@ -60,11 +60,7 @@ public class AsteroidsController implements GameListener {
 
         mediaPlayer = new MediaPlayer(sound);
         timer = new Timer();
-        game = new Game(this);
         scoreBoard = new ScoreBoard("saves", "score_saves");
-
-        // Hide end of game screen.
-        gameOverPane.setVisible(false);
 
         // loads scoreboard from file and updates view
         updateScoreBoard();
@@ -74,8 +70,13 @@ public class AsteroidsController implements GameListener {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
-        // starts AnimationTimer
-        timer.start();
+        // Hide end of game screen.
+        newGameButton.setVisible(true);
+        savePane.setVisible(false);
+
+        scoreTextLarge.setText("Asteroids");
+        scoreTextSmall.setText("Press button to start");
+
     }
 
     // AnimationTimer runs once every frame
@@ -169,6 +170,9 @@ public class AsteroidsController implements GameListener {
     private void startNewGame() {
         game = new Game(this);
         gameOverPane.setVisible(false);
+
+        // starts AnimationTimer
+        timer.start();
     }
 
     @FXML
