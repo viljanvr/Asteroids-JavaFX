@@ -26,10 +26,15 @@ public class Asteroid extends Sprite {
         getVelocity().addXY(velocity.getX(), velocity.getY());
     }
 
-    public List<Sprite> splitLargeAsteroid() {
+    public List<Sprite> splitLargeAsteroid(long currentTime) {
         return Arrays.asList(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
                 new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
-                new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()));
+                new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime));
     }
 
     @Override
@@ -46,5 +51,13 @@ public class Asteroid extends Sprite {
 
     public boolean isLarge() {
         return getImageWidth() == 54;
+    }
+
+    public List<Sprite> dead(long currentTime) {
+        return Arrays.asList(new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
+                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime));
     }
 }

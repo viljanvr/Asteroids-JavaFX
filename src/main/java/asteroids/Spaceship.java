@@ -1,7 +1,9 @@
 package asteroids;
 
 import java.lang.Math;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class Spaceship extends Sprite {
 
@@ -61,6 +63,12 @@ public class Spaceship extends Sprite {
                 sprite -> (sprite instanceof Laser && !((Laser) sprite).getFriendly()) || sprite instanceof UFO
                         || sprite instanceof Asteroid)
                 .anyMatch(sprite -> overlapsSprite(sprite));
+    }
+
+    public List<Sprite> dead(long currentTime) {
+        return Arrays.asList(new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime),
+                new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime),
+                new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime));
     }
 
 }

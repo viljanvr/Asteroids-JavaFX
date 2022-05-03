@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -81,8 +82,19 @@ public class AsteroidsController implements GameListener {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
+        newGameButton.setOnAction(event -> {
+            startNewGame();
+        });
+        saveButton.setOnAction(event -> {
+            handleSave();
+        });
+        dontSaveButton.setOnAction(event -> {
+            handleDontSave();
+        });
+
         // Propt user with welcome screen
         newGameButton.setVisible(true);
+        newGameButton.requestFocus();
         savePane.setVisible(false);
 
         scoreTextLarge.setText("Asteroids");
@@ -120,6 +132,10 @@ public class AsteroidsController implements GameListener {
             gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
             gc.rotate(Math.toDegrees(((Spaceship) sprite).getRotation()));
             gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
+        } else if (sprite instanceof Debris) {
+            gc.translate(sprite.getImageWidth() / 2, sprite.getImageHeight() / 2);
+            gc.rotate(Math.toDegrees(((Debris) sprite).getRotation()));
+            gc.translate(-sprite.getImageWidth() / 2, -sprite.getImageHeight() / 2);
         }
 
         // Draws the image
@@ -139,20 +155,26 @@ public class AsteroidsController implements GameListener {
     private void handleSave() {
         scoreBoard.addScore(playerName.getText().trim(), game.getScore());
         updateScoreBoard();
+        saveButton.setDefaultButton(false);
         savePane.setVisible(false);
         newGameButton.setVisible(true);
+        newGameButton.setDefaultButton(true);
+
     }
 
     @FXML
     private void handleDontSave() {
+        saveButton.setDefaultButton(false);
         savePane.setVisible(false);
         newGameButton.setVisible(true);
+        newGameButton.setDefaultButton(true);
     }
 
     @FXML
     private void startNewGame() {
         game = new Game(this);
         gameOverPane.setVisible(false);
+        scoreBoardList.requestFocus();
 
         // starts AnimationTimer
         timer.start();
@@ -188,7 +210,7 @@ public class AsteroidsController implements GameListener {
             spaceship.rotateLeft();
         if (this.RIGHTpressed)
             spaceship.rotateRight();
-        if (this.SPACEpressed && this.SPACEreleased && game.doesGameContainSpaceship()) {
+        if (this.SPACEpressed && this.SPACEreleased) {
             game.getSprites().add(spaceship.shoot());
             this.SPACEreleased = false;
         }
@@ -229,12 +251,19 @@ public class AsteroidsController implements GameListener {
 
     @Override
     public void gameOver() {
+        UPpressed = false;
+        LEFTpressed = false;
+        RIGHTpressed = false;
+
         gameOverPane.setVisible(true);
+        newGameButton.setDefaultButton(false);
         newGameButton.setVisible(false);
         savePane.setVisible(true);
 
+        playerName.requestFocus();
         scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New Highscore!" : "Game over!");
         scoreTextSmall.setText("Score: " + game.getScore());
+        saveButton.setDefaultButton(true);
 
     }
 

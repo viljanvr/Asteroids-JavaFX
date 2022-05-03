@@ -1,6 +1,8 @@
 package asteroids;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class UFO extends Sprite {
 
@@ -35,12 +37,20 @@ public class UFO extends Sprite {
 
     public Laser shootTowardSpaceship(Double x1, Double y1) {
         double result = Math.atan2((y1 - this.y1), (-this.x1 + x1));
+        // Add a random spread of 30 degrees in either direciton
+        result += Math.random() * 2 * Math.PI / 6 - Math.PI / 6;
         return new Laser(getPosX() + getImageWidth() / 2 - 4 + 25 * Math.cos(result),
                 getPosY() + getImageHeight() / 2 - 4 + 15 * Math.sin(result), 1.5, result, false);
     }
 
     public void changeDirection() {
         getVelocity().setAngle(Math.random() * 6.28);
+    }
+
+    public List<Sprite> dead(long currentTime) {
+        return Arrays.asList(new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime),
+                new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime),
+                new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime));
     }
 
 }
