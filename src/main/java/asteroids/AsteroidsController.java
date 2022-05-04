@@ -12,7 +12,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -204,15 +203,15 @@ public class AsteroidsController implements GameListener {
     }
 
     private void spaceshipAction(Spaceship spaceship) {
-        if (this.UPpressed)
+        if (UPpressed)
             spaceship.thrust();
-        if (this.LEFTpressed)
+        if (LEFTpressed)
             spaceship.rotateLeft();
-        if (this.RIGHTpressed)
+        if (RIGHTpressed)
             spaceship.rotateRight();
-        if (this.SPACEpressed && this.SPACEreleased) {
+        if (SPACEpressed && SPACEreleased && game.doesGameContainSpaceship()) {
             game.getSprites().add(spaceship.shoot());
-            this.SPACEreleased = false;
+            SPACEreleased = false;
         }
     }
 
@@ -220,8 +219,11 @@ public class AsteroidsController implements GameListener {
     private void keyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case UP -> UPpressed = true;
+            case W -> UPpressed = true;
             case LEFT -> LEFTpressed = true;
+            case A -> LEFTpressed = true;
             case RIGHT -> RIGHTpressed = true;
+            case D -> RIGHTpressed = true;
             case SPACE -> SPACEpressed = true;
             default -> {
             }
@@ -232,8 +234,11 @@ public class AsteroidsController implements GameListener {
     private void keyReleased(KeyEvent event) {
         switch (event.getCode()) {
             case UP -> UPpressed = false;
+            case W -> UPpressed = false;
             case LEFT -> LEFTpressed = false;
+            case A -> LEFTpressed = false;
             case RIGHT -> RIGHTpressed = false;
+            case D -> RIGHTpressed = false;
             case SPACE -> {
                 SPACEpressed = false;
                 SPACEreleased = true;

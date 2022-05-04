@@ -1,6 +1,7 @@
 package asteroids;
 
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,6 @@ public class Asteroid extends Sprite {
                 randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
                 1, Math.random() * 6.28, 54, 55,
                 "asteroids/asteroid.png");
-
     }
 
     // Constructor for Dwarf Asteroids
@@ -27,14 +27,11 @@ public class Asteroid extends Sprite {
     }
 
     public List<Sprite> splitLargeAsteroid(long currentTime) {
-        return Arrays.asList(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
+        List<Sprite> list = new ArrayList<>(Arrays.asList(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
                 new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
-                new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime));
+                new Asteroid((int) getPosX(), (int) getPosY(), getVelocity())));
+        list.addAll(Debris.creatDebris(false, getPosX(), getPosY(), currentTime));
+        return list;
     }
 
     @Override
@@ -53,11 +50,7 @@ public class Asteroid extends Sprite {
         return getImageWidth() == 54;
     }
 
-    public List<Sprite> dead(long currentTime) {
-        return Arrays.asList(new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime),
-                new Debris(getPosX(), getPosY(), 4, 4, "asteroids/debris_small.png", currentTime));
+    public List<Sprite> explode(long currentTime) {
+        return Debris.creatDebris(false, getPosX(), getPosY(), currentTime);
     }
 }

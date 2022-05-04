@@ -63,9 +63,9 @@ public class Game {
 
                     // ONLY TEMPORARY, WILL CHANGE
                     // Checks laser
-                    if (sprite instanceof Laser && !((Laser) sprite).checkOutOfBound()) {
-                        if (!sprite.checkCollision(sprites))
-                            return Stream.of(sprite);
+                    if (sprite instanceof Laser
+                            && !((Laser) sprite).checkOutOfBound() && !sprite.checkCollision(sprites)) {
+                        return Stream.of(sprite);
                     }
 
                     // Checks asteroids
@@ -76,15 +76,14 @@ public class Game {
                                 return ((Asteroid) sprite).splitLargeAsteroid(nanotime).stream();
                             } else
                                 incrementScore(10);
-                            return ((Asteroid) sprite).dead(nanotime).stream();
-                        } else
-                            return Stream.of(sprite);
+                            return ((Asteroid) sprite).explode(nanotime).stream();
+                        }
+                        return Stream.of(sprite);
                     }
 
                     // Checks Debris
-                    else if (sprite instanceof Debris) {
-                        if (!((Debris) sprite).shouldDisapear(nanotime))
-                            return Stream.of(sprite);
+                    else if (sprite instanceof Debris && !((Debris) sprite).shouldDisapear(nanotime)) {
+                        return Stream.of(sprite);
                     }
 
                     // Checks spaceship
@@ -92,7 +91,7 @@ public class Game {
                         if (sprite.checkCollision(sprites)) {
                             if (lives == 0)
                                 gameListener.gameOver();
-                            return ((Spaceship) sprite).dead(nanotime).stream();
+                            return ((Spaceship) sprite).explode(nanotime).stream();
                         } else
                             return Stream.of(sprite);
                     }
@@ -101,7 +100,7 @@ public class Game {
                     else if (sprite instanceof UFO) {
                         if (sprite.checkCollision(sprites)) {
                             incrementScore(50);
-                            return ((UFO) sprite).dead(nanotime).stream();
+                            return ((UFO) sprite).explode(nanotime).stream();
                         } else
                             return Stream.of(sprite);
                     }
@@ -116,17 +115,16 @@ public class Game {
         if (!doesGameContainSpaceship() && lives > 0
                 && !sprites.stream().filter(sprite -> sprite instanceof Asteroid)
                         .anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))
-                && sprites.stream().filter(sprite -> sprite instanceof Debris)
+                && sprites.stream().filter(sprite -> sprite instanceof Debris)// DOTO: what?
                         .noneMatch(sprite -> sprite.getImageWidth() == 33)) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
             lastSpaceshipSpawnTime = nanotime;
-            lives -= 1;
-            gameListener.livesLeftChanged(lives);
+            gameListener.livesLeftChanged(lives -= 1);
         }
 
-        // Spawns and asteroid every six seconds (6 000 000 000 in nanoseconds)
-        if (nanotime >= lastAsteroidSpawnTime + 6000000000l && doesGameContainSpaceship()) {
+        // Spawns and asteroid every five seconds (5 000 000 000 in nanoseconds)
+        if (nanotime >= lastAsteroidSpawnTime + 5000000000l && doesGameContainSpaceship()) {
             sprites.add(new Asteroid());
             lastAsteroidSpawnTime = nanotime;
         }
@@ -148,8 +146,8 @@ public class Game {
                     });
         }
 
-        // Spawns a new UFO every 10 sec.
-        if (nanotime >= lastUFOSpawnTime + 10000000000l && !isGameOver()) {
+        // Spawns a new UFO every 9 sec.
+        if (nanotime >= lastUFOSpawnTime + 9000000000l && !isGameOver()) {
             sprites.add(new UFO());
             lastUFOSpawnTime = nanotime;
         }

@@ -1,10 +1,11 @@
 package asteroids;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 public class UFO extends Sprite {
+
+    private final double UFO_AIMANGLE = Math.PI / 12;
 
     public UFO() {
         this(Math.random());
@@ -31,14 +32,15 @@ public class UFO extends Sprite {
 
     public boolean checkCollision(Collection<Sprite> list) {
         return list.stream().filter(
-                sprite -> ((sprite instanceof Laser && ((Laser) sprite).getFriendly()) || sprite instanceof Spaceship))
+                sprite -> ((sprite instanceof Laser && ((Laser) sprite).isFriendly()) || sprite instanceof Spaceship))
                 .anyMatch(sprite -> overlapsSprite(sprite));
     }
 
     public Laser shootTowardSpaceship(Double x1, Double y1) {
         double result = Math.atan2((y1 - this.y1), (-this.x1 + x1));
+
         // Add a random spread of 30 degrees in either direciton
-        result += Math.random() * 2 * Math.PI / 6 - Math.PI / 6;
+        result += Math.random() * 2 * UFO_AIMANGLE - UFO_AIMANGLE;
         return new Laser(getPosX() + getImageWidth() / 2 - 4 + 25 * Math.cos(result),
                 getPosY() + getImageHeight() / 2 - 4 + 15 * Math.sin(result), 1.5, result, false);
     }
@@ -47,10 +49,8 @@ public class UFO extends Sprite {
         getVelocity().setAngle(Math.random() * 6.28);
     }
 
-    public List<Sprite> dead(long currentTime) {
-        return Arrays.asList(new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime),
-                new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime),
-                new Debris(getPosX(), getPosY(), 33, 3, "asteroids/debris_long.png", currentTime));
+    public List<Sprite> explode(long currentTime) {
+        return Debris.creatDebris(true, getPosX(), getPosY(), currentTime);
     }
 
 }

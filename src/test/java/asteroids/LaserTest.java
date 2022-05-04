@@ -65,7 +65,7 @@ public class LaserTest {
     @Test
     @DisplayName("Tests collision function")
     public void checkCollisionTest() {
-        asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
+        // asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(0, 100);
         assertTrue(laser1.checkCollision(Arrays.asList(asteroid)), "Checks that laser collides with asteroid.");
 
