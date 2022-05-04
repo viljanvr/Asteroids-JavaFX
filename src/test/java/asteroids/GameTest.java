@@ -18,7 +18,7 @@ public class GameTest {
     @BeforeEach
     public void setup() {
         // game = new Game();
-        asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
+        // asteroid = (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(500, 500);
         previousSpaceship = game.getSpaceship();
     }
@@ -201,7 +201,8 @@ public class GameTest {
 
     // Used to easily add a small or large asteroid at a specific coordinate.
     public void addAsteroid(int x, int y, Boolean isLarge) {
-        Asteroid asteroid = isLarge ? new Asteroid() : (Asteroid) new Asteroid().splitLargeAsteroid().get(0);
+        // Asteroid asteroid = isLarge ? new Asteroid() : (Asteroid) new
+        // Asteroid().splitLargeAsteroid().get(0);
         asteroid.setPosXY(x, y);
         game.getSprites().add(asteroid);
 

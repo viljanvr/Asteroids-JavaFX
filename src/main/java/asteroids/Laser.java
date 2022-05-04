@@ -7,7 +7,7 @@ public class Laser extends Sprite {
     private boolean friendly;
 
     public Laser(double x1, double y1, double speed, double speedDirection, boolean friendly) {
-        super(x1, y1, speed + 4, speedDirection, 8, 8, (friendly ? "asteroids/laser.png" : "asteroids/laser_red.png"));
+        super(x1, y1, speed + 4, speedDirection, 8, 8, friendly ? "asteroids/laser.png" : "asteroids/laser_red.png");
         this.friendly = friendly;
     }
 
@@ -17,11 +17,11 @@ public class Laser extends Sprite {
 
     public boolean checkCollision(Collection<Sprite> list) {
         return list.stream()
-                .filter(sprite -> (sprite instanceof Spaceship && !getFriendly()) || sprite instanceof Asteroid)
+                .filter(sprite -> (sprite instanceof Spaceship && !isFriendly()) || sprite instanceof Asteroid)
                 .anyMatch(asteroid -> overlapsSprite(asteroid));
     }
 
-    public boolean getFriendly() {
+    public boolean isFriendly() {
         return friendly;
     }
 
