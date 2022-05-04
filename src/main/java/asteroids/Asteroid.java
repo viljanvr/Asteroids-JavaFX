@@ -16,13 +16,13 @@ public class Asteroid extends Sprite {
     private Asteroid(double randomNumber) {
         super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASWIDTH : -54,
                 randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
-                1, Math.random() * 6.28, 54, 55,
+                GameConfig.asteroid_speed, Math.random() * 6.28, 54, 55,
                 "asteroids/asteroid.png");
     }
 
     // Constructor for Dwarf Asteroids
     private Asteroid(int x1, int y1, Vector velocity) {
-        super(x1, y1, 1.4, Math.random() * 6.28, 37, 38, "asteroids/dwarf_asteroid.png");
+        super(x1, y1, GameConfig.dwarfAsteroid_speed, Math.random() * 6.28, 37, 38, "asteroids/dwarf_asteroid.png");
         getVelocity().addXY(velocity.getX(), velocity.getY());
     }
 
@@ -30,7 +30,7 @@ public class Asteroid extends Sprite {
         List<Sprite> list = new ArrayList<>(Arrays.asList(new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
                 new Asteroid((int) getPosX(), (int) getPosY(), getVelocity()),
                 new Asteroid((int) getPosX(), (int) getPosY(), getVelocity())));
-        list.addAll(Debris.creatDebris(false, getPosX(), getPosY(), currentTime));
+        list.addAll(explode(currentTime));
         return list;
     }
 
@@ -48,9 +48,5 @@ public class Asteroid extends Sprite {
 
     public boolean isLarge() {
         return getImageWidth() == 54;
-    }
-
-    public List<Sprite> explode(long currentTime) {
-        return Debris.creatDebris(false, getPosX(), getPosY(), currentTime);
     }
 }

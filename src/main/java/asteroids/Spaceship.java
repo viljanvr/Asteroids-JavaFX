@@ -2,7 +2,6 @@ package asteroids;
 
 import java.lang.Math;
 import java.util.Collection;
-import java.util.List;
 
 public class Spaceship extends Sprite {
 
@@ -15,11 +14,11 @@ public class Spaceship extends Sprite {
     }
 
     public void rotateLeft() {
-        rotation -= Math.PI / 45;
+        rotation -= GameConfig.spaceship_rotationSpeed;
     }
 
     public void rotateRight() {
-        rotation += Math.PI / 45;
+        rotation += GameConfig.spaceship_rotationSpeed;
     }
 
     public double getRotation() {
@@ -34,11 +33,13 @@ public class Spaceship extends Sprite {
 
     public void thrust() {
         showThrust = true;
-        velocity.addXY(Math.cos(getRotation()) * 0.18, Math.sin(getRotation()) * 0.18);
+        velocity.addXY(Math.cos(getRotation()) * GameConfig.spaceship_acceleration_increase,
+                Math.sin(getRotation()) * GameConfig.spaceship_acceleration_increase);
     }
 
     private void aeroBrake() {
-        velocity.addXY(-0.02 * velocity.getX(), -0.02 * velocity.getY());
+        velocity.addXY(GameConfig.spaceship_acceleration_reduction * velocity.getX(),
+                GameConfig.spaceship_acceleration_reduction * velocity.getY());
     }
 
     @Override
@@ -62,10 +63,6 @@ public class Spaceship extends Sprite {
                 sprite -> (sprite instanceof Laser && !((Laser) sprite).isFriendly()) || sprite instanceof UFO
                         || sprite instanceof Asteroid)
                 .anyMatch(sprite -> overlapsSprite(sprite));
-    }
-
-    public List<Sprite> explode(long currentTime) {
-        return Debris.creatDebris(true, getPosX(), getPosY(), currentTime);
     }
 
 }

@@ -14,8 +14,9 @@ public class Game {
     private int score = 0, lives = 3;
     private long lastAsteroidSpawnTime = 0, lastUFOSpawnTime = 0, lastUFOShootTime = 0, lastSpaceshipSpawnTime = 0;
 
-    public Game(GameListener gameListener) {
+    public Game(GameListener gameListener, boolean difficulty) {
         this.gameListener = gameListener;
+        new GameConfig(false);
         gameListener.scoreChanged(score);
         gameListener.livesLeftChanged(lives);
 
@@ -115,7 +116,7 @@ public class Game {
         if (!doesGameContainSpaceship() && lives > 0
                 && !sprites.stream().filter(sprite -> sprite instanceof Asteroid)
                         .anyMatch(sprite -> sprite.isInsideRectangle(350, 250, 450, 350))
-                && sprites.stream().filter(sprite -> sprite instanceof Debris)// DOTO: what?
+                && sprites.stream().filter(sprite -> sprite instanceof Debris)
                         .noneMatch(sprite -> sprite.getImageWidth() == 33)) {
             spaceship = new Spaceship();
             sprites.add(spaceship);
@@ -123,15 +124,15 @@ public class Game {
             gameListener.livesLeftChanged(lives -= 1);
         }
 
-        // Spawns and asteroid every five seconds (5 000 000 000 in nanoseconds)
-        if (nanotime >= lastAsteroidSpawnTime + 5000000000l && doesGameContainSpaceship()) {
+        // Spawns asteroids
+        if (nanotime >= lastAsteroidSpawnTime + GameConfig.asteroid_spawntime && doesGameContainSpaceship()) {
             sprites.add(new Asteroid());
             lastAsteroidSpawnTime = nanotime;
         }
 
-        // If UFO exist, shoot a laser every 2,5 seconds (and only if it's more than 3,5
+        // If UFOs exists, shoot a laser(and only if it's more than 3,5
         // seconds since you spawned).
-        if (nanotime >= lastUFOShootTime + 2500000000l && !isGameOver()
+        if (nanotime >= lastUFOShootTime + GameConfig.ufo_fire_delay && !isGameOver()
                 && nanotime >= lastSpaceshipSpawnTime + 3500000000l) {
             sprites.addAll(sprites.stream().filter(sprite -> sprite instanceof UFO)
                     .map(sprite -> ((UFO) sprite).shootTowardSpaceship(spaceship.getPosX(), spaceship.getPosY()))
@@ -146,8 +147,8 @@ public class Game {
                     });
         }
 
-        // Spawns a new UFO every 9 sec.
-        if (nanotime >= lastUFOSpawnTime + 9000000000l && !isGameOver()) {
+        // Spawns UFOs
+        if (nanotime >= lastUFOSpawnTime + GameConfig.ufo_spawntime && !isGameOver()) {
             sprites.add(new UFO());
             lastUFOSpawnTime = nanotime;
         }

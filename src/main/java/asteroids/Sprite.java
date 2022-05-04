@@ -65,6 +65,14 @@ public abstract class Sprite {
         }
     }
 
+    public List<Sprite> explode(long currentTime) {
+        List<Sprite> debris = new ArrayList<>();
+        for (int i = this instanceof Asteroid ? 0 : 2; i < 5; i++) {
+            debris.add(new Debris(!(this instanceof Asteroid), x1, y1, currentTime));
+        }
+        return debris;
+    }
+
     public Vector getVelocity() {
         return velocity;
     }

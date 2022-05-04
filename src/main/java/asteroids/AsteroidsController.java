@@ -26,10 +26,10 @@ public class AsteroidsController implements GameListener {
     private Game game;
     private GraphicsContext gc;
     private boolean UPpressed = false, LEFTpressed = false,
-            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true;
-    private Media collisionSound, soundTrack;
-    private MediaPlayer collisionSoundPlayer, soundTrackPlayer;
-
+            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, difficulty = true;
+    private Media collisionSound, laserSoundTrack, soundTrack1, soundTrack2;
+    private MediaPlayer collisionSoundPlayer, laserSoundTrackPlayer, soundTrack1Player, soundTrack2Player,
+            currentSoundTrackPlayer;
     private ScoreBoard scoreBoard;
 
     @FXML
@@ -56,20 +56,24 @@ public class AsteroidsController implements GameListener {
         try {
             collisionSound = new Media(
                     getClass().getClassLoader().getResource("asteroids/boom.mp3").toURI().toString());
-            soundTrack = new Media(
+            soundTrack1 = new Media(
+                    getClass().getClassLoader().getResource("asteroids/ripAndTear.mp3").toURI().toString());
+            soundTrack2 = new Media(
                     getClass().getClassLoader().getResource("asteroids/soundTrack.mp3").toURI().toString());
+            laserSoundTrack = new Media(
+                    getClass().getClassLoader().getResource("asteroids/laser.mp3").toURI().toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
         collisionSoundPlayer = new MediaPlayer(collisionSound);
-        soundTrackPlayer = new MediaPlayer(soundTrack);
-        soundTrackPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                soundTrackPlayer.seek(Duration.ZERO);
-            }
-        });
-        soundTrackPlayer.play();
+        soundTrack1Player = new MediaPlayer(soundTrack1);
+        soundTrack2Player = new MediaPlayer(soundTrack2);
+        laserSoundTrackPlayer = new MediaPlayer(laserSoundTrack);
+        laserSoundTrackPlayer.setVolume(0.5);
+
+        initiateSoundTrack(soundTrack2Player);
+        initiateSoundTrack(soundTrack1Player);
         timer = new Timer();
         scoreBoard = new ScoreBoard("saves", "score_saves");
 
@@ -169,9 +173,23 @@ public class AsteroidsController implements GameListener {
         newGameButton.setDefaultButton(true);
     }
 
+    // TODO: I think we should run this everytime difficulty is selected so the
+    // player can hear the music of the difficulty
+    private void initiateSoundTrack(MediaPlayer soundTrack) {
+        if (currentSoundTrackPlayer != null)
+            currentSoundTrackPlayer.stop();
+        currentSoundTrackPlayer = soundTrack;
+        currentSoundTrackPlayer.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                soundTrack.seek(Duration.ZERO);
+            }
+        });
+        currentSoundTrackPlayer.play();
+    }
+
     @FXML
     private void startNewGame() {
-        game = new Game(this);
+        game = new Game(this, difficulty);
         gameOverPane.setVisible(false);
         scoreBoardList.requestFocus();
 
@@ -210,6 +228,8 @@ public class AsteroidsController implements GameListener {
         if (RIGHTpressed)
             spaceship.rotateRight();
         if (SPACEpressed && SPACEreleased && game.doesGameContainSpaceship()) {
+            laserSoundTrackPlayer.play();
+            laserSoundTrackPlayer.seek(Duration.ZERO);
             game.getSprites().add(spaceship.shoot());
             SPACEreleased = false;
         }
