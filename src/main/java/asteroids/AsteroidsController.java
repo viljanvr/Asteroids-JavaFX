@@ -3,23 +3,32 @@ package asteroids;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.paint.*;
 import javafx.scene.text.Text;
+import javafx.stage.Window;
 import javafx.util.Duration;
+import javafx.scene.Parent;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class AsteroidsController implements GameListener {
+
+    private MenuController menuController = new MenuController();
 
     public static final int CANVASWIDTH = 800, CANVASHEIGHT = 600;
     private Timer timer;
@@ -36,23 +45,23 @@ public class AsteroidsController implements GameListener {
     private Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
 
     @FXML
-    private Text currentScore, livesLeft, saveInfoText, scoreTextLarge, scoreTextSmall;
+    private Text currentScore, livesLeft;
 
     @FXML
-    private Button saveButton, dontSaveButton, newGameButton;
-
-    @FXML
-    private Pane savePane, gameOverPane;
+    private BorderPane menuContainer;
 
     @FXML
     private ListView<String> scoreBoardList;
 
-    @FXML
-    private TextField playerName;
+    private Pane newGamePane, settingsPane, controlsPane, aboutPane, audioPane;
+
+    // @FXML
+    // private SettingsController settingsWindowController;
 
     // initializes the game
     public void initialize() {
 
+        // load sound and music
         try {
             collisionSound = new Media(
                     getClass().getClassLoader().getResource("asteroids/boom.mp3").toURI().toString());
@@ -85,23 +94,16 @@ public class AsteroidsController implements GameListener {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
-        newGameButton.setOnAction(event -> {
-            startNewGame();
-        });
-        saveButton.setOnAction(event -> {
-            handleSave();
-        });
-        dontSaveButton.setOnAction(event -> {
-            handleDontSave();
-        });
+        // Initalize all menu views
+        newGamePane = getMenuPane("NewGameFx.fxml");
+        settingsPane = getMenuPane("SettingsFx.fxml");
+        controlsPane = getMenuPane("ControlsFx.fxml");
+        aboutPane = getMenuPane("AboutFx.fxml");
+        audioPane = getMenuPane("AudioFx.fxml");
+        menuController.init(this);
 
         // Propt user with welcome screen
-        newGameButton.setVisible(true);
-        newGameButton.requestFocus();
-        savePane.setVisible(false);
-
-        scoreTextLarge.setText("Asteroids");
-        scoreTextSmall.setText("Press button to start");
+        changeMenu("NewGameFx.fxml");
 
     }
 
@@ -154,23 +156,9 @@ public class AsteroidsController implements GameListener {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
-    @FXML
-    private void handleSave() {
-        scoreBoard.addScore(playerName.getText().trim(), game.getScore());
+    public void addScore(String playerName) {
+        scoreBoard.addScore(playerName, game.getScore());
         updateScoreBoard();
-        saveButton.setDefaultButton(false);
-        savePane.setVisible(false);
-        newGameButton.setVisible(true);
-        newGameButton.setDefaultButton(true);
-
-    }
-
-    @FXML
-    private void handleDontSave() {
-        saveButton.setDefaultButton(false);
-        savePane.setVisible(false);
-        newGameButton.setVisible(true);
-        newGameButton.setDefaultButton(true);
     }
 
     // TODO: I think we should run this everytime difficulty is selected so the
@@ -187,37 +175,13 @@ public class AsteroidsController implements GameListener {
         currentSoundTrackPlayer.play();
     }
 
-    @FXML
-    private void startNewGame() {
+    public void startNewGame() {
         game = new Game(this, difficulty);
-        gameOverPane.setVisible(false);
         scoreBoardList.requestFocus();
 
         // starts AnimationTimer
         timer.start();
-    }
 
-    @FXML
-    private void playerNameInputChanged() {
-        int textInputLength = playerName.getText().trim().length();
-
-        if (textInputLength == 0) {
-            saveInfoText.setText("Enter playername to save score");
-            saveInfoText.setFill(Color.WHITE);
-            saveButton.setDisable(true);
-        } else if (textInputLength > 14) {
-            saveInfoText.setText("Name cannot exceed 14 characters");
-            saveInfoText.setFill(Color.RED);
-            saveButton.setDisable(true);
-        } else if (!Pattern.matches("[a-zA-Z0-9_æøåÆØÅ ]*", playerName.getText().trim())) {
-            saveInfoText.setText("Playername cannot include special characters");
-            saveInfoText.setFill(Color.RED);
-            saveButton.setDisable(true);
-        } else {
-            saveInfoText.setText("Enter playername to save score");
-            saveInfoText.setFill(Color.WHITE);
-            saveButton.setDisable(false);
-        }
     }
 
     private void spaceshipAction(Spaceship spaceship) {
@@ -233,6 +197,24 @@ public class AsteroidsController implements GameListener {
             game.getSprites().add(spaceship.shoot());
             SPACEreleased = false;
         }
+    }
+
+    public void setGameVolume(double gameVolume) {
+        collisionSoundPlayer.setVolume(gameVolume / 100.0);
+        laserSoundTrackPlayer.setVolume(gameVolume / 200.0);
+    }
+
+    public void setMusicVolume(double musicVolume) {
+        soundTrack1Player.setVolume(musicVolume / 100.0);
+        soundTrack2Player.setVolume(musicVolume / 100.0);
+    }
+
+    public double getGameVolume() {
+        return collisionSoundPlayer.getVolume() * 100;
+    }
+
+    public double getMusicVolume() {
+        return soundTrack1Player.getVolume() * 100;
     }
 
     @FXML
@@ -280,27 +262,39 @@ public class AsteroidsController implements GameListener {
         LEFTpressed = false;
         RIGHTpressed = false;
 
-        gameOverPane.setVisible(true);
-        newGameButton.setDefaultButton(false);
-        newGameButton.setVisible(false);
-        savePane.setVisible(true);
-
-        playerName.requestFocus();
-        scoreTextLarge.setText(game.getScore() > scoreBoard.getHighScore() ? "New Highscore!" : "Game over!");
-        scoreTextSmall.setText("Score: " + game.getScore());
-        saveButton.setDefaultButton(true);
-
+        menuController.gameOver(game.getScore(), scoreBoard.getHighScore());
     }
 
     @Override
     public void spirteCollided() {
         collisionSoundPlayer.play();
         collisionSoundPlayer.seek(Duration.ZERO);
-
     }
 
     @Override
     public void scoreChanged(int newScore) {
         currentScore.setText("Score: " + newScore);
     }
+
+    public void changeMenu(String s) {
+        switch (s) {
+            case "NewGameFx.fxml" -> menuContainer.setCenter(newGamePane);
+            case "SettingsFx.fxml" -> menuContainer.setCenter(settingsPane);
+            case "ControlsFx.fxml" -> menuContainer.setCenter(controlsPane);
+            case "AboutFx.fxml" -> menuContainer.setCenter(aboutPane);
+            case "AudioFx.fxml" -> menuContainer.setCenter(audioPane);
+            default -> menuContainer.setCenter(null);
+        }
+    }
+
+    public Pane getMenuPane(String s) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(s));
+        fxmlLoader.setController(menuController);
+        try {
+            return fxmlLoader.load();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
 }

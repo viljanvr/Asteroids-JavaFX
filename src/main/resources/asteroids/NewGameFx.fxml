@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="418.0" style="-fx-background-color: black; -fx-border-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+    <Text fx:id="scoreTextLarge" fill="WHITE" layoutY="73.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="ASTEROIDS" textAlignment="CENTER" wrappingWidth="417.0">
+        <font>
+            <Font size="35.0" />
+        </font>
+    </Text>
+    <Text fx:id="scoreTextSmall" fill="WHITE" layoutY="101.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Hyperspace;" text="PRESS BUTTON TO START" textAlignment="CENTER" wrappingWidth="417.0">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Text>
+    <Pane fx:id="mainMenuPane" layoutX="114.0" layoutY="130.0" prefHeight="120.0" prefWidth="190.0">
+        <children>
+            <Button fx:id="newGameButton" alignment="CENTER" defaultButton="true" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#startNewGame" prefHeight="61.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 30;" stylesheets="@Asteroids.css" text="NEW GAME" textAlignment="CENTER" textOverrun="CLIP">
+                <font>
+                <Font size="30.0" />
+                </font>
+            </Button>
+            <Button fx:id="settingsButton" focusTraversable="false" layoutX="41.0" layoutY="85.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Settings" textFill="WHITE" textOverrun="CLIP">
+                <font>
+                <Font size="16.0" />
+                </font>
+            </Button>
+        </children>
+    </Pane>
+    <Pane fx:id="savePane" layoutX="86.0" layoutY="139.0" prefHeight="106.0" prefWidth="246.0" visible="false">
+        <children>
+            <Text fx:id="saveInfoText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Enter playername to save score" textAlignment="CENTER" wrappingWidth="410.0" x="-82.0" y="5.0" />
+            <Button fx:id="dontSaveButton" focusTraversable="false" layoutX="93.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleDontSave" prefHeight="39.0" prefWidth="153.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="DON'T SAVE" textFill="WHITE" textOverrun="CLIP">
+                <font>
+                <Font size="18.0" />
+                </font>
+            </Button>
+            <TextField fx:id="playerName" focusTraversable="false" layoutY="15.0" onKeyTyped="#playerNameInputChanged" prefHeight="30.0" prefWidth="246.0" promptText="name" style="-fx-font-size: 18;" stylesheets="@Asteroids.css" text="">
+                <font>
+                <Font size="18.0" />
+                </font>
+                <cursor>
+                <Cursor fx:constant="TEXT" />
+                </cursor>
+            </TextField>
+            <Button fx:id="saveButton" disable="true" focusTraversable="false" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="38.0" prefWidth="83.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="SAVE" textOverrun="CLIP">
+                <cursor>
+                <Cursor fx:constant="DEFAULT" />
+                </cursor>
+                <font>
+                <Font size="18.0" />
+                </font>
+            </Button>
+        </children>
+    </Pane>
+    </children>
+</Pane>
