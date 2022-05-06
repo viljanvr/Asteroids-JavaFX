@@ -35,9 +35,9 @@ public class AsteroidsController implements GameListener {
     private Game game;
     private GraphicsContext gc;
     private boolean UPpressed = false, LEFTpressed = false,
-            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, difficulty = true;
-    private Media collisionSound, laserSoundTrack, soundTrack1, soundTrack2;
-    private MediaPlayer collisionSoundPlayer, laserSoundTrackPlayer, soundTrack1Player, soundTrack2Player,
+            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, difficulty = false;
+    private Media collisionSound, laserSoundTrack, hardSoundTrack, normalSoundTrack;
+    private MediaPlayer collisionSoundPlayer, laserSoundTrackPlayer, hardSoundTrackPlayer, normalSoundTrackPlayer,
             currentSoundTrackPlayer;
     private ScoreBoard scoreBoard;
 
@@ -53,7 +53,7 @@ public class AsteroidsController implements GameListener {
     @FXML
     private ListView<String> scoreBoardList;
 
-    private Pane newGamePane, settingsPane, controlsPane, aboutPane, audioPane;
+    private Pane newGamePane, settingsPane, controlsPane, aboutPane, audioPane, difficultyPane;
 
     // @FXML
     // private SettingsController settingsWindowController;
@@ -65,9 +65,9 @@ public class AsteroidsController implements GameListener {
         try {
             collisionSound = new Media(
                     getClass().getClassLoader().getResource("asteroids/boom.mp3").toURI().toString());
-            soundTrack1 = new Media(
+            hardSoundTrack = new Media(
                     getClass().getClassLoader().getResource("asteroids/ripAndTear.mp3").toURI().toString());
-            soundTrack2 = new Media(
+            normalSoundTrack = new Media(
                     getClass().getClassLoader().getResource("asteroids/soundTrack.mp3").toURI().toString());
             laserSoundTrack = new Media(
                     getClass().getClassLoader().getResource("asteroids/laser.mp3").toURI().toString());
@@ -76,13 +76,14 @@ public class AsteroidsController implements GameListener {
         }
 
         collisionSoundPlayer = new MediaPlayer(collisionSound);
-        soundTrack1Player = new MediaPlayer(soundTrack1);
-        soundTrack2Player = new MediaPlayer(soundTrack2);
+        hardSoundTrackPlayer = new MediaPlayer(hardSoundTrack);
+        normalSoundTrackPlayer = new MediaPlayer(normalSoundTrack);
         laserSoundTrackPlayer = new MediaPlayer(laserSoundTrack);
         laserSoundTrackPlayer.setVolume(0.5);
 
-        initiateSoundTrack(soundTrack2Player);
-        initiateSoundTrack(soundTrack1Player);
+        // starts with soundtrack for normal difficulty.
+        initiateSoundTrack(normalSoundTrackPlayer);
+
         timer = new Timer();
         scoreBoard = new ScoreBoard("saves", "score_saves");
 
@@ -100,6 +101,7 @@ public class AsteroidsController implements GameListener {
         controlsPane = getMenuPane("ControlsFx.fxml");
         aboutPane = getMenuPane("AboutFx.fxml");
         audioPane = getMenuPane("AudioFx.fxml");
+        difficultyPane = getMenuPane("DifficultyFx.fxml");
         menuController.init(this);
 
         // Propt user with welcome screen
@@ -161,8 +163,6 @@ public class AsteroidsController implements GameListener {
         updateScoreBoard();
     }
 
-    // TODO: I think we should run this everytime difficulty is selected so the
-    // player can hear the music of the difficulty
     private void initiateSoundTrack(MediaPlayer soundTrack) {
         if (currentSoundTrackPlayer != null)
             currentSoundTrackPlayer.stop();
@@ -205,8 +205,8 @@ public class AsteroidsController implements GameListener {
     }
 
     public void setMusicVolume(double musicVolume) {
-        soundTrack1Player.setVolume(musicVolume / 100.0);
-        soundTrack2Player.setVolume(musicVolume / 100.0);
+        hardSoundTrackPlayer.setVolume(musicVolume / 100.0);
+        normalSoundTrackPlayer.setVolume(musicVolume / 100.0);
     }
 
     public double getGameVolume() {
@@ -214,7 +214,15 @@ public class AsteroidsController implements GameListener {
     }
 
     public double getMusicVolume() {
-        return soundTrack1Player.getVolume() * 100;
+        return hardSoundTrackPlayer.getVolume() * 100;
+    }
+
+    public void updateDifficulty(Boolean difficulty) {
+        this.difficulty = difficulty;
+        if (difficulty)
+            initiateSoundTrack(hardSoundTrackPlayer);
+        else
+            initiateSoundTrack(normalSoundTrackPlayer);
     }
 
     @FXML
@@ -283,6 +291,7 @@ public class AsteroidsController implements GameListener {
             case "ControlsFx.fxml" -> menuContainer.setCenter(controlsPane);
             case "AboutFx.fxml" -> menuContainer.setCenter(aboutPane);
             case "AudioFx.fxml" -> menuContainer.setCenter(audioPane);
+            case "DifficultyFx.fxml" -> menuContainer.setCenter(difficultyPane);
             default -> menuContainer.setCenter(null);
         }
     }
@@ -293,6 +302,7 @@ public class AsteroidsController implements GameListener {
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
+            System.out.println(e.toString());
             return null;
         }
     }

@@ -34,3 +34,20 @@
     -fx-font-weight: bold;
     -fx-background-radius: 0;
 }
+
+.choice-box .label {
+    -fx-text-fill: white; 
+    -fx-font-size:18.0;
+}
+
+.choice-box .context-menu { 
+    -fx-background-color: black; 
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: rgb(89, 0, 0); 
+}
+
+.choice-box .arrow{
+    -fx-background-color: white;
+}

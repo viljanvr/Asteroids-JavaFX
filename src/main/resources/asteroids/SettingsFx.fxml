@@ -35,7 +35,7 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="difficultyButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Difficulty" textOverrun="CLIP" GridPane.columnIndex="1">
+                <Button fx:id="difficultyButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openDifficulty" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Difficulty" textOverrun="CLIP" GridPane.columnIndex="1">
                     <font>
                         <Font size="16.0" />
                     </font>
