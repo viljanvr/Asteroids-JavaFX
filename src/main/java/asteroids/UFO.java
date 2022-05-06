@@ -5,7 +5,7 @@ import java.util.List;
 
 public class UFO extends Sprite {
 
-    private final double UFO_AIMANGLE = Math.PI / 12;
+    private final double SHOOT_SPREAD_ANGLE = Math.PI / 12;
 
     public UFO() {
         this(Math.random());
@@ -40,7 +40,7 @@ public class UFO extends Sprite {
         double result = Math.atan2((y1 - this.y1), (-this.x1 + x1));
 
         // Add a random spread of 30 degrees in either direciton
-        result += Math.random() * 2 * UFO_AIMANGLE - UFO_AIMANGLE;
+        result += Math.random() * 2 * SHOOT_SPREAD_ANGLE - SHOOT_SPREAD_ANGLE;
         return new Laser(getPosX() + getImageWidth() / 2 - 4 + 25 * Math.cos(result),
                 getPosY() + getImageHeight() / 2 - 4 + 15 * Math.sin(result), 1.5, result, false);
     }
