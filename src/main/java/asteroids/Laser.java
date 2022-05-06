@@ -7,7 +7,8 @@ public class Laser extends Sprite {
     private boolean friendly;
 
     public Laser(double x1, double y1, double speed, double speedDirection, boolean friendly) {
-        super(x1, y1, speed + 4, speedDirection, 8, 8, friendly ? "asteroids/laser.png" : "asteroids/laser_red.png");
+        super(x1, y1, speed + GameConfig.laser_speed, speedDirection, 8, 8,
+                friendly ? "asteroids/laser.png" : "asteroids/laser_red.png");
         this.friendly = friendly;
     }
 
