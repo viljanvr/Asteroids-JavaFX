@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -24,7 +25,7 @@ public class MenuController {
 
     @FXML
     private Button newGameButton, settingsButton, saveButton, dontSaveButton, settingsBackButton, controlsBackButton,
-            aboutBackButton, audioBackButton;
+            aboutBackButton, audioBackButton, difficultyBackButton;
 
     @FXML
     private TextField playerName;
@@ -32,11 +33,21 @@ public class MenuController {
     @FXML
     private Slider masterVolumeSlider, gameVolumeSlider, musicVolumeSlider;
 
+    @FXML
+    private ChoiceBox<String> difficultySelector;
+
     AsteroidsController asteroidsController;
 
     public void init(AsteroidsController asteroidsController) {
         this.asteroidsController = asteroidsController;
         initKeyHandles();
+
+        difficultySelector.getItems().addAll("Normal", "Hard");
+        difficultySelector.setValue("Normal");
+
+        difficultySelector.setOnAction(event -> {
+            asteroidsController.updateDifficulty((difficultySelector.getValue() == "Hard"));
+        });
 
         // TODO: Whe should read user settings from a save file when we start the game
         gameVolumeSlider.setValue(asteroidsController.getGameVolume());
@@ -54,6 +65,7 @@ public class MenuController {
                 asteroidsController.setMusicVolume(((double) newValue));
             }
         });
+
     }
 
     @FXML
@@ -130,6 +142,12 @@ public class MenuController {
         audioBackButton.setCancelButton(true);
     }
 
+    @FXML
+    private void openDifficulty() {
+        asteroidsController.changeMenu("DifficultyFx.fxml");
+        difficultyBackButton.setCancelButton(true);
+    }
+
     public void gameOver(int score, int highscore) {
         asteroidsController.changeMenu("NewGameFx.fxml");
         newGameButton.setDefaultButton(false);
@@ -160,6 +178,12 @@ public class MenuController {
             openSettings();
         });
         controlsBackButton.setOnAction(event -> {
+            openSettings();
+        });
+        audioBackButton.setOnAction(event -> {
+            openSettings();
+        });
+        difficultyBackButton.setOnAction(event -> {
             openSettings();
         });
     }
