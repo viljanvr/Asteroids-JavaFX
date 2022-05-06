@@ -21,7 +21,7 @@ public class GameConfig {
     public static long asteroid_spawntime;
     public static long ufo_spawntime;
 
-    public GameConfig(boolean difficulty) {
+    public static void ChangeGameConfig(boolean difficulty) {
 
         // Speeds
         asteroid_speed = difficulty ? 1.3 : 1;

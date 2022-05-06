@@ -16,7 +16,7 @@ public class Game {
 
     public Game(GameListener gameListener, boolean difficulty) {
         this.gameListener = gameListener;
-        new GameConfig(false);
+        GameConfig.ChangeGameConfig(difficulty);
         gameListener.scoreChanged(score);
         gameListener.livesLeftChanged(lives);
 
