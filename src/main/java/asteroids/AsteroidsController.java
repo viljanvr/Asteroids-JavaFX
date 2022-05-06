@@ -6,16 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.paint.*;
 import javafx.scene.text.Text;
-import javafx.stage.Window;
 import javafx.util.Duration;
-import javafx.scene.Parent;
 import javafx.scene.canvas.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -23,7 +18,6 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class AsteroidsController implements GameListener {
