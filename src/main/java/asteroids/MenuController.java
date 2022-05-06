@@ -37,8 +37,10 @@ public class MenuController {
     public void init(AsteroidsController asteroidsController) {
         this.asteroidsController = asteroidsController;
         initKeyHandles();
-        gameVolumeSlider.setValue(asteroidsController.getGameVolume() * 100);
-        musicVolumeSlider.setValue(asteroidsController.getGameVolume() * 100);
+
+        // TODO: Whe should read user settings from a save file when we start the game
+        gameVolumeSlider.setValue(asteroidsController.getGameVolume());
+        musicVolumeSlider.setValue(asteroidsController.getGameVolume());
 
         gameVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
