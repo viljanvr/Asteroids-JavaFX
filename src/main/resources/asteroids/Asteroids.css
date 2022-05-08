@@ -41,13 +41,34 @@
 }
 
 .choice-box .context-menu { 
-    -fx-background-color: black; 
+    -fx-background-color: black;
+    -fx-border-width: 1px;
+    -fx-border-color: white;
 }
 
 .choice-box .menu-item:focused {
-    -fx-background-color: rgb(89, 0, 0); 
+    -fx-background-color: rgb(35, 35, 35);
+    -fx-cursor: HAND;  
+
 }
 
 .choice-box .arrow{
     -fx-background-color: white;
 }
+
+.slider .track{
+    -fx-pref-height: 7px;
+    -fx-background-color: #000;
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+    -fx-border-radius: 0px;
+  }
+  
+.slider .thumb {
+    -fx-pref-width: 9px;
+    -fx-pref-height: 18px;
+    -fx-background-color: #fff;
+    -fx-background-radius: 0px;
+    -fx-cursor: OPEN_HAND; 
+  }
+  

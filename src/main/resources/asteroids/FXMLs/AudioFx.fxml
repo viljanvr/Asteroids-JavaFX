@@ -47,9 +47,9 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Slider fx:id="masterVolumeSlider" GridPane.columnIndex="1" />
-            <Slider fx:id="gameVolumeSlider" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Slider fx:id="musicVolumeSlider" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Slider fx:id="masterVolumeSlider" stylesheets="@Asteroids.css" GridPane.columnIndex="1" />
+            <Slider fx:id="gameVolumeSlider" stylesheets="@Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider fx:id="musicVolumeSlider" stylesheets="@Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
     </children>
