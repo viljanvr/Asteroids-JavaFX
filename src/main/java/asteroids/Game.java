@@ -16,7 +16,7 @@ public class Game {
 
     public Game(GameListener gameListener, boolean difficulty) {
         this.gameListener = gameListener;
-        new GameConfig(false);
+        new GameConfig(difficulty);
         gameListener.scoreChanged(score);
         gameListener.livesLeftChanged(lives);
 
