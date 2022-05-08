@@ -24,7 +24,8 @@ public class Asteroid extends Sprite {
 
     // Constructor for Dwarf Asteroids
     private Asteroid(int x1, int y1, Vector velocity) {
-        super(x1, y1, GameConfig.dwarfAsteroid_speed, Math.random() * 6.28, 37, 38, "asteroids/dwarf_asteroid.png");
+        super(x1, y1, GameConfig.dwarfAsteroid_speed, Math.random() * 6.28, 37, 38,
+                "asteroids/images/dwarf_asteroid.png");
         getVelocity().addXY(velocity.getX(), velocity.getY());
     }
 
