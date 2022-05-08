@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import asteroids.Controllers.AsteroidsController;
+
 public abstract class Sprite {
 
     protected double x1, y1, x2, y2;

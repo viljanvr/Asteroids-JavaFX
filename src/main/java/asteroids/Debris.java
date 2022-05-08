@@ -9,7 +9,7 @@ public class Debris extends Sprite {
 
     public Debris(boolean long_debris, Double x1, Double y1, long spawnTime) {
         super(x1, y1, 0.5, Math.random() * 6.28, long_debris ? 33 : 4, long_debris ? 3 : 4,
-                long_debris ? "asteroids/debris_long.png" : "asteroids/debris_small.png");
+                long_debris ? "asteroids/images/debris_long.png" : "asteroids/images/debris_small.png");
         timeOfDeath = spawnTime + 1000000000l + (long) (1000000000l * Math.random());
         rotation = Math.random() * 6.28;
     }

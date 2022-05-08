@@ -15,7 +15,7 @@ public class AsteroidsApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Asteroids");
-        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Controllers.AsteroidsFx.fxml"))));
+        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("FXMLs/AsteroidsFx.fxml"))));
         primaryStage.show();
     }
 

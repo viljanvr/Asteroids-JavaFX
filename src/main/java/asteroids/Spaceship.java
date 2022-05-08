@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public class Spaceship extends Sprite {
 
-    private final String THRUSTIMAGE_URL = "asteroids/spaceship_thrust.png";
+    private final String THRUSTIMAGE_URL = "asteroids/images/spaceship_thrust.png";
     private Boolean showThrust = false;
     private double rotation = 3 * Math.PI / 2;
 

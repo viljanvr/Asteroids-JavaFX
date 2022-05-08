@@ -28,7 +28,7 @@
       </Text>
       <Pane layoutX="825.0" layoutY="15.0" prefHeight="602.0" prefWidth="265.0" style="-fx-border-color: white;">
          <children>
-            <ListView fx:id="scoreBoardList" focusTraversable="false" layoutX="9.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="535.0" prefWidth="252.0" style="-fx-border-color: black; -fx-background-color: black;" stylesheets="@Asteroids.css" />
+            <ListView fx:id="scoreBoardList" focusTraversable="false" layoutX="9.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="535.0" prefWidth="252.0" style="-fx-border-color: black; -fx-background-color: black;" stylesheets="@../Asteroids.css" />
             <Text fill="WHITE" layoutX="26.0" layoutY="44.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="HIGH SCORES" textAlignment="CENTER">
                <font>
                   <Font size="33.0" />

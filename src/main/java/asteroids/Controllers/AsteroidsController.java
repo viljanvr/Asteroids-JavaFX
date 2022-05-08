@@ -60,13 +60,17 @@ public class AsteroidsController implements GameListener {
         // load sound and music
         try {
             collisionSound = new Media(
-                    getClass().getClassLoader().getResource("asteroids/Audio/boom.mp3").toURI().toString());
+                    getClass().getClassLoader().getResource("asteroids/audio/boom.mp3").toURI()
+                            .toString());
             hardSoundTrack = new Media(
-                    getClass().getClassLoader().getResource("asteroids/Audio/ripAndTear.mp3").toURI().toString());
+                    getClass().getClassLoader().getResource("asteroids/audio/ripAndTear.mp3").toURI()
+                            .toString());
             normalSoundTrack = new Media(
-                    getClass().getClassLoader().getResource("asteroids/Audio/soundTrack.mp3").toURI().toString());
+                    getClass().getClassLoader().getResource("asteroids/audio/soundTrack.mp3").toURI()
+                            .toString());
             laserSoundTrack = new Media(
-                    getClass().getClassLoader().getResource("asteroids/Audio/laser.mp3").toURI().toString());
+                    getClass().getClassLoader().getResource("asteroids/audio/laser.mp3").toURI()
+                            .toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -92,12 +96,12 @@ public class AsteroidsController implements GameListener {
         gc.fillRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
         // Initalize all menu views
-        newGamePane = getMenuPane("FXMLs/NewGameFx.fxml");
-        settingsPane = getMenuPane("FXMLs/SettingsFx.fxml");
-        controlsPane = getMenuPane("FXMLs/ControlsFx.fxml");
-        aboutPane = getMenuPane("FXMLs/AboutFx.fxml");
-        audioPane = getMenuPane("FXMLs/AudioFx.fxml");
-        difficultyPane = getMenuPane("FXMLs/DifficultyFx.fxml");
+        newGamePane = getMenuPane("/asteroids/FXMLs/NewGameFx.fxml");
+        settingsPane = getMenuPane("/asteroids/FXMLs/SettingsFx.fxml");
+        controlsPane = getMenuPane("/asteroids/FXMLs/ControlsFx.fxml");
+        aboutPane = getMenuPane("/asteroids/FXMLs/AboutFx.fxml");
+        audioPane = getMenuPane("/asteroids/FXMLs/AudioFx.fxml");
+        difficultyPane = getMenuPane("/asteroids/FXMLs/DifficultyFx.fxml");
         menuController.init(this);
 
         // Propt user with welcome screen

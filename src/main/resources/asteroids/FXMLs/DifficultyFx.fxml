@@ -8,7 +8,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="418.0" style="-fx-background-color: black; -fx-border-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button fx:id="difficultyBackButton" focusTraversable="false" layoutX="155.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
+        <Button fx:id="difficultyBackButton" focusTraversable="false" layoutX="155.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font size="16.0" />
             </font>
@@ -18,7 +18,7 @@
                 <Font size="35.0" />
             </font>
         </Text>
-        <ChoiceBox fx:id="difficultySelector" focusTraversable="false" layoutX="119.0" layoutY="116.0" prefHeight="43.0" prefWidth="180.0" style="-fx-background-color: black; -fx-border-color: white;" stylesheets="@Asteroids.css">
+        <ChoiceBox fx:id="difficultySelector" focusTraversable="false" layoutX="119.0" layoutY="116.0" prefHeight="43.0" prefWidth="180.0" style="-fx-background-color: black; -fx-border-color: white;" stylesheets="@../Asteroids.css">
         </ChoiceBox>
     </children>
 </Pane>

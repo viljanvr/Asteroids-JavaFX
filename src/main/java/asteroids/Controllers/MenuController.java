@@ -1,4 +1,4 @@
-package asteroids;
+package asteroids.Controllers;
 
 import java.util.regex.Pattern;
 

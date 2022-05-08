@@ -7,7 +7,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="386.0" prefWidth="418.0" style="-fx-background-color: black; -fx-border-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button fx:id="aboutBackButton" cancelButton="false" focusTraversable="false" layoutX="155.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
+        <Button fx:id="aboutBackButton" cancelButton="false" focusTraversable="false" layoutX="155.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font size="16.0" />
             </font>

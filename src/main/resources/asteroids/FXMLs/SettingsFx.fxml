@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="418.0" style="-fx-background-color: black; -fx-border-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button fx:id="settingsBackButton" focusTraversable="false" layoutX="155.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#openNewGame" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
+        <Button fx:id="settingsBackButton" focusTraversable="false" layoutX="155.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#openNewGame" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font size="16.0" />
             </font>
@@ -34,7 +34,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="audioButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openAudio" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Audio" textOverrun="CLIP">
+                <Button fx:id="audioButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openAudio" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Audio" textOverrun="CLIP">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -42,7 +42,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-                <Button fx:id="difficultyButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openDifficulty" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Difficulty" textOverrun="CLIP" GridPane.columnIndex="1">
+                <Button fx:id="difficultyButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openDifficulty" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Difficulty" textOverrun="CLIP" GridPane.columnIndex="1">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -50,7 +50,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-                <Button fx:id="controlsButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openControls" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="controls" textOverrun="CLIP" GridPane.rowIndex="1">
+                <Button fx:id="controlsButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openControls" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="controls" textOverrun="CLIP" GridPane.rowIndex="1">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -58,7 +58,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-                <Button fx:id="aboutButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openAbout" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="about" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button fx:id="aboutButton" cancelButton="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#openAbout" prefHeight="21.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="about" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <font>
                         <Font size="16.0" />
                     </font>

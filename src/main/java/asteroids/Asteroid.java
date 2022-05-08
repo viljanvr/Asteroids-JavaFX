@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import asteroids.Controllers.AsteroidsController;
+
 public class Asteroid extends Sprite {
 
     public Asteroid() {
@@ -17,7 +19,7 @@ public class Asteroid extends Sprite {
         super(randomNumber > 0.5 ? Math.random() * AsteroidsController.CANVASWIDTH : -54,
                 randomNumber < 0.5 ? Math.random() * AsteroidsController.CANVASHEIGHT : -55,
                 GameConfig.asteroid_speed, Math.random() * 6.28, 54, 55,
-                "asteroids/asteroid.png");
+                "asteroids/images/asteroid.png");
     }
 
     // Constructor for Dwarf Asteroids

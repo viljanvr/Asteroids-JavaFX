@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="386.0" prefWidth="418.0" style="-fx-background-color: black; -fx-border-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button fx:id="audioBackButton" cancelButton="false" focusTraversable="false" layoutX="155.0" layoutY="328.0" mnemonicParsing="false" onAction="#openSettings" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
+        <Button fx:id="audioBackButton" cancelButton="false" focusTraversable="false" layoutX="155.0" layoutY="328.0" mnemonicParsing="false" onAction="#openSettings" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Back" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font size="16.0" />
             </font>
@@ -47,9 +47,9 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Slider fx:id="masterVolumeSlider" stylesheets="@Asteroids.css" GridPane.columnIndex="1" />
-            <Slider fx:id="gameVolumeSlider" stylesheets="@Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Slider fx:id="musicVolumeSlider" stylesheets="@Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Slider fx:id="masterVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" />
+            <Slider fx:id="gameVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider fx:id="musicVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
     </children>
