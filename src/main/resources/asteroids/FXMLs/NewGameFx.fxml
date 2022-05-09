@@ -21,12 +21,12 @@
     </Text>
     <Pane fx:id="mainMenuPane" layoutX="114.0" layoutY="130.0" prefHeight="120.0" prefWidth="190.0">
         <children>
-            <Button fx:id="newGameButton" alignment="CENTER" defaultButton="true" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#startNewGame" prefHeight="61.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 30;" stylesheets="@Asteroids.css" text="NEW GAME" textAlignment="CENTER" textOverrun="CLIP">
+            <Button fx:id="newGameButton" alignment="CENTER" defaultButton="true" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#startNewGame" prefHeight="61.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 30;" stylesheets="@../Asteroids.css" text="NEW GAME" textAlignment="CENTER" textOverrun="CLIP">
                 <font>
                 <Font size="30.0" />
                 </font>
             </Button>
-            <Button fx:id="settingsButton" focusTraversable="false" layoutX="41.0" layoutY="85.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@Asteroids.css" text="Settings" textFill="WHITE" textOverrun="CLIP">
+            <Button fx:id="settingsButton" focusTraversable="false" layoutX="41.0" layoutY="85.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="21.0" prefWidth="108.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 16;" stylesheets="@../Asteroids.css" text="Settings" textFill="WHITE" textOverrun="CLIP">
                 <font>
                 <Font size="16.0" />
                 </font>
@@ -36,12 +36,12 @@
     <Pane fx:id="savePane" layoutX="86.0" layoutY="139.0" prefHeight="106.0" prefWidth="246.0" visible="false">
         <children>
             <Text fx:id="saveInfoText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Enter playername to save score" textAlignment="CENTER" wrappingWidth="410.0" x="-82.0" y="5.0" />
-            <Button fx:id="dontSaveButton" focusTraversable="false" layoutX="93.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleDontSave" prefHeight="39.0" prefWidth="153.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="DON'T SAVE" textFill="WHITE" textOverrun="CLIP">
+            <Button fx:id="dontSaveButton" focusTraversable="false" layoutX="93.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleDontSave" prefHeight="39.0" prefWidth="153.0" style="-fx-background-color: black; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@../Asteroids.css" text="DON'T SAVE" textFill="WHITE" textOverrun="CLIP">
                 <font>
                 <Font size="18.0" />
                 </font>
             </Button>
-            <TextField fx:id="playerName" focusTraversable="false" layoutY="15.0" onKeyTyped="#playerNameInputChanged" prefHeight="30.0" prefWidth="246.0" promptText="name" style="-fx-font-size: 18;" stylesheets="@Asteroids.css" text="">
+            <TextField fx:id="playerName" focusTraversable="false" layoutY="15.0" onKeyTyped="#playerNameInputChanged" prefHeight="30.0" prefWidth="246.0" promptText="name" style="-fx-font-size: 18;" stylesheets="@../Asteroids.css" text="">
                 <font>
                 <Font size="18.0" />
                 </font>
@@ -49,7 +49,7 @@
                 <Cursor fx:constant="TEXT" />
                 </cursor>
             </TextField>
-            <Button fx:id="saveButton" disable="true" focusTraversable="false" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="38.0" prefWidth="83.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@Asteroids.css" text="SAVE" textOverrun="CLIP">
+            <Button fx:id="saveButton" disable="true" focusTraversable="false" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#handleSave" prefHeight="38.0" prefWidth="83.0" style="-fx-background-color: white; -fx-border-color: white; -fx-font-size: 18;" stylesheets="@../Asteroids.css" text="SAVE" textOverrun="CLIP">
                 <cursor>
                 <Cursor fx:constant="DEFAULT" />
                 </cursor>

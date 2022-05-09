@@ -2,6 +2,8 @@ package asteroids;
 
 import java.util.Collection;
 
+import asteroids.Controllers.AsteroidsController;
+
 public class UFO extends Sprite {
 
     public UFO() {
@@ -18,7 +20,7 @@ public class UFO extends Sprite {
                                 : randomNumber < 0.75 ? Math.random() * Math.PI / 2 + Math.PI / 4
                                         : Math.random() * Math.PI / 2 + 5 * Math.PI / 4),
                 50, 31,
-                "asteroids/UFO.png");
+                "asteroids/images/UFO.png");
     }
 
     @Override
