@@ -23,19 +23,17 @@ import java.util.stream.Collectors;
 import asteroids.*;
 
 public class AsteroidsController implements GameListener {
-
-    private MenuController menuController = new MenuController();
-
     public static final int CANVASWIDTH = 800, CANVASHEIGHT = 600;
-    private Timer timer;
+    private Timer timer = new Timer();
     private Game game;
     private GraphicsContext gc;
     private boolean UPpressed = false, LEFTpressed = false,
-            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, difficulty = false;
+            RIGHTpressed = false, SPACEpressed = false, SPACEreleased = true, difficulty;
     private Media collisionSound, laserSoundTrack, hardSoundTrack, normalSoundTrack;
     private MediaPlayer collisionSoundPlayer, laserSoundTrackPlayer, hardSoundTrackPlayer, normalSoundTrackPlayer,
             currentSoundTrackPlayer;
     private ScoreBoard scoreBoard;
+    private MenuController menuController = new MenuController();
 
     @FXML
     private Canvas canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
@@ -56,7 +54,6 @@ public class AsteroidsController implements GameListener {
 
     // initializes the game
     public void initialize() {
-
         // load sound and music
         try {
             collisionSound = new Media(
@@ -81,10 +78,6 @@ public class AsteroidsController implements GameListener {
         laserSoundTrackPlayer = new MediaPlayer(laserSoundTrack);
         laserSoundTrackPlayer.setVolume(0.5);
 
-        // starts with soundtrack for normal difficulty.
-        initiateSoundTrack(normalSoundTrackPlayer);
-
-        timer = new Timer();
         scoreBoard = new ScoreBoard("saves", "score_saves");
 
         // loads scoreboard from file and updates view
@@ -199,22 +192,14 @@ public class AsteroidsController implements GameListener {
         }
     }
 
-    public void setGameVolume(double gameVolume) {
-        collisionSoundPlayer.setVolume(gameVolume);
-        laserSoundTrackPlayer.setVolume(gameVolume / 2);
+    public void setFXVolume(double FXVolume) {
+        collisionSoundPlayer.setVolume(FXVolume);
+        laserSoundTrackPlayer.setVolume(FXVolume / 2);
     }
 
     public void setMusicVolume(double musicVolume) {
         hardSoundTrackPlayer.setVolume(musicVolume);
         normalSoundTrackPlayer.setVolume(musicVolume);
-    }
-
-    public double getGameVolume() {
-        return collisionSoundPlayer.getVolume() * 100;
-    }
-
-    public double getMusicVolume() {
-        return hardSoundTrackPlayer.getVolume() * 100;
     }
 
     public void updateDifficulty(Boolean difficulty) {
@@ -306,5 +291,4 @@ public class AsteroidsController implements GameListener {
             return null;
         }
     }
-
 }

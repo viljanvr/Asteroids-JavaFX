@@ -11,7 +11,6 @@ public class Spaceship extends Sprite {
 
     public Spaceship() {
         super(400, 300, 0, 0, 39, 23, "asteroids/images/spaceship.png");
-        System.out.println(GameConfig.spaceship_acceleration_increase);
     }
 
     public void rotateLeft() {

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,11 +19,8 @@ public class Settings implements SaveHandler {
     private final String FILE_NAME;
     private final String PARENTDIRECTORY_NAME;
 
-    private int masterVolume = 80;
-    private int gameVolume = 100;
-    private int musicVolume = 100;
-    private boolean difficultyIsHard = false;
-    private boolean firstTimeOpening = true;
+    private HashMap<String, Object> defaultSettings = new HashMap<>();
+    private HashMap<String, Object> settings = new HashMap<>();
 
     public Settings(String PARENTDIRECTORY_NAME, String FILE_NAME) {
         checkValidFileString(PARENTDIRECTORY_NAME, "Directory name can only include letters, numbers and underscores.");
@@ -30,17 +28,22 @@ public class Settings implements SaveHandler {
 
         this.PARENTDIRECTORY_NAME = PARENTDIRECTORY_NAME;
         this.FILE_NAME = FILE_NAME;
+
+        defaultSettings.put("masterVolume", 100.0);
+        defaultSettings.put("FXVolume", 100.0);
+        defaultSettings.put("musicVolume", 100.0);
+        defaultSettings.put("difficultyIsHard", false);
+        defaultSettings.put("firstTimePlaying", true);
+
         load();
     }
 
     @Override
     public void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath()))) {
-            writer.write("masterVolume:" + masterVolume + "\n");
-            writer.write("gameVolume:" + gameVolume + "\n");
-            writer.write("musicVolume:" + musicVolume + "\n");
-            writer.write("difficultyIsHard:" + difficultyIsHard + "\n");
-            writer.write("firstTimeOpening:" + firstTimeOpening + "\n");
+            for (String s : settings.keySet()) {
+                writer.write(s + ":" + settings.get(s) + "\n");
+            }
             writer.close();
         } catch (FileNotFoundException e) {
             new File(PARENTDIRECTORY_NAME).mkdir();
@@ -53,37 +56,87 @@ public class Settings implements SaveHandler {
     @Override
     public void load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
-            List<Pair<String, String>> lines = reader.lines().map(element -> element.split(":"))
-                    .map(element -> new Pair<String, String>(element[0], element[1])).collect(Collectors.toList());
-            if (reader.readLine().contains("masterVolume"))
-                scoresList = reader.lines().map(element -> element.split(":"))
-                        .map(element -> new Pair<String, Integer>(element[0], Integer.parseInt(element[1])))
-                        .collect(Collectors.toList());
+            // reader.readLine().map(element -> element.split(":")).forEach(element -> {
+            // if (Pattern.matches("[0-9]*", element[1])) {
+            // settings.put(element[0], element[1]);
+            // } else if (element[1].isEqual("true")) {
+            // settings.put(element[0], true);
+            // } else if (element[1].isEqual("false")) {
+            // settings.put(element[0], false);
+            // }
+            // });
+            List<String[]> lines = reader.lines().map(element -> element.split(":"))
+                    .map(element -> new String[] { element[0], element[1] })
+                    .collect(Collectors.toList());
+
+            lines.stream().forEach(element -> {
+                if (Pattern.matches("[0-9]*[.][0-9]*", element[1])) {
+                    Double number = Double.parseDouble(element[1]);
+                    if (0.0 <= number && number <= 100.0)
+                        settings.put(element[0], number);
+                } else if (element[1].equals("true")) {
+                    settings.put(element[0], true);
+                } else if (element[1].equals("false")) {
+                    settings.put(element[0], false);
+                }
+            });
             reader.close();
         } catch (FileNotFoundException e) {
             new File(PARENTDIRECTORY_NAME).mkdir();
-            scoresList = new ArrayList<>();
+            // scoresList = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for (String s : defaultSettings.keySet()) {
+            if (!settings.containsKey(s)) {
+                settings.put(s, defaultSettings.get(s));
+            }
+        }
     }
 
-    public void addScore(String player, int score) {
-        if (player.isBlank() || player.isEmpty() || score < 0) {
-            throw new IllegalArgumentException("innvalid score");
-        }
-        scoresList.add(new Pair<>(player, score));
-        scoresList.sort((score1, score2) -> score2.getValue() - score1.getValue());
+    public double getMasterVolume() {
+        return (double) settings.get("masterVolume");
+    }
+
+    public double getFXVolume() {
+        return (double) settings.get("FXVolume");
+    }
+
+    public double getMusicVolume() {
+        return (double) settings.get("musicVolume");
+    }
+
+    public boolean getDifficultyIsHard() {
+        return (boolean) settings.get("difficultyIsHard");
+    }
+
+    public boolean getFirstTimePlaying() {
+        return (boolean) settings.get("firstTimePlaying");
+    }
+
+    public void setMasterVolume(double volume) {
+        settings.put("masterVolume", volume);
         save();
     }
 
-    public int getHighScore() {
-        return scoresList.isEmpty() ? 0 : scoresList.get(0).getValue();
+    public void setFXVolume(double volume) {
+        settings.put("FXVolume", volume);
+        save();
     }
 
-    public List<Pair<String, Integer>> getScores() {
-        return scoresList;
+    public void setMusicVolume(double volume) {
+        settings.put("musicVolume", volume);
+        save();
+    }
 
+    public void setDifficultyIsHard(boolean difficultyIsHard) {
+        settings.put("difficultyIsHard", difficultyIsHard);
+        save();
+    }
+
+    public void setFirstTimePlaying(boolean firstTimePlaying) {
+        settings.put("firstTimePlaying", firstTimePlaying);
+        save();
     }
 
     private String getFilePath() {
@@ -96,7 +149,4 @@ public class Settings implements SaveHandler {
             throw new IllegalArgumentException(message);
     }
 
-    private void resetSettings() {
-
-    }
 }
