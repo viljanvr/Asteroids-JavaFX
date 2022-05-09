@@ -37,7 +37,7 @@
                       <Font size="20.0" />
                   </font>
               </Text>
-            <Text fx:id="infoText1" fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: normal; -fx-font-family: Hyperspace;" text="GAME VOLUME" wrappingWidth="166.1748046875" GridPane.rowIndex="1">
+            <Text fx:id="infoText1" fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: normal; -fx-font-family: Hyperspace;" text="FX VOLUME" wrappingWidth="166.1748046875" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -48,7 +48,7 @@
                </font>
             </Text>
             <Slider fx:id="masterVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" />
-            <Slider fx:id="gameVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider fx:id="FXVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Slider fx:id="musicVolumeSlider" stylesheets="@../Asteroids.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>

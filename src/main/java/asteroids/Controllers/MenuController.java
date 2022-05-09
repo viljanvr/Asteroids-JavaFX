@@ -2,6 +2,7 @@ package asteroids.Controllers;
 
 import java.util.regex.Pattern;
 
+import asteroids.Settings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class MenuController {
+    private Settings settings;
 
     @FXML
     private Text saveInfoText, scoreTextSmall, scoreTextLarge;
@@ -29,7 +31,7 @@ public class MenuController {
     private TextField playerName;
 
     @FXML
-    private Slider masterVolumeSlider, gameVolumeSlider, musicVolumeSlider;
+    private Slider masterVolumeSlider, FXVolumeSlider, musicVolumeSlider;
 
     @FXML
     private ChoiceBox<String> difficultySelector;
@@ -38,41 +40,20 @@ public class MenuController {
 
     public void init(AsteroidsController asteroidsController) {
         this.asteroidsController = asteroidsController;
-        initKeyHandles();
+        settings = new Settings("saves", "settings");
 
         difficultySelector.getItems().addAll("Normal", "Hard");
-        difficultySelector.setValue("Normal");
+        difficultySelector.setValue(settings.getDifficultyIsHard() ? "Hard" : "Normal");
+        asteroidsController.updateDifficulty(settings.getDifficultyIsHard());
 
-        difficultySelector.setOnAction(event -> {
-            asteroidsController.updateDifficulty((difficultySelector.getValue() == "Hard"));
-        });
+        masterVolumeSlider.setValue(settings.getMasterVolume());
+        FXVolumeSlider.setValue(settings.getFXVolume());
+        musicVolumeSlider.setValue(settings.getMusicVolume());
+        asteroidsController.setFXVolume(settings.getFXVolume() * settings.getMasterVolume() / 10000);
+        asteroidsController.setMusicVolume(settings.getMusicVolume() * settings.getMasterVolume() / 10000);
 
-        // TODO: Whe should read user settings from a save file when we start the game
-        masterVolumeSlider.setValue(100);
-        gameVolumeSlider.setValue(asteroidsController.getGameVolume());
-        musicVolumeSlider.setValue(asteroidsController.getGameVolume());
-
-        masterVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                asteroidsController.setGameVolume(((double) newValue * gameVolumeSlider.getValue() / 10000));
-                asteroidsController.setMusicVolume(((double) newValue * musicVolumeSlider.getValue()) / 10000);
-            }
-        });
-
-        gameVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                asteroidsController.setGameVolume(((double) newValue * masterVolumeSlider.getValue() / 10000));
-            }
-        });
-        musicVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                asteroidsController.setMusicVolume(((double) newValue * masterVolumeSlider.getValue() / 10000));
-            }
-        });
-
+        initKeyHandles();
+        initSettingsListeners();
     }
 
     @FXML
@@ -98,6 +79,7 @@ public class MenuController {
 
     @FXML
     private void openSettings() {
+        newGameButton.setDefaultButton(false);
         asteroidsController.changeMenu("SettingsFx.fxml");
         settingsBackButton.setCancelButton(true);
     }
@@ -129,6 +111,7 @@ public class MenuController {
     @FXML
     private void openNewGame() {
         asteroidsController.changeMenu("NewGameFx.fxml");
+        newGameButton.setDefaultButton(true);
     }
 
     @FXML
@@ -192,6 +175,37 @@ public class MenuController {
         });
         difficultyBackButton.setOnAction(event -> {
             openSettings();
+        });
+    }
+
+    private void initSettingsListeners() {
+        difficultySelector.setOnAction(event -> {
+            asteroidsController.updateDifficulty(difficultySelector.getValue() == "Hard");
+            settings.setDifficultyIsHard(difficultySelector.getValue() == "Hard");
+        });
+
+        masterVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                asteroidsController.setFXVolume(((double) newValue * FXVolumeSlider.getValue() / 10000));
+                asteroidsController.setMusicVolume(((double) newValue * musicVolumeSlider.getValue()) / 10000);
+                settings.setMasterVolume((double) newValue);
+            }
+        });
+
+        FXVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                asteroidsController.setFXVolume(((double) newValue * masterVolumeSlider.getValue() / 10000));
+                settings.setFXVolume((double) newValue);
+            }
+        });
+        musicVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                asteroidsController.setMusicVolume(((double) newValue * masterVolumeSlider.getValue() / 10000));
+                settings.setMusicVolume((double) newValue);
+            }
         });
     }
 }
