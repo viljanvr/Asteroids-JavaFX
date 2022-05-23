@@ -13,12 +13,22 @@
                 <Font size="16.0" />
             </font>
         </Button>
-        <Text fx:id="Title" fill="WHITE" layoutY="73.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="difficulty" textAlignment="CENTER" wrappingWidth="417.0">
+        <Text fx:id="Title" fill="WHITE" layoutY="64.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="difficulty" textAlignment="CENTER" wrappingWidth="417.0">
             <font>
                 <Font size="35.0" />
             </font>
         </Text>
-        <ChoiceBox fx:id="difficultySelector" focusTraversable="false" layoutX="119.0" layoutY="116.0" prefHeight="43.0" prefWidth="180.0" style="-fx-background-color: black; -fx-border-color: white;" stylesheets="@../Asteroids.css">
+        <ChoiceBox fx:id="difficultySelector" focusTraversable="false" layoutX="119.0" layoutY="128.0" prefHeight="43.0" prefWidth="180.0" style="-fx-background-color: black; -fx-border-color: white;" stylesheets="@../Asteroids.css">
         </ChoiceBox>
+      <Text layoutX="107.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: hyperspace;" text="Choose game difficulty:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="1.0" layoutY="110.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Hyperspace; -fx-font-weight: bold;" text="Choose difficulty:" textAlignment="CENTER" wrappingWidth="417.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
     </children>
 </Pane>

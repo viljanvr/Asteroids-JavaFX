@@ -47,7 +47,7 @@ public class AsteroidsController implements GameListener {
     @FXML
     private ListView<String> scoreBoardList;
 
-    private Pane newGamePane, settingsPane, controlsPane, aboutPane, audioPane, difficultyPane;
+    private Pane newGamePane, settingsPane, controlsPane, aboutPane, audioPane, difficultyPane, welcomePane;
 
     // @FXML
     // private SettingsController settingsWindowController;
@@ -95,10 +95,15 @@ public class AsteroidsController implements GameListener {
         aboutPane = getMenuPane("/asteroids/FXMLs/AboutFx.fxml");
         audioPane = getMenuPane("/asteroids/FXMLs/AudioFx.fxml");
         difficultyPane = getMenuPane("/asteroids/FXMLs/DifficultyFx.fxml");
+        welcomePane = getMenuPane("/asteroids/FXMLs/WelcomeFx.fxml");
         menuController.init(this);
 
         // Propt user with welcome screen
         changeMenu("NewGameFx.fxml");
+
+        // Alternativly prompt user with welcome screen if it is first time opening the
+        // game
+        menuController.firstTimePlaying();
 
     }
 
@@ -277,6 +282,7 @@ public class AsteroidsController implements GameListener {
             case "AboutFx.fxml" -> menuContainer.setCenter(aboutPane);
             case "AudioFx.fxml" -> menuContainer.setCenter(audioPane);
             case "DifficultyFx.fxml" -> menuContainer.setCenter(difficultyPane);
+            case "WelcomeFx.fxml" -> menuContainer.setCenter(welcomePane);
             default -> menuContainer.setCenter(null);
         }
     }
