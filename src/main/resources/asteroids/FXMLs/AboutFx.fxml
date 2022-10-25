@@ -17,7 +17,7 @@
                 <Font size="35.0" />
             </font>
         </Text>
-        <Text fx:id="infoText" fill="WHITE" layoutX="1.0" layoutY="113.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: normal; -fx-font-family: Hyperspace;" text="This is a recreation of the&#10;original arcade game Asteroids.&#10;The Game is written in JAVA.&#10;&#10;Developers: Arash and Viljan" textAlignment="CENTER" wrappingWidth="418.1748046875">
+        <Text fx:id="infoText" fill="WHITE" layoutX="1.0" layoutY="113.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: normal; -fx-font-family: Hyperspace;" text="This is a recreation of the&#10;original arcade game Asteroids.&#10;The Game is written in JAVA AND uses javafx for the gui.&#10;&#10;Developers: Arash and Viljan&#10;&#10;github.com/viljanvr/Asteroids" textAlignment="CENTER" wrappingWidth="418.1748046875">
             <font>
                 <Font size="20.0" />
             </font>
