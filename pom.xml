@@ -11,52 +11,51 @@
     <name>tdt4100_v2022_prosjekt_boilerplate</name>
 	
 
-   <dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>17.0.2</version>
+        </dependency>
 
- 	<dependency>
-		<groupId>org.openjfx</groupId>
-	  <artifactId>javafx-fxml</artifactId>
-	  <version>17.0.2</version>
-	</dependency>
-	<dependency>
-    	<groupId>org.openjfx</groupId>
-    	<artifactId>javafx-media</artifactId>
-    	<version>17.0.2</version>
-	</dependency>
 
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.0</version>
+        </dependency>
+    </dependencies>
 
-	<!-- JUnit 5 -->
-	<dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.7.0</version>
-	</dependency>
-  </dependencies>
+    <build>
+	    <plugins>
+	        <plugin>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <version>3.8.0</version>
+		        <configuration>
+		            <release>17</release>
+		        </configuration>
+	        </plugin>
+	        <plugin>
+		        <artifactId>maven-surefire-plugin</artifactId>
+		        <version>3.0.0-M5</version>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
+	        </plugin>
+	        <plugin>
+		        <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                    <configuration>
+                        <argLine>--enable-preview</argLine>
+                    </configuration>
+	        </plugin>
 
-  <build>
-	<plugins>
-	  <plugin>
-		<artifactId>maven-compiler-plugin</artifactId>
-		<version>3.8.0</version>
-		<configuration>
-		  <release>17</release>
-		</configuration>
-	  </plugin>
-	  <plugin>
-		  <artifactId>maven-surefire-plugin</artifactId>
-		  <version>3.0.0-M5</version>
-		  <configuration>
-			  <argLine>--enable-preview</argLine>
-		  </configuration>
-	  </plugin>
-	  <plugin>
-		  <artifactId>maven-failsafe-plugin</artifactId>
-		  <version>3.0.0-M5</version>
-		  <configuration>
-			  <argLine>--enable-preview</argLine>
-		  </configuration>
-	  </plugin>
-
-	</plugins>
-  </build>
+        </plugins>
+    </build>
 </project>

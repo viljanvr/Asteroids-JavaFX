@@ -25,7 +25,7 @@ public class MenuController {
 
     @FXML
     private Button newGameButton, settingsButton, saveButton, dontSaveButton, settingsBackButton, controlsBackButton,
-            aboutBackButton, audioBackButton, difficultyBackButton;
+            aboutBackButton, audioBackButton, difficultyBackButton, continueButton;
 
     @FXML
     private TextField playerName;
@@ -54,6 +54,15 @@ public class MenuController {
 
         initKeyHandles();
         initSettingsListeners();
+
+    }
+
+    public void firstTimePlaying() {
+        if (settings.getFirstTimePlaying()) {
+            settings.setFirstTimePlaying(false);
+            asteroidsController.changeMenu("WelcomeFx.fxml");
+            continueButton.setDefaultButton(true);
+        }
     }
 
     @FXML
@@ -175,6 +184,9 @@ public class MenuController {
         });
         difficultyBackButton.setOnAction(event -> {
             openSettings();
+        });
+        continueButton.setOnAction(event -> {
+            openNewGame();
         });
     }
 
